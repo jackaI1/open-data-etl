@@ -1,17 +1,18 @@
 # open-data-etl
 
-A local pipeline for exploring Health Canada's marketed drug products and their status history.
+I built a local copy of Canada's drug catalogue because I wanted to look up products and their history without piecing together several files each time.
 
 ## Overview
 
-Health Canada's drug catalogue is split across files for products, ingredients,
-companies and status changes. Looking up a product's ingredients or following
-its history means connecting those files and checking that the records line up.
+Health Canada's catalogue separates products, ingredients, companies and status
+changes into different files. I wanted to explore them together and keep the
+version I had downloaded, rather than repeat the joins whenever I had a question.
 
-This project downloads the marketed-product data, cleans it and joins the
-related records into tables that can be queried locally. Each run keeps a dated
-snapshot, so I can revisit an earlier download without repeating the preparation.
-Checks stop a run when required data is missing or product counts drop sharply.
+I download the marketed-product catalogue, clean the records and connect them
+into tables I can search on my computer. Each run keeps a dated snapshot, a
+copy of the data for that date. Checks stop a run when required data is missing
+or product counts drop sharply. I can start with the included sample below
+before downloading the current catalogue.
 
 This is a personal project for exploring Canada's drug catalogue and keeping a
 queryable copy of its history. It uses public product and company data.
@@ -36,6 +37,19 @@ tables under `data/parquet/` and a check report under `data/reports/`.
 The sample writes its results to `data/fixture/`. Rerunning a date replaces that
 snapshot while preserving other dates. A weekly workflow can also download new
 snapshots; the [pipeline reference](docs/pipeline.md) explains its storage limits.
+
+## How it works
+
+I use PySpark, Python's interface to the Spark table-processing engine, to clean
+and join the source records. This is an ETL pipeline: extract the files,
+transform their contents and load the results. Status changes become dated
+intervals, so I can query which status applied during a period.
+
+Parquet files store the dated tables in a compact format. DuckDB, a database
+that runs locally, lets me query them with SQL, a language for asking questions
+of tables. Quality checks run before either output is written. A failed database
+load rolls back its changes, but the table files and database are separate
+stores, so recovery can require rerunning that date.
 
 ## Check the project
 
