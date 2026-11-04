@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from datetime import date
 from pathlib import Path
 
 from . import quality
 from .config import DPD_URL, FIXTURE_THRESHOLDS, Paths, Thresholds
+from .detection import detect_strength_anomalies, link_products, product_context
 from .extract import extract
 from .load import load_duckdb, previous_row_count, write_parquet
 from .transform import (
@@ -23,7 +25,14 @@ from .transform import (
     read_raw,
 )
 
-TABLES = ["drug_products", "drug_status_history", "drug_ingredients"]
+TABLES = [
+    "drug_products",
+    "drug_status_history",
+    "drug_ingredients",
+    "product_links",
+    "linkage_blocks",
+    "strength_anomalies",
+]
 
 
 def run(raw_dir: Path, out_root: Path, snapshot_date: str, thresholds: Thresholds) -> None:
@@ -66,7 +75,37 @@ def run(raw_dir: Path, out_root: Path, snapshot_date: str, thresholds: Threshold
         write_parquet(
             ingredients.withColumn("snapshot_date", snap), paths.parquet, "drug_ingredients"
         )
+        context = product_context(
+            ingredients, read_raw(spark, raw_dir, "form"), read_raw(spark, raw_dir, "route")
+        )
+        links, blocks = link_products(products, context)
+        anomalies = detect_strength_anomalies(ingredients)
+        review = {}
+        for name, frame in [
+            ("product_links", links),
+            ("linkage_blocks", blocks),
+            ("strength_anomalies", anomalies),
+        ]:
+            frame = frame.cache()
+            try:
+                write_parquet(
+                    frame.withColumn("snapshot_date", snap),
+                    paths.parquet,
+                    name,
+                    snapshot_date=snapshot_date,
+                )
+                flag = {
+                    "product_links": "is_match",
+                    "linkage_blocks": "skipped",
+                    "strength_anomalies": "is_anomaly",
+                }[name]
+                review[name] = {"rows": frame.count(), "flagged": frame.where(F.col(flag)).count()}
+            finally:
+                frame.unpersist()
         load_duckdb(paths.duckdb, paths.parquet, snapshot_date, TABLES)
+        (paths.reports / f"review_{snapshot_date}.json").write_text(
+            json.dumps(review, indent=2) + "\n"
+        )
         print(f"[load] {products.count()} products -> {paths.parquet} and {paths.duckdb}")
     finally:
         spark.stop()

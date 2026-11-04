@@ -13,7 +13,8 @@ flowchart LR
     C --> D[Explicit schemas, cleaning, deduplication]
     D --> E[SCD2 status history and product joins]
     E --> F{Quality gate}
-    F -->|pass| G[Parquet by snapshot_date]
+    F -->|pass| J[Scored duplicate links and robust strength scores]
+    J --> G[Parquet by snapshot_date]
     G --> H[DuckDB tables and SQL insights]
     F -->|fail| I[JSON report and nonzero exit]
 ```
@@ -45,12 +46,12 @@ disables its web UI, and stops its session on success or failure.
 
 ## Outputs and quality checks
 
-- `data/parquet/{drug_products,drug_status_history,drug_ingredients}/snapshot_date=YYYY-MM-DD/`
-- `data/warehouse/dpd.duckdb`: the same three tables, with `snapshot_date` columns.
+- `data/parquet/{drug_products,drug_status_history,drug_ingredients,product_links,linkage_blocks,strength_anomalies}/snapshot_date=YYYY-MM-DD/`
+- `data/warehouse/dpd.duckdb`: the same six tables, with `snapshot_date` columns.
 - `data/reports/dq_YYYY-MM-DD.json`: every quality result, observed value, and limit.
 
 Rerunning a date replaces that date's rows and partition. Other dates remain.
-DuckDB loads all three tables in one transaction; Parquet and DuckDB are separate
+DuckDB loads all six tables in one transaction; Parquet and DuckDB are separate
 storage systems, so a filesystem or database load error can require rerunning
 the same date. Run only one writer per data directory.
 
@@ -78,6 +79,10 @@ snapshot, rather than change detection between weekly downloads. It cannot
 reconstruct products missing from the marketed extract. The product table
 selects one company and ATC code per drug deterministically; the warehouse is a
 summary, not a lossless copy of every source relationship.
+
+The [duplicate and strength review guide](detection.md) explains the additional
+tables, scoring rules, labelled evaluation and known misses. These stages run
+after the existing gate and preserve every product record.
 
 ## Automation
 

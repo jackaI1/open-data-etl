@@ -6,7 +6,7 @@ import pytest
 FIXTURE_DIR = Path(__file__).parent / "fixtures" / "raw"
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def spark():
     from dpd_etl.transform import get_spark
 

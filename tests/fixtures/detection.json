@@ -1,0 +1,381 @@
+{
+  "products": [
+    {
+      "drug_code": 1,
+      "brand_name": "MAPLE RELIEF 200",
+      "din": "00100001",
+      "company_name": "MAPLE LABS",
+      "drug_class": "HUMAN",
+      "entity": "maple",
+      "strength": "200",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 2,
+      "brand_name": "MAPLE RELIF 200",
+      "din": "00100001",
+      "company_name": "MAPLE LABS",
+      "drug_class": "HUMAN",
+      "entity": "maple",
+      "strength": "200",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 3,
+      "brand_name": "MAPLE RELIEF-200",
+      "din": null,
+      "company_name": "MAPLE LAB",
+      "drug_class": "HUMAN",
+      "entity": "maple",
+      "strength": "200",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 4,
+      "brand_name": "MAPLE RELIEF 200",
+      "din": "00100002",
+      "company_name": "MAPLE LABS",
+      "drug_class": "HUMAN",
+      "entity": "other_din",
+      "strength": "200",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 5,
+      "brand_name": "MAPLE RELIEF 200",
+      "din": null,
+      "company_name": "MAPLE LABS",
+      "drug_class": "HUMAN",
+      "entity": "other_strength",
+      "strength": "400",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 6,
+      "brand_name": "MAPLE RELIEF 200",
+      "din": null,
+      "company_name": "MAPLE LABS",
+      "drug_class": "HUMAN",
+      "entity": "other_route",
+      "strength": "200",
+      "form": "TAB",
+      "route": "TOPICAL"
+    },
+    {
+      "drug_code": 7,
+      "brand_name": "MAPLE RELIEF 200",
+      "din": null,
+      "company_name": "MAPLE LABS",
+      "drug_class": "HUMAN",
+      "entity": "other_form",
+      "strength": "200",
+      "form": "CAP",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 8,
+      "brand_name": "MAPLE RELIEF 200",
+      "din": null,
+      "company_name": "UNRELATED CO",
+      "drug_class": "HUMAN",
+      "entity": "other_company",
+      "strength": "200",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 9,
+      "brand_name": null,
+      "din": null,
+      "company_name": "MAPLE LABS",
+      "drug_class": "HUMAN",
+      "entity": "no_brand",
+      "strength": "200",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 10,
+      "brand_name": "MAPLE RELIEF 200",
+      "din": null,
+      "company_name": null,
+      "drug_class": "HUMAN",
+      "entity": "no_company",
+      "strength": "200",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 11,
+      "brand_name": "BIRCH TABLETS",
+      "din": "00110001",
+      "company_name": "BIRCH LABS",
+      "drug_class": "HUMAN",
+      "entity": "birch",
+      "strength": "100",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 12,
+      "brand_name": "BRICH TABLETS",
+      "din": null,
+      "company_name": "BIRCH LABS",
+      "drug_class": "HUMAN",
+      "entity": "birch",
+      "strength": "100",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 13,
+      "brand_name": "BIRCH TABLET",
+      "din": null,
+      "company_name": "BIRCH LABS",
+      "drug_class": "HUMAN",
+      "entity": "birch",
+      "strength": "100",
+      "form": "TAB",
+      "route": "ORAL"
+    },
+    {
+      "drug_code": 14,
+      "brand_name": "CEDAR CREAM",
+      "din": null,
+      "company_name": "CEDAR LABS",
+      "drug_class": "HUMAN",
+      "entity": "cedar",
+      "strength": "10",
+      "form": "CREAM",
+      "route": "TOPICAL"
+    },
+    {
+      "drug_code": 15,
+      "brand_name": "CEDAR CREM",
+      "din": null,
+      "company_name": "CEDAR LABS",
+      "drug_class": "HUMAN",
+      "entity": "cedar",
+      "strength": "10",
+      "form": "CREAM",
+      "route": "TOPICAL"
+    }
+  ],
+  "strengths": [
+    {
+      "drug_code": 101,
+      "ingredient": "EXAMPLE A",
+      "strength": "80",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 102,
+      "ingredient": "EXAMPLE A",
+      "strength": "85",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 103,
+      "ingredient": "EXAMPLE A",
+      "strength": "90",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 104,
+      "ingredient": "EXAMPLE A",
+      "strength": "95",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 105,
+      "ingredient": "EXAMPLE A",
+      "strength": "100",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 106,
+      "ingredient": "EXAMPLE A",
+      "strength": "105",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 107,
+      "ingredient": "EXAMPLE A",
+      "strength": "110",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 108,
+      "ingredient": "EXAMPLE A",
+      "strength": "115",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 109,
+      "ingredient": "EXAMPLE A",
+      "strength": "120",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 110,
+      "ingredient": "EXAMPLE A",
+      "strength": "125",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 111,
+      "ingredient": "EXAMPLE A",
+      "strength": "130",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 112,
+      "ingredient": "EXAMPLE A",
+      "strength": "1000",
+      "strength_unit": "MG",
+      "is_anomaly": true
+    },
+    {
+      "drug_code": 113,
+      "ingredient": "EXAMPLE A",
+      "strength": "0.5",
+      "strength_unit": "MG",
+      "is_anomaly": true
+    },
+    {
+      "drug_code": 201,
+      "ingredient": "EXAMPLE B",
+      "strength": "10",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 202,
+      "ingredient": "EXAMPLE B",
+      "strength": "10",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 203,
+      "ingredient": "EXAMPLE B",
+      "strength": "10",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 204,
+      "ingredient": "EXAMPLE B",
+      "strength": "10",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 205,
+      "ingredient": "EXAMPLE B",
+      "strength": "10",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 206,
+      "ingredient": "EXAMPLE B",
+      "strength": "10",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 207,
+      "ingredient": "EXAMPLE B",
+      "strength": "10",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 208,
+      "ingredient": "EXAMPLE B",
+      "strength": "10",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 209,
+      "ingredient": "EXAMPLE B",
+      "strength": "100",
+      "strength_unit": "MG",
+      "is_anomaly": true
+    },
+    {
+      "drug_code": 301,
+      "ingredient": "EXAMPLE A",
+      "strength": "1:1000",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 302,
+      "ingredient": "EXAMPLE A",
+      "strength": "UNKNOWN",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 303,
+      "ingredient": "EXAMPLE A",
+      "strength": null,
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 304,
+      "ingredient": "EXAMPLE A",
+      "strength": "0",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 305,
+      "ingredient": "EXAMPLE A",
+      "strength": "-2",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 306,
+      "ingredient": "EXAMPLE A",
+      "strength": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "strength_unit": "MG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 401,
+      "ingredient": "EXAMPLE A",
+      "strength": "1",
+      "strength_unit": "MCG",
+      "is_anomaly": false
+    },
+    {
+      "drug_code": 402,
+      "ingredient": "EXAMPLE A",
+      "strength": "1000",
+      "strength_unit": "MCG",
+      "is_anomaly": false
+    }
+  ]
+}
