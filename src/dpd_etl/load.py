@@ -8,10 +8,17 @@ import duckdb
 from pyspark.sql import DataFrame
 
 
-def write_parquet(df: DataFrame, root: Path, table: str) -> Path:
+def write_parquet(df: DataFrame, root: Path, table: str, snapshot_date: str | None = None) -> Path:
     """Write a table partitioned by snapshot_date; dynamic overwrite makes reruns idempotent."""
     out = root / table
-    df.write.mode("overwrite").partitionBy("snapshot_date").parquet(str(out))
+    if snapshot_date is not None and df.isEmpty():
+        # Spark writes no partition for an empty result. A typed empty file makes
+        # no-candidate snapshots loadable and replaces stale candidates on rerun.
+        df.drop("snapshot_date").write.mode("overwrite").parquet(
+            str(out / f"snapshot_date={snapshot_date}")
+        )
+    else:
+        df.write.mode("overwrite").partitionBy("snapshot_date").parquet(str(out))
     return out
 
 

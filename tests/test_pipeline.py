@@ -30,6 +30,11 @@ def test_end_to_end_writes_partitioned_parquet_and_duckdb(raw_dir, tmp_path):
     assert (data / "parquet" / "drug_status_history" / f"snapshot_date={DATE}").is_dir()
     con = duckdb.connect(str(data / "warehouse" / "dpd.duckdb"), read_only=True)
     assert con.execute("select count(*) from drug_products").fetchone()[0] == 60
+    assert con.execute("select count(*) from product_links").fetchone()[0] == 0
+    assert con.execute("select count(*) from linkage_blocks").fetchone()[0] > 0
+    assert con.execute("select count(*) from strength_anomalies").fetchone()[0] > 0
+    review = json.loads((data / "reports" / f"review_{DATE}.json").read_text())
+    assert review["product_links"] == {"rows": 0, "flagged": 0}
     assert (
         con.execute("select count(*) from drug_status_history where is_current").fetchone()[0] == 60
     )
@@ -58,6 +63,10 @@ def test_rerun_same_snapshot_is_idempotent_and_new_snapshot_appends(raw_dir, tmp
         ).fetchall()
     )
     assert parquet_counts == {DATE: 60, "2026-11-08": 60}
+    for table in ["product_links", "linkage_blocks", "strength_anomalies"]:
+        assert con.execute(f"select count(distinct snapshot_date) from {table}").fetchone()[0] == (
+            0 if table == "product_links" else 2
+        )
     con.close()
 
 
@@ -123,3 +132,26 @@ def test_invalid_source_date_fails_quality_gate(raw_dir, tmp_path, filename, fie
     report = json.loads((data / "reports" / f"dq_{DATE}.json").read_text())
     assert any(c["name"] == check_name and not c["passed"] for c in report)
     assert not (data / "parquet").exists()
+
+
+def test_duplicate_candidates_are_loaded_without_removing_products(raw_dir, tmp_path):
+    import csv
+
+    drug = raw_dir / "drug.txt"
+    with drug.open(newline="") as fh:
+        rows = list(csv.reader(fh))
+    rows[1][3] = rows[0][3]  # same valid DIN, distinct drug_code
+    with drug.open("w", newline="") as fh:
+        csv.writer(fh, quoting=csv.QUOTE_ALL).writerows(rows)
+    data = tmp_path / "data"
+    assert run(raw_dir, data) == 0
+    with duckdb.connect(str(data / "warehouse" / "dpd.duckdb"), read_only=True) as con:
+        assert con.execute("select count(*) from drug_products").fetchone()[0] == 60
+        assert con.execute("select count(*) from product_links where is_match").fetchone()[0] == 1
+    # Replacing the snapshot with no candidates must remove its previous links.
+    rows[1][3] = "99999999"
+    with drug.open("w", newline="") as fh:
+        csv.writer(fh, quoting=csv.QUOTE_ALL).writerows(rows)
+    assert run(raw_dir, data) == 0
+    with duckdb.connect(str(data / "warehouse" / "dpd.duckdb"), read_only=True) as con:
+        assert con.execute("select count(*) from product_links").fetchone()[0] == 0
