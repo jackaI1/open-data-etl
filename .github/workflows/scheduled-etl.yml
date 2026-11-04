@@ -1,0 +1,49 @@
+name: Weekly marketed DPD snapshot
+on:
+  schedule:
+    - cron: '30 11 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: weekly-dpd
+  cancel-in-progress: false
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SPARK_LOCAL_IP: 127.0.0.1
+      PYSPARK_PYTHON: python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: python -m pip install .
+      - name: Restore previous successful snapshots and checksum
+        uses: actions/cache/restore@v4
+        with:
+          path: data
+          key: dpd-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: dpd-
+      - run: make pipeline insights PYTHON=python
+      - name: Save successful state for row-drop comparisons
+        uses: actions/cache/save@v4
+        with:
+          path: data
+          key: dpd-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dpd-${{ github.run_id }}
+          path: |
+            data/raw/manifest.json
+            data/reports/
+            data/parquet/
+            data/warehouse/
+          retention-days: 14
