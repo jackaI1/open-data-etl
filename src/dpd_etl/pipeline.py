@@ -13,6 +13,7 @@ from .config import DPD_URL, FIXTURE_THRESHOLDS, Paths, Thresholds
 from .detection import detect_strength_anomalies, link_products, product_context
 from .extract import extract
 from .load import load_duckdb, previous_row_count, write_parquet
+from .monitoring import Monitor
 from .transform import (
     build_drug_products,
     build_status_scd2,
@@ -35,7 +36,11 @@ TABLES = [
 ]
 
 
-def run(raw_dir: Path, out_root: Path, snapshot_date: str, thresholds: Thresholds) -> None:
+def run(
+    raw_dir: Path, out_root: Path, snapshot_date: str, thresholds: Thresholds,
+    monitor: Monitor | None = None,
+) -> None:
+    monitor = monitor or Monitor()
     paths = Paths(out_root)
     spark = get_spark()
     try:
@@ -63,6 +68,7 @@ def run(raw_dir: Path, out_root: Path, snapshot_date: str, thresholds: Threshold
             previous_rows=previous_row_count(paths.duckdb, snapshot_date),
         )
         # Gate: raises (non-zero exit) BEFORE anything is written to Parquet / DuckDB.
+        monitor.quality(checks)
         quality.enforce(checks, paths.reports / f"dq_{snapshot_date}.json")
 
         from pyspark.sql import functions as F
@@ -106,7 +112,9 @@ def run(raw_dir: Path, out_root: Path, snapshot_date: str, thresholds: Threshold
         (paths.reports / f"review_{snapshot_date}.json").write_text(
             json.dumps(review, indent=2) + "\n"
         )
-        print(f"[load] {products.count()} products -> {paths.parquet} and {paths.duckdb}")
+        count = products.count()
+        monitor.products(count)
+        print(f"[load] {count} products -> {paths.parquet} and {paths.duckdb}")
     finally:
         spark.stop()
 
@@ -132,16 +140,22 @@ def main(argv: list[str] | None = None) -> int:
         except ValueError:
             ap.error("--snapshot-date must be a valid YYYY-MM-DD date")
 
-    if args.cmd == "extract":
-        extract(Path(args.data_dir) / "raw", args.url, args.sha256)
-        return 0
     try:
-        run(
-            Path(args.raw_dir),
-            Path(args.data_dir),
-            args.snapshot_date,
-            FIXTURE_THRESHOLDS if args.fixture else Thresholds(),
-        )
+        monitor = Monitor.from_env()
+    except ValueError as exc:
+        ap.error(str(exc))
+    try:
+        with monitor.command(args.cmd):
+            if args.cmd == "extract":
+                extract(Path(args.data_dir) / "raw", args.url, args.sha256)
+            else:
+                run(
+                    Path(args.raw_dir),
+                    Path(args.data_dir),
+                    args.snapshot_date,
+                    FIXTURE_THRESHOLDS if args.fixture else Thresholds(),
+                    monitor=monitor,
+                )
     except quality.DataQualityError as exc:
         print(f"[dq] RUN FAILED: {exc}", file=sys.stderr)
         return 2

@@ -7,7 +7,7 @@ name = "dpd-etl"
 version = "0.1.0"
 description = "PySpark ETL for the Health Canada Drug Product Database"
 requires-python = ">=3.10,<3.13"
-dependencies = ["pyspark>=3.5,<4", "duckdb>=1.0,<3"]
+dependencies = ["pyspark>=3.5,<4", "duckdb>=1.0,<3", "datadog>=0.56,<1"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.5"]

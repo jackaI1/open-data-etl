@@ -16,6 +16,11 @@ Each run keeps a dated snapshot, a copy of the data for that date. Checks stop a
 or product counts drop sharply. I can start with the included sample below
 before downloading the current catalogue.
 
+I can also watch run times, product counts and rejected snapshots without
+opening each report. The optional monitoring sends summary numbers to Datadog,
+a service for watching software runs. `make monitor-demo` tries a good snapshot
+and a deliberately broken one on this computer, with no account needed.
+
 This is a personal project for exploring Canada's drug catalogue and keeping a
 queryable copy of its history. It uses public product and company data.
 
@@ -31,6 +36,7 @@ export PYSPARK_PYTHON="$PWD/.venv/bin/python"
 export SPARK_LOCAL_IP=127.0.0.1
 make fixture   # Try the included 60-product sample without a download.
 make evaluate  # Check duplicate and unusual-strength detection against known examples.
+make monitor-demo  # Check monitoring with a good and a rejected sample snapshot.
 make pipeline  # Download and process the current marketed-product catalogue.
 make insights  # Print a few summaries of the downloaded data.
 ```
@@ -57,6 +63,21 @@ of tables. Quality checks run before either output is written. A failed database
 load rolls back its changes, but the table files and database are separate
 stores, so recovery can require rerunning that date.
 
+## Watching scheduled runs
+
+I keep monitoring off unless I choose to enable it. With a Datadog Agent, the
+local program that receives measurements, I can set `DPD_DATADOG_ENABLED=true`
+and run the same commands. I get each command's outcome and duration, the product
+count after a successful load and the checks that rejected a snapshot. The
+included dashboard groups these measurements so I can compare runs.
+
+The [monitoring guide](docs/monitoring.md) shows the local demo, Agent setup,
+dashboard import and alert settings. Only counts and short deployment labels
+leave the pipeline; product records, paths and exception messages stay out of
+metrics. The local demo checks real network packets from Datadog's Python
+client. It does not connect to the Datadog cloud, and a missing receiver never
+changes whether a snapshot passes its checks.
+
 ## Check the project
 
 ```sh
@@ -70,3 +91,7 @@ I report those misses alongside successful detections. The [pipeline reference](
 contains the diagram, table descriptions, example queries, measured data
 summaries and source links. Only marketed products are included; the approved,
 cancelled and dormant catalogues are separate upstream downloads.
+
+CI runs lint, 48 tests, the sample pipeline, the detection evaluation and the
+monitoring demo. The demo receives 61 Datadog packets across one successful and
+one rejected snapshot. Its captured report is included in the CI artifact.

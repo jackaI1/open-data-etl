@@ -1,0 +1,62 @@
+{
+  "title": "Marketed drug catalogue runs",
+  "description": "Counts, durations and quality checks for open-data-etl. A product count is sent only after a successful load. Select a time range covering a scheduled run.",
+  "layout_type": "ordered",
+  "template_variables": [
+    {
+      "name": "env",
+      "prefix": "env",
+      "default": "local"
+    }
+  ],
+  "widgets": [
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Completed commands by outcome",
+        "requests": [
+          {
+            "q": "sum:dpd_etl.runs{service:open-data-etl,env:$env} by {command,outcome}.as_count()",
+            "display_type": "bars"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Command duration (milliseconds)",
+        "requests": [
+          {
+            "q": "avg:dpd_etl.duration_ms.avg{service:open-data-etl,env:$env} by {command}",
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Products in a successful snapshot",
+        "requests": [
+          {
+            "q": "avg:dpd_etl.products{service:open-data-etl,env:$env}",
+            "display_type": "line"
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "type": "timeseries",
+        "title": "Failed quality checks (1 = failed, 0 = passed)",
+        "requests": [
+          {
+            "q": "max:dpd_etl.quality.failed{service:open-data-etl,env:$env} by {check}",
+            "display_type": "line"
+          }
+        ]
+      }
+    }
+  ]
+}
