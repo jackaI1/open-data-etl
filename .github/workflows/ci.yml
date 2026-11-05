@@ -21,7 +21,7 @@ jobs:
           distribution: temurin
           java-version: '17'
       - run: python -m pip install -e '.[dev]'
-      - run: make lint test fixture evaluate PYTHON=python SNAPSHOT_DATE=2026-11-01
+      - run: make lint test fixture evaluate monitor-demo PYTHON=python SNAPSHOT_DATE=2026-11-01
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -29,3 +29,4 @@ jobs:
           path: |
             data/fixture/reports/
             data/reports/detection_evaluation.json
+            data/reports/monitoring-demo.json

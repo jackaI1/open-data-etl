@@ -23,7 +23,7 @@ def run(raw_dir, data_dir, date=DATE):
     )
 
 
-def test_end_to_end_writes_partitioned_parquet_and_duckdb(raw_dir, tmp_path):
+def test_end_to_end_writes_partitioned_parquet_and_duckdb(raw_dir, tmp_path, monitoring_packets):
     data = tmp_path / "data"
     assert run(raw_dir, data) == 0
     assert (data / "parquet" / "drug_products" / f"snapshot_date={DATE}").is_dir()
@@ -41,6 +41,13 @@ def test_end_to_end_writes_partitioned_parquet_and_duckdb(raw_dir, tmp_path):
     report = json.loads((data / "reports" / f"dq_{DATE}.json").read_text())
     assert all(c["passed"] for c in report)
     con.close()
+    packets = monitoring_packets()
+    assert any(p.startswith("dpd_etl.products:60|g|") for p in packets)
+    assert any(p.startswith("_sc|dpd_etl.quality_gate|0|") for p in packets)
+    assert any(p.startswith("_sc|dpd_etl.run|0|") for p in packets)
+    assert any("outcome:success" in p and p.startswith("dpd_etl.runs:1|c|") for p in packets)
+    assert any(p.startswith("dpd_etl.duration_ms:") and "|ms|" in p for p in packets)
+    assert all("service:open-data-etl" in p and "env:test" in p for p in packets)
 
 
 def test_rerun_same_snapshot_is_idempotent_and_new_snapshot_appends(raw_dir, tmp_path):
@@ -70,7 +77,7 @@ def test_rerun_same_snapshot_is_idempotent_and_new_snapshot_appends(raw_dir, tmp
     con.close()
 
 
-def test_null_brand_names_fail_the_run_and_write_nothing(raw_dir, tmp_path):
+def test_null_brand_names_fail_the_run_and_write_nothing(raw_dir, tmp_path, monitoring_packets):
     drug = raw_dir / "drug.txt"
     lines = drug.read_text().splitlines()
     # Blank the brand name (5th field) on every line.
@@ -82,6 +89,13 @@ def test_null_brand_names_fail_the_run_and_write_nothing(raw_dir, tmp_path):
     assert not (data / "warehouse").exists()
     report = json.loads((data / "reports" / f"dq_{DATE}.json").read_text())
     assert any(c["name"] == "null_ratio_brand_name" and not c["passed"] for c in report)
+    packets = monitoring_packets()
+    assert any(p.startswith("_sc|dpd_etl.quality_gate|2|") for p in packets)
+    assert any(p.startswith("_sc|dpd_etl.run|2|") for p in packets)
+    assert any(p.startswith("dpd_etl.quality.failed:1|g|") and
+               "check:null_ratio_brand_name" in p for p in packets)
+    assert any("outcome:quality_failed" in p for p in packets)
+    assert not any(p.startswith("dpd_etl.products:") for p in packets)
 
 
 def test_row_count_below_minimum_fails_the_run(raw_dir, tmp_path):

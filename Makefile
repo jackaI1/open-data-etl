@@ -2,7 +2,7 @@ PYTHON ?= .venv/bin/python
 SNAPSHOT_DATE ?= $(shell date -u +%F)
 DATA_DIR ?= data
 
-.PHONY: install test lint fixture evaluate extract transform pipeline insights
+.PHONY: install test lint fixture evaluate extract transform pipeline insights monitor-demo
 install:
 	uv venv --python 3.12 .venv
 	uv pip install --python $(PYTHON) -e '.[dev]'
@@ -23,3 +23,6 @@ insights:
 
 evaluate:
 	$(PYTHON) -m dpd_etl.evaluate --output $(DATA_DIR)/reports/detection_evaluation.json
+
+monitor-demo:
+	$(PYTHON) scripts/monitor_demo.py
