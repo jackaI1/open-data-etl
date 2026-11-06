@@ -26,3 +26,12 @@ evaluate:
 
 monitor-demo:
 	$(PYTHON) scripts/monitor_demo.py
+
+# Airflow's constraints are for Python 3.12, matching `make install` and CI.
+.PHONY: airflow-install airflow-test
+airflow-install:
+	uv pip install --python $(PYTHON) 'apache-airflow==3.3.2' --constraint https://raw.githubusercontent.com/apache/airflow/constraints-3.3.2/constraints-3.12.txt
+	uv pip install --python $(PYTHON) -e '.[dev,gcp,cloud-test,bigquery,airflow]'
+airflow-test:
+	$(PYTHON) -c "from airflow.sdk import DAG"
+	$(PYTHON) -m pytest -q tests/test_airflow_tasks.py tests/airflow

@@ -61,3 +61,26 @@ jobs:
           docker run --rm --entrypoint python
           -v "$PWD/scripts/smoke_report.py:/tmp/smoke_report.py:ro"
           dpd-report:test /tmp/smoke_report.py
+
+  airflow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SPARK_LOCAL_IP: 127.0.0.1
+      PYSPARK_PYTHON: python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install the pinned Airflow runtime with official constraints
+        run: >-
+          python -m pip install 'apache-airflow==3.3.2'
+          --constraint https://raw.githubusercontent.com/apache/airflow/constraints-3.3.2/constraints-3.12.txt
+      - run: python -m pip install -e '.[dev,airflow]'
+      - name: Import DAG and run real task instances, reruns and backfills
+        run: make airflow-test PYTHON=python
