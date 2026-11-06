@@ -1,9 +1,9 @@
 """Use the Functions SDK's registered timer and real Azurite storage in CI."""
 
-from contextlib import suppress
 import importlib.util
 import json
 import os
+from contextlib import suppress
 from pathlib import Path
 from unittest.mock import Mock
 from uuid import uuid4
