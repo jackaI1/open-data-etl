@@ -20,3 +20,12 @@ build/
 dist/
 
 local.settings.json
+warehouse/target/
+warehouse/logs/
+warehouse/dbt_packages/
+*.duckdb
+*.duckdb.wal
+
+warehouse/target-snowflake/
+
+warehouse/.user.yml

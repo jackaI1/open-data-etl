@@ -1,0 +1,10 @@
+version: 2
+sources:
+  - name: catalogue
+    schema: "{{ env_var('DPD_RAW_SCHEMA', 'RAW') }}"
+    tables:
+      - name: products
+      - name: ingredients
+      - name: pairs
+      - name: strengths
+      - name: manifest

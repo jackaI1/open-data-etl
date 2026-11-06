@@ -1,0 +1,44 @@
+bundle:
+  name: health-canada-catalogue
+variables:
+  raw_dir:
+    description: Saved Health Canada files in a Unity Catalog volume
+  delta_root:
+    description: Writable volume path for dated Delta tables
+  report_dir:
+    description: Writable volume path for check receipts
+  snapshot_date:
+    description: YYYY-MM-DD, supplied explicitly for reproducible runs
+artifacts:
+  default:
+    type: whl
+    build: python -m pip wheel --no-deps --wheel-dir dist .
+    path: .
+resources:
+  jobs:
+    catalogue:
+      name: Health Canada catalogue
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: checked_delta_snapshot
+          max_retries: 2
+          min_retry_interval_millis: 60000
+          notebook_task:
+            notebook_path: ./notebooks/health_canada_lakehouse.py
+            base_parameters:
+              raw_dir: ${var.raw_dir}
+              delta_root: ${var.delta_root}
+              report_dir: ${var.report_dir}
+              snapshot_date: ${var.snapshot_date}
+              fixture: 'false'
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: '1'
+            dependencies:
+              - ./dist/*.whl
+targets:
+  dev:
+    default: true
+    mode: development

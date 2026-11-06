@@ -1,0 +1,18 @@
+dpd_review:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('DPD_WAREHOUSE_PATH', '../data/warehouse.duckdb') }}"
+      schema: analytics
+      threads: 2
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT', 'configure-account') }}"
+      user: "{{ env_var('SNOWFLAKE_USER', 'configure-user') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD', 'configure-password') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'DPD_TRANSFORMER') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'DPD_WH') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'DPD') }}"
+      schema: ANALYTICS
+      threads: 2

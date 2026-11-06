@@ -1,0 +1,13 @@
+services:
+  mongo:
+    image: mongo:7.0.16
+    ports:
+      - "127.0.0.1:27017:27017"
+    mem_limit: 512m
+    cpus: 1
+    pids_limit: 128
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 3s
+      retries: 30

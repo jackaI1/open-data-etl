@@ -86,6 +86,11 @@ class Monitor:
                            tags=[f"check:{check.name}"])
         self._emit("service_check", "dpd_etl.quality_gate", 0 if all(c.passed for c in checks) else 2)
 
+    def refresh(self, severity: str) -> None:
+        if severity not in {"ok", "warn", "fail"}:
+            raise ValueError("invalid refresh severity")
+        self._emit("service_check", "dpd_etl.refresh_drift", {"ok": 0, "warn": 1, "fail": 2}[severity])
+
     def products(self, count: int) -> None:
         self._emit("gauge", "products", count)
 

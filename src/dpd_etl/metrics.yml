@@ -1,0 +1,20 @@
+grain: one product per snapshot_date and drug_code
+metrics:
+  products:
+    expression: count(*)
+    description: Products in the accepted catalogue, counted once per date.
+  ingredient_records:
+    expression: sum(ingredient_records)
+    description: Distinct ingredient, strength and unit records belonging to those products.
+  flagged_strengths:
+    expression: sum(flagged_strengths)
+    description: Ingredient strength records marked for review, not medical findings.
+checks:
+  freshness_days: 7
+  row_loss_tolerance: 0
+lineage:
+  raw_drug: bronze_products
+  bronze_products: silver_products
+  silver_products: gold_product
+  silver_strengths: gold_product
+  gold_product: rpt_catalogue
