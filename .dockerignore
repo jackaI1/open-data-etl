@@ -4,3 +4,7 @@
 !src/**
 **/__pycache__/
 **/*.egg-info/
+!azure_summary/
+!azure_summary/function_app.py
+!azure_summary/host.json
+!azure_summary/requirements.txt
