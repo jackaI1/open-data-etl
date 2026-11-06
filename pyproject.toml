@@ -10,6 +10,7 @@ requires-python = ">=3.10,<3.13"
 dependencies = ["pyspark>=3.5,<4", "duckdb>=1.0,<3", "datadog>=0.56,<1"]
 
 [project.optional-dependencies]
+bigquery = ["google-cloud-bigquery>=3.27,<4"]
 dev = ["pytest>=8", "ruff>=0.5"]
 gcp = ["google-cloud-storage>=2.18,<4", "flask>=3,<4", "gunicorn>=23,<24"]
 cloud-test = ["google-cloud-batch>=0.17,<1"]
@@ -22,3 +23,6 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
+
+[tool.setuptools.package-data]
+dpd_etl = ["sql/*.sql"]

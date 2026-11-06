@@ -16,6 +16,12 @@ Each run keeps a dated snapshot, a copy of the data for that date. Checks stop a
 or product counts drop sharply. I can start with the included sample below
 before downloading the current catalogue.
 
+To try it, I install Python 3.10 to 3.12, Java 17 and
+[uv](https://docs.astral.sh/uv/), then run `make install` and `make fixture`.
+That processes the included 60-product sample. I can query the result in
+`data/fixture/warehouse/dpd.duckdb`; the commands below show how to download the
+current catalogue, inspect flags and export a snapshot.
+
 I can also watch run times, product counts and rejected snapshots without
 opening each report. The optional monitoring sends summary numbers to Datadog,
 a service for watching software runs. `make monitor-demo` tries a good snapshot
@@ -30,6 +36,12 @@ computer for the job. Cloud Run hosts a small page where I can read that run's
 checks. Each attempt keeps its own outputs, including rejected-run reports.
 The [cloud guide](docs/gcp.md) walks through deployment and cleanup; the local
 cloud tests below work without an account.
+
+I can also send a checked snapshot to BigQuery, Google's service for querying
+stored tables. It gives me a dated review summary of products, ingredient counts
+and strengths that need a closer look. Repeating a date replaces its cloud copy
+without adding duplicates. The [BigQuery guide](docs/bigquery.md) includes a local
+test that needs no account and commands for loading my own cloud project.
 
 ## Run locally
 
@@ -69,6 +81,37 @@ that runs locally, lets me query them with SQL, a language for asking questions
 of tables. Quality checks run before either output is written. A failed database
 load rolls back its changes, but the table files and database are separate
 stores, so recovery can require rerunning that date.
+
+## Query a saved snapshot in BigQuery
+
+After `make install` and the sample run above, I can test the export and review
+queries on my computer:
+
+```sh
+scripts/test_bigquery.sh tests/test_bigquery_emulator.py
+```
+
+With a Google Cloud project and `gcloud auth application-default login`, I can
+load that same sample and preview how much data a review query would read:
+
+```sh
+.venv/bin/python -m dpd_etl.bigquery \
+  --project my-project-id --dataset dpd_review --snapshot-date 2026-11-01 \
+  --parquet-root data/fixture/parquet
+.venv/bin/python -m dpd_etl.bigquery_review \
+  --project my-project-id --dataset dpd_review --snapshot-date 2026-11-01 --dry-run
+```
+
+I use `make fixture SNAPSHOT_DATE=2026-11-01` for this dated example. Removing
+`--dry-run` prints up to 100 products needing review, with a 1 GiB query billing
+limit by default. The [guide](docs/bigquery.md) explains permissions, locations,
+cleanup and the emulator's limits.
+
+I divide each table into dates, called partitions, and group related values
+inside each date, called clustering. Every load replaces one date. The review
+SQL counts ingredients and flags before joining them, so several ingredients do
+not inflate the flag count. A failed rerun can temporarily hide that date's
+summary; rerunning repairs it. I serialize uploads for the same date.
 
 ## Run in Google Cloud
 
@@ -125,9 +168,15 @@ contains the diagram, table descriptions, example queries, measured data
 summaries and source links. Only marketed products are included; the approved,
 cancelled and dormant catalogues are separate upstream downloads.
 
-CI runs lint, 60 tests, the sample pipeline, the detection evaluation and the
+CI runs lint, 75 tests, the sample pipeline, the detection evaluation and the
 monitoring demo. The demo receives 61 Datadog packets across one successful and
 one rejected snapshot. Its captured report is included in the CI artifact.
 The cloud checks also validate infrastructure, build the container, run the sample
 inside it and check the report server. I have verified the storage flow with
 mocked clients; running it on GCP requires a project with billing enabled.
+
+The BigQuery checks execute both saved SQL models in a pinned local emulator,
+including a 60-product export, repeated dates, preserved history and cleared
+flags. Separate tests check the production load configuration. I have not
+measured query cost or clustering speedups in Google's cloud; the emulator
+checks results and cannot reproduce cloud billing or physical storage behavior.

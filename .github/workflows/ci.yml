@@ -20,8 +20,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - run: python -m pip install -e '.[dev,gcp,cloud-test]'
-      - run: make lint test fixture evaluate monitor-demo PYTHON=python SNAPSHOT_DATE=2026-11-01
+      - run: python -m pip install -e '.[dev,gcp,cloud-test,bigquery]'
+      - run: make lint fixture evaluate monitor-demo PYTHON=python SNAPSHOT_DATE=2026-11-01
+      - name: Test all features and SQL against the pinned BigQuery emulator
+        run: PYTHON=python scripts/test_bigquery.sh --junitxml=data/reports/bigquery-tests.xml
       - name: Render a deployment without credentials
         run: PROJECT_ID=sample-project BUCKET=sample-dpd-data RUN_ID=sample FIXTURE=true PYTHON=python scripts/deploy_gcp.sh render
       - uses: actions/upload-artifact@v4
@@ -32,6 +34,7 @@ jobs:
             data/fixture/reports/
             data/reports/detection_evaluation.json
             data/reports/monitoring-demo.json
+            data/reports/bigquery-tests.xml
             data/gcp/job.json
   gcp-config:
     runs-on: ubuntu-latest
