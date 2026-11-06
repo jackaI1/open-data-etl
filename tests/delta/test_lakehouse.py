@@ -2,7 +2,7 @@ from datetime import date
 
 import pytest
 
-pytest.importorskip('delta')
+pytest.importorskip('delta.tables', reason='install .[delta] for real Delta integration tests')
 
 from dpd_etl.delta_job import get_delta_spark, write_snapshot
 from dpd_etl.lakehouse import require_key, run_lakehouse, validate_freshness
