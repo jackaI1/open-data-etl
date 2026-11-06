@@ -78,7 +78,9 @@ def publish(data_dir: Path, snapshot: str, destination: Path, decisions: Path | 
                 for row in rows:
                     key = (snapshot, int(row[0]), int(row[1]))
                     seen.add(key)
-                    records.append((snapshot, *row, reviews.get(key, "pending")))
+                    score = float(row[2]) if row[2] is not None else None
+                    records.append((snapshot, int(row[0]), int(row[1]), score,
+                                    bool(row[3]), row[4], reviews.get(key, "pending")))
                 target.executemany("INSERT INTO pairs VALUES (?,?,?,?,?,?,?)", records)
             if any(k[0] == snapshot and k not in seen for k in reviews):
                 raise ValueError("decision refers to a missing pair")

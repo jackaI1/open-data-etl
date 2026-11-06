@@ -37,6 +37,7 @@ def emulator(tmp_path_factory):
         process = subprocess.Popen(
             [binary, f"--project={PROJECT}", "--host=127.0.0.1", f"--port={port}",
              f"--grpc-port={grpc_port}"], stdout=output, stderr=output,
+            env=dict(os.environ, TZ="UTC"),
         )
         print(f"Owned emulator pid={process.pid} started={time.time()} "
               f"ports={port},{grpc_port}; cleanup=kill -TERM {process.pid}, then wait")
@@ -75,6 +76,18 @@ class PartitionAdapter:
 
     def __getattr__(self, key):
         return getattr(self.client, key)
+
+    def query(self, sql, *, job_config=None, **kwargs):
+        if job_config is not None:
+            # v0.8.1's Go decoder requires REST parameter values to be strings.
+            # Preserve the SQL and declared BigQuery types; normalize only wire JSON.
+            api = job_config.to_api_repr()
+            for parameter in api.get("query", {}).get("queryParameters", []):
+                value = parameter["parameterValue"].get("value")
+                if isinstance(value, (int, float)):
+                    parameter["parameterValue"]["value"] = str(value)
+            job_config = bq.QueryJobConfig.from_api_repr(api)
+        return self.client.query(sql, job_config=job_config, retry=None, timeout=30, **kwargs)
 
     def create_dataset(self, dataset, *, exists_ok=False):
         # v0.8.1 reports existing resources as HTTP 500 instead of 409.

@@ -21,6 +21,7 @@ def chart_response(response):
 
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch()
+    page = None
     try:
         page = browser.new_page(viewport={"width": 1440, "height": 1100})
         page.on("response", chart_response)
@@ -38,6 +39,7 @@ with sync_playwright() as playwright:
         Path("data/superset").mkdir(parents=True, exist_ok=True)
         page.screenshot(path="data/superset/dashboard.png", full_page=True)
         print(f"Chromium rendered dashboard after {len(completed)} successful query responses")
-        page.close()
     finally:
+        if page is not None:
+            page.close()
         browser.close()

@@ -164,13 +164,18 @@ a SQL translation to DuckDB. It also checks the exact production SDK requests:
 explicit schema, partition destination, strict loading and overwrite mode.
 The SQL files are included in the installed Python package.
 
-The emulator v0.8.1 has four compatibility gaps, isolated in a **test-only**
+The emulator v0.8.1 has compatibility gaps, isolated in a **test-only**
 adapter in `tests/test_bigquery_emulator.py`: no partition decorators (emulated
 with a dated DELETE then an append load), ISO DATE uploads need a SQL write to
 normalize their internal representation, duplicate resource creation returns
 500 instead of 409, and view PATCH changes metadata without replacing executable
 SQL (the test deletes and recreates the view). Production uses normal SDK
-operations and has none of these workarounds. The emulator checks query results
+operations and has none of these workarounds. The test process uses UTC because
+this emulator interprets bound dates inconsistently when the host timezone is
+west of UTC. Its Go decoder also requires numeric parameter values as strings
+in the REST JSON; the adapter normalizes those wire values while preserving
+the SQL, parameter names and declared BigQuery types. Integration requests use
+short timeouts and no submission retries so emulator errors fail promptly. The emulator checks query results
 and replacement outcomes; it does not prove Google's partition atomicity, IAM,
 partition-filter enforcement, billing or physical clustering. Those need a real
 project check before relying on cloud performance or access controls.

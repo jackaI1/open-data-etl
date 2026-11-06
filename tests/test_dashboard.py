@@ -107,3 +107,56 @@ def test_failed_receipt_does_not_replace_existing_date(seeded, tmp_path):
         publish(tmp_path, "2026-11-01", seeded)
     with sqlite3.connect(seeded) as con:
         assert con.execute("SELECT count(*) FROM runs").fetchone()[0] == 3
+
+
+@pytest.fixture
+def accepted(tmp_path):
+    import duckdb
+
+    from dpd_etl.summary import quality_summary
+
+    root = tmp_path / "accepted"
+    (root / "warehouse").mkdir(parents=True)
+    (root / "reports").mkdir()
+    with duckdb.connect(str(root / "warehouse/dpd.duckdb")) as con:
+        con.execute("""CREATE TABLE drug_products AS SELECT DATE '2026-11-01' snapshot_date,
+            n drug_code, '00000001' din, 'Example' brand_name, 'Maker' company_name,
+            'Human' drug_class, 'N' atc_group FROM range(1,3) r(n);
+            CREATE TABLE drug_ingredients AS SELECT DATE '2026-11-01' snapshot_date,
+            1 drug_code FROM range(3);
+            CREATE TABLE strength_anomalies AS SELECT DATE '2026-11-01' snapshot_date,
+            1 drug_code, true is_anomaly FROM range(2);
+            CREATE TABLE product_links AS SELECT DATE '2026-11-01' snapshot_date,
+            1 left_id, 2 right_id, 1.0 score, true is_match, 'exact_din' reason""")
+    summary = quality_summary(root / "warehouse/dpd.duckdb", "2026-11-01")
+    summary.update(duration_seconds=2.0, source_kind="pipeline")
+    (root / "reports/run_2026-11-01.json").write_text(json.dumps(summary))
+    (root / "reports/dq_2026-11-01.json").write_text('[{"passed":true}]')
+    return root
+
+
+def test_multiple_children_and_unknown_decision_roll_back(accepted, tmp_path):
+    target = tmp_path / "review.db"
+    summary = publish(accepted, "2026-11-01", target)
+    assert summary["flagged_strengths"] == 2 and summary["flagged_records"] == 1
+    with sqlite3.connect(target) as con:
+        assert con.execute("SELECT ingredient_rows,flagged_strengths,flagged_record "
+                           "FROM products ORDER BY drug_code").fetchall() == [(3, 2, 1), (0, 0, 0)]
+    decisions = tmp_path / "decisions.json"
+    decisions.write_text('[{"snapshot_date":"2026-11-01","left_id":1,"right_id":9,'
+                         '"review_status":"confirmed"}]')
+    with pytest.raises(ValueError, match="missing pair"):
+        publish(accepted, "2026-11-01", target, decisions)
+    with sqlite3.connect(target) as con:
+        assert con.execute("SELECT count(*) FROM products").fetchone()[0] == 2
+        assert con.execute("SELECT review_status FROM pairs").fetchone()[0] == "pending"
+
+
+def test_changed_receipt_is_rejected_before_publication(accepted, tmp_path):
+    import duckdb
+
+    with duckdb.connect(str(accepted / "warehouse/dpd.duckdb")) as con:
+        con.execute("UPDATE strength_anomalies SET is_anomaly=false")
+    with pytest.raises(ValueError, match="does not match"):
+        publish(accepted, "2026-11-01", tmp_path / "review.db")
+    assert not (tmp_path / "review.db").exists()
