@@ -46,3 +46,15 @@ delta:
 delta-test:
 	$(PYTHON) -c "import delta"
 	$(PYTHON) -m pytest -q tests/delta
+
+.PHONY: elastic-up elastic-down elastic-load elastic-import elastic-test
+elastic-up:
+	docker compose -p dpd-elastic -f elastic/compose.yml up -d --wait
+elastic-down:
+	docker compose -p dpd-elastic -f elastic/compose.yml down --volumes
+elastic-load:
+	$(PYTHON) -m dpd_etl.elastic --data-dir $(DATA_DIR) --snapshot-date $(SNAPSHOT_DATE)
+elastic-import:
+	curl --fail --silent --show-error -X POST 'http://127.0.0.1:15601/api/saved_objects/_import?overwrite=true' -H 'kbn-xsrf: true' --form file=@elastic/dashboard.ndjson
+elastic-test:
+	PYTHON=$(PYTHON) scripts/test_elastic.sh
