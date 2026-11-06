@@ -273,3 +273,18 @@ flags, preserved history and failed document handling. It also imports and
 exports the seven dashboard objects, including three saved searches. The local
 stack needs no account and is a free option for search and dashboards similar to
 those I would build in Splunk; I have not used Splunk in this project.
+
+## MongoDB catalogue copy
+
+I can copy one accepted DuckDB snapshot into a local document database to look up a product with its ingredients and flagged strengths together. The data is the same catalogue output; the small example below uses the synthetic fixture, not patient data. Each product is identified by its snapshot date and drug code, so rerunning the copy replaces the same records. I compare the count of flagged strengths by ingredient with DuckDB after each copy, and stop with an error if the totals differ.
+
+```sh
+python -m pip install -e '.[dev,mongo]'
+make fixture PYTHON=python SNAPSHOT_DATE=2026-11-01
+docker compose -f mongo/compose.yml up -d --wait
+python -m dpd_etl.mongo --db data/fixture/warehouse/dpd.duckdb --snapshot-date 2026-11-01
+MONGO_TEST_URI=mongodb://localhost:27017 python -m pytest tests/test_mongo.py tests/test_mongo_integration.py -q
+docker compose -f mongo/compose.yml down -v
+```
+
+The pinned MongoDB container binds only to localhost and is intended for a disposable local demonstration. The copy uses schema validation, a unique snapshot/product index and ingredient lookup indexes. The test deletes its own `dpd_mongo_integration_test` database. Do not point it at a database containing data you need. Publication is a separate step after the pipeline quality gate; interrupted bulk writes can leave a partial copy until the command succeeds again. This is not a transactional snapshot swap.

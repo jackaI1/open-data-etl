@@ -14,6 +14,7 @@ from .detection import detect_strength_anomalies, link_products, product_context
 from .extract import extract
 from .load import load_duckdb, previous_row_count, write_parquet
 from .monitoring import Monitor
+from .refresh_drift import monitor_refresh
 from .snapshot import checked_snapshot
 from .transform import get_spark, read_raw
 
@@ -78,6 +79,7 @@ def run(
                 finally:
                     frame.unpersist()
             load_duckdb(paths.duckdb, paths.parquet, snapshot_date, TABLES)
+            monitor_refresh(paths.duckdb, snapshot_date, paths.reports / f"refresh_{snapshot_date}.txt", monitor)
             (paths.reports / f"review_{snapshot_date}.json").write_text(
                 json.dumps(review, indent=2) + "\n"
             )

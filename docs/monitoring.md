@@ -119,3 +119,9 @@ pipeline's original error. CI runs the same demo and uploads its captured report
 References: [DogStatsD](https://docs.datadoghq.com/extend/dogstatsd/),
 [Python client](https://github.com/DataDog/datadogpy),
 [service-check status codes](https://docs.datadoghq.com/extend/service_checks/dogstatsd_service_checks_submission/).
+
+## Refresh comparison
+
+After an accepted load, I compare it with the latest earlier saved product snapshot. The first snapshot is recorded as a baseline. I save a dated JSON metrics row in `refresh_monitor_history` and a readable report in `reports/refresh_YYYY-MM-DD.txt`; rerunning a date replaces its metrics. The comparison records row-count change, null rates for every product column, changes to current-status categories, and the population stability index (PSI) for numeric ingredient strengths. PSI uses bins derived from the earlier snapshot, including open-ended outer bins, and 0.5 additive smoothing. Missing numeric data produces an unavailable PSI rather than a made-up value.
+
+A row-count change or increase in a null rate of 5% warns and 10% fails. PSI of 0.10 warns and 0.25 fails. Category additions or removals warn. These are review thresholds, not clinical rules. The existing opt-in Datadog client emits the aggregate `dpd_etl.refresh_drift` service check (OK, warning or critical). The comparison reports and alerts after loading; it does not roll back an accepted snapshot. Tests use explicitly synthetic examples.
