@@ -27,7 +27,7 @@ with requests.Session() as session:
     for chart in charts:
         detail = request("GET", f'/api/v1/chart/{chart["id"]}')["result"]
         params = json.loads(detail["params"])
-        dataset_id = detail["datasource_id"]
+        dataset_id = int(params["datasource"].split("__", 1)[0])
         ds = request("GET", f"/api/v1/dataset/{dataset_id}")["result"]
         query = {"columns": params["groupby"], "metrics": params["metrics"],
                      "filters": [], "extras": {"having": "", "where": ""},

@@ -19,6 +19,7 @@ position:
     id: GRID_ID
     type: GRID
     children:
+    - ROW-NOTE
     - ROW-0
     - ROW-1
     - ROW-2
@@ -26,6 +27,30 @@ position:
     - ROW-4
     parents:
     - ROOT_ID
+  ROW-NOTE:
+    id: ROW-NOTE
+    type: ROW
+    children:
+    - NOTE
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    meta:
+      background: BACKGROUND_TRANSPARENT
+  NOTE:
+    id: NOTE
+    type: MARKDOWN
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-NOTE
+    meta:
+      width: 12
+      height: 12
+      code: The starter history is invented example data. Publish accepted pipeline
+        dates to replace it. Totals count product snapshots across the selected dates;
+        flags are suggestions to review records.
   ROW-0:
     id: ROW-0
     type: ROW

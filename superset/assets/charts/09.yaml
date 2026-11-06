@@ -19,7 +19,7 @@ params:
   show_legend: true
   rich_tooltip: true
   color_scheme: supersetColors
-  y_axis_format: SMART_NUMBER
+  y_axis_format: .0%
   x_axis: drug_class
   x_axis_sort_asc: true
   truncate_metric: true

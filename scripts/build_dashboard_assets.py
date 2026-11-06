@@ -77,7 +77,12 @@ def main():
     ]
     position = {"DASHBOARD_VERSION_KEY": "v2", "ROOT_ID": {
         "id": "ROOT_ID", "type": "ROOT", "children": ["GRID_ID"]},
-        "GRID_ID": {"id": "GRID_ID", "type": "GRID", "children": [], "parents": ["ROOT_ID"]}}
+        "GRID_ID": {"id": "GRID_ID", "type": "GRID", "children": ["ROW-NOTE"], "parents": ["ROOT_ID"]}}
+    position["ROW-NOTE"] = {"id": "ROW-NOTE", "type": "ROW", "children": ["NOTE"],
+        "parents": ["ROOT_ID", "GRID_ID"], "meta": {"background": "BACKGROUND_TRANSPARENT"}}
+    position["NOTE"] = {"id": "NOTE", "type": "MARKDOWN", "children": [],
+        "parents": ["ROOT_ID", "GRID_ID", "ROW-NOTE"],
+        "meta": {"width": 12, "height": 12, "code": "The starter history is invented example data. Publish accepted pipeline dates to replace it. Totals count product snapshots across the selected dates; flags are suggestions to review records."}}
     for i, (name, table, metric, viz, groups) in enumerate(specs, 1):
         params = {"viz_type": viz, "datasource": "1__table", "metrics": [metric], "metric": metric,
                       "groupby": groups, "time_range": "No filter", "granularity_sqla": "snapshot_date",
@@ -90,6 +95,8 @@ def main():
             params.update(x_axis="snapshot_date" if not groups else groups[0],
                           x_axis_sort_asc=True, truncate_metric=True,
                           show_value=False)
+        if metric == "flagged_share":
+            params["y_axis_format"] = ".0%"
         chart_id = uid(name)
         write(f"charts/{i:02d}.yaml", {"slice_name": name, "description": None, "certified_by": None,
               "certification_details": None, "viz_type": viz, "params": params, "cache_timeout": 0,
