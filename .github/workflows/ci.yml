@@ -268,3 +268,5 @@ jobs:
             warehouse/target/manifest.json
             warehouse/target/run_results.json
             warehouse/target/catalog.json
+            warehouse/target/semantic_manifest.json
+            warehouse/target-snowflake/run_results.json
