@@ -54,6 +54,26 @@ and strengths that need a closer look. Repeating a date replaces its cloud copy
 without adding duplicates. The [BigQuery guide](docs/bigquery.md) includes a local
 test that needs no account and commands for loading my own cloud project.
 
+I can search my saved catalogue and review its flags in a browser. Elasticsearch,
+a search database, holds the accepted snapshots; Kibana turns them into charts
+and review tables. I can compare flagged ingredient strengths and duplicate-pair
+counts by date, then find the product records behind them. After `make install`
+and `make fixture SNAPSHOT_DATE=2026-11-01`, I run:
+
+```sh
+make elastic-up
+make elastic-load DATA_DIR=data/fixture SNAPSHOT_DATE=2026-11-01
+make elastic-import
+# Open http://127.0.0.1:15601/app/dashboards#/view/dpd-quality
+# When finished: make elastic-down
+```
+
+This option needs Docker with Compose and about 4 GiB for the local services.
+The [search and dashboard guide](docs/elastic.md) explains setup, date filters,
+saved searches and cleanup. Repeating a date clears outdated flags without
+removing other dates. The small sample can have no flags; a zero count is still
+a result. These flags help me review data, not make medical decisions.
+
 ## Run locally
 
 Install Python 3.10 to 3.12, Java 17, curl, Make and
@@ -243,3 +263,10 @@ preserved history, empty results, SQL joins, rejected input and Delta's earlier
 versions. The notebook and the original local pipeline share the same cleaning
 and quality gate. Each Delta table commits separately; if a run stops between
 tables, I rerun that date before reviewing it.
+
+The Elastic CI job runs the 60-product sample through real Elasticsearch and
+Kibana 8.19.6. It checks bulk loads, explicit field types, repeated dates, cleared
+flags, preserved history and failed document handling. It also imports and
+exports the seven dashboard objects, including three saved searches. The local
+stack needs no account and is a free option for search and dashboards similar to
+those I would build in Splunk; I have not used Splunk in this project.

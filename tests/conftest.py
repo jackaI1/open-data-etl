@@ -53,3 +53,29 @@ def raw_dir(tmp_path):
     dest = tmp_path / "raw"
     shutil.copytree(FIXTURE_DIR, dest)
     return dest
+
+
+@pytest.fixture
+def elastic_snapshot(tmp_path):
+    import json
+
+    import duckdb
+
+    db = tmp_path / "dpd.duckdb"
+    with duckdb.connect(str(db)) as con:
+        con.execute("""CREATE TABLE drug_products AS SELECT
+            '1' drug_code, '00000001' din, 'SAMPLE' brand_name, 'MAKER' company_name,
+            'MARKETED' current_status, 'TEST' active_ingredients, 'N' atc_group,
+            DATE '2026-11-01' snapshot_date""")
+        con.execute("""CREATE TABLE strength_anomalies AS SELECT
+            '1' drug_code, 'TEST' ingredient, '999' strength, 'MG' strength_unit,
+            999.0::DOUBLE numeric_strength, 12.0::DOUBLE robust_z, true is_anomaly,
+            'scored' reason, DATE '2026-11-01' snapshot_date""")
+        con.execute("""CREATE TABLE product_links AS SELECT
+            '1' left_id, '2' right_id, 1.0::DOUBLE score, true is_match,
+            'exact_din' reason, DATE '2026-11-01' snapshot_date""")
+    report = tmp_path / "dq.json"
+    report.write_text(
+        json.dumps([{"name": "row_count_min", "passed": True, "observed": 1.0, "limit": ">= 1"}])
+    )
+    return db, report
