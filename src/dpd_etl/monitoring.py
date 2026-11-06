@@ -93,7 +93,7 @@ class Monitor:
     def command(self, command: str):
         from .quality import DataQualityError
 
-        if command not in {"extract", "transform"}:
+        if command not in {"extract", "transform", "delta"}:
             raise ValueError("unknown monitored command")
         started = perf_counter()
         outcome = "success"

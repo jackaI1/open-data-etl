@@ -14,17 +14,8 @@ from .detection import detect_strength_anomalies, link_products, product_context
 from .extract import extract
 from .load import load_duckdb, previous_row_count, write_parquet
 from .monitoring import Monitor
-from .transform import (
-    build_drug_products,
-    build_status_scd2,
-    clean_atc,
-    clean_companies,
-    clean_drugs,
-    clean_ingredients,
-    clean_status,
-    get_spark,
-    read_raw,
-)
+from .snapshot import checked_snapshot
+from .transform import get_spark, read_raw
 
 TABLES = [
     "drug_products",
@@ -44,77 +35,55 @@ def run(
     paths = Paths(out_root)
     spark = get_spark()
     try:
-        raw_drug = read_raw(spark, raw_dir, "drug")
-        raw_drug_rows = raw_drug.count()
-        drugs = clean_drugs(raw_drug).cache()
-        status = build_status_scd2(clean_status(read_raw(spark, raw_dir, "status"))).cache()
-        ingredients = clean_ingredients(read_raw(spark, raw_dir, "ingred")).cache()
-        products = build_drug_products(
-            drugs,
-            status,
-            clean_companies(read_raw(spark, raw_dir, "comp")),
-            clean_atc(read_raw(spark, raw_dir, "ther")),
-            ingredients,
-            snapshot_date,
-        ).cache()
+        with checked_snapshot(
+            spark, raw_dir, snapshot_date, thresholds,
+            previous_row_count(paths.duckdb, snapshot_date),
+            paths.reports / f"dq_{snapshot_date}.json", monitor,
+        ) as (products, status, ingredients):
+            from pyspark.sql import functions as F
 
-        checks = quality.run_checks(
-            raw_drug_rows=raw_drug_rows,
-            drugs=drugs,
-            status_scd2=status,
-            ingredients=ingredients,
-            products=products,
-            thresholds=thresholds,
-            previous_rows=previous_row_count(paths.duckdb, snapshot_date),
-        )
-        # Gate: raises (non-zero exit) BEFORE anything is written to Parquet / DuckDB.
-        monitor.quality(checks)
-        quality.enforce(checks, paths.reports / f"dq_{snapshot_date}.json")
-
-        from pyspark.sql import functions as F
-
-        snap = F.lit(snapshot_date).cast("date")
-        write_parquet(products, paths.parquet, "drug_products")
-        write_parquet(
-            status.withColumn("snapshot_date", snap), paths.parquet, "drug_status_history"
-        )
-        write_parquet(
-            ingredients.withColumn("snapshot_date", snap), paths.parquet, "drug_ingredients"
-        )
-        context = product_context(
-            ingredients, read_raw(spark, raw_dir, "form"), read_raw(spark, raw_dir, "route")
-        )
-        links, blocks = link_products(products, context)
-        anomalies = detect_strength_anomalies(ingredients)
-        review = {}
-        for name, frame in [
-            ("product_links", links),
-            ("linkage_blocks", blocks),
-            ("strength_anomalies", anomalies),
-        ]:
-            frame = frame.cache()
-            try:
-                write_parquet(
-                    frame.withColumn("snapshot_date", snap),
-                    paths.parquet,
-                    name,
-                    snapshot_date=snapshot_date,
-                )
-                flag = {
-                    "product_links": "is_match",
-                    "linkage_blocks": "skipped",
-                    "strength_anomalies": "is_anomaly",
-                }[name]
-                review[name] = {"rows": frame.count(), "flagged": frame.where(F.col(flag)).count()}
-            finally:
-                frame.unpersist()
-        load_duckdb(paths.duckdb, paths.parquet, snapshot_date, TABLES)
-        (paths.reports / f"review_{snapshot_date}.json").write_text(
-            json.dumps(review, indent=2) + "\n"
-        )
-        count = products.count()
-        monitor.products(count)
-        print(f"[load] {count} products -> {paths.parquet} and {paths.duckdb}")
+            snap = F.lit(snapshot_date).cast("date")
+            write_parquet(products, paths.parquet, "drug_products")
+            write_parquet(
+                status.withColumn("snapshot_date", snap), paths.parquet, "drug_status_history"
+            )
+            write_parquet(
+                ingredients.withColumn("snapshot_date", snap), paths.parquet, "drug_ingredients"
+            )
+            context = product_context(
+                ingredients, read_raw(spark, raw_dir, "form"), read_raw(spark, raw_dir, "route")
+            )
+            links, blocks = link_products(products, context)
+            anomalies = detect_strength_anomalies(ingredients)
+            review = {}
+            for name, frame in [
+                ("product_links", links),
+                ("linkage_blocks", blocks),
+                ("strength_anomalies", anomalies),
+            ]:
+                frame = frame.cache()
+                try:
+                    write_parquet(
+                        frame.withColumn("snapshot_date", snap),
+                        paths.parquet,
+                        name,
+                        snapshot_date=snapshot_date,
+                    )
+                    flag = {
+                        "product_links": "is_match",
+                        "linkage_blocks": "skipped",
+                        "strength_anomalies": "is_anomaly",
+                    }[name]
+                    review[name] = {"rows": frame.count(), "flagged": frame.where(F.col(flag)).count()}
+                finally:
+                    frame.unpersist()
+            load_duckdb(paths.duckdb, paths.parquet, snapshot_date, TABLES)
+            (paths.reports / f"review_{snapshot_date}.json").write_text(
+                json.dumps(review, indent=2) + "\n"
+            )
+            count = products.count()
+            monitor.products(count)
+            print(f"[load] {count} products -> {paths.parquet} and {paths.duckdb}")
     finally:
         spark.stop()
 

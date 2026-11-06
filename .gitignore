@@ -15,3 +15,6 @@ derby.log
 !*.tfvars.example
 
 .airflow/
+
+build/
+dist/

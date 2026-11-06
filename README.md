@@ -2,8 +2,10 @@
 
 I built a local copy of Canada's drug catalogue because I wanted to look up products and their history without piecing together several files each time.
 
-To try it, install the local tools listed below, then run `make install` and
-`make fixture`. The included sample has 60 products and needs no account or download.
+To try it, install Python 3.10 to 3.12, Java 17 and [uv](https://docs.astral.sh/uv/),
+then run `make install` and `make fixture`. The included sample has 60 products
+and needs no account or download. I can search the cleaned catalogue and review
+unusual ingredient strengths without changing the original records.
 
 ## Overview
 
@@ -90,6 +92,32 @@ that runs locally, lets me query them with SQL, a language for asking questions
 of tables. Quality checks run before either output is written. A failed database
 load rolls back its changes, but the table files and database are separate
 stores, so recovery can require rerunning that date.
+
+## Keep tables I can rerun and review
+
+I also keep the cleaned products and ingredient-strength review records as Delta
+tables, files with a change log that lets me replace one date and read earlier
+versions. A notebook, a script divided into runnable cells, takes the input
+folder, output folder and date as parameters. I can use the same notebook for
+the sample or a saved download:
+
+```sh
+make delta-install
+make delta-test
+make delta-fixture SNAPSHOT_DATE=2026-11-01
+# After make extract, process the full downloaded catalogue:
+make delta SNAPSHOT_DATE=2026-11-06
+```
+
+The notebook prints the product and flag counts plus up to 20 flagged strengths.
+Its SQL view, a saved table query, adds product names to the flagged ingredients.
+My full Delta run on 2026-11-06 saved 13,379 products and returned 637 flagged
+strengths from 19,403 ingredient records; that count can change with the download.
+A flag is a suggestion to inspect a record, not a medical finding.
+The [notebook guide](docs/delta.md) shows how to reopen the tables, query a date
+and pass the parameters in Databricks, a hosted service for running Spark jobs.
+I have tested this workflow with local Spark and Delta Lake; I have not run it
+in a hosted Databricks workspace.
 
 ## Query a saved snapshot in BigQuery
 
@@ -208,3 +236,10 @@ The Airflow tests execute 12 real task instances across two dates and one rerun.
 They compare all six output tables, check retries and task ordering, and reject
 missing historical archives and corrupt input. The [scheduling guide](docs/airflow.md)
 explains shared-storage requirements and the limits of dated snapshots.
+
+The Delta checks run six tests with real local Spark and Delta Lake, then execute
+the notebook on the 60-product sample. They check a known outlier, date replacement,
+preserved history, empty results, SQL joins, rejected input and Delta's earlier
+versions. The notebook and the original local pipeline share the same cleaning
+and quality gate. Each Delta table commits separately; if a run stops between
+tables, I rerun that date before reviewing it.
