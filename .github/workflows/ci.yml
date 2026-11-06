@@ -240,7 +240,7 @@ jobs:
       - run: dbt docs generate --project-dir warehouse --profiles-dir warehouse
       - run: dbt parse --target snowflake --project-dir warehouse --profiles-dir warehouse --target-path target-snowflake
       - run: python -m pytest tests/warehouse/test_warehouse.py -q --junitxml=data/warehouse-tests.xml
-      - run: python -m dpd_etl.metrics && git diff --exit-code -- docs/data-dictionary.md warehouse/models/marts/rpt_catalogue.sql
+      - run: python -m dpd_etl.metrics && git diff --exit-code -- docs/data-dictionary.md warehouse/models/marts/rpt_catalogue.sql warehouse/models/schema.yml
       - name: Start disposable SQL Server
         env:
           DPD_SQLSERVER_PASSWORD: ${{ secrets.DPD_SQLSERVER_TEST_PASSWORD }}

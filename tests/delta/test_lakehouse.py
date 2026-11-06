@@ -29,6 +29,7 @@ def test_bronze_silver_gold_reconciles_rerun_sql_and_partition_plans(lake_spark,
     assert spark.sql('SELECT sum(products) FROM dosage_cohorts').first()[0] == 60
     stages = {r.stage: r.rows for r in spark.table('stage_funnel').collect()}
     assert stages['raw_rows'] == 61 and stages['cleaned_products'] == 60
+    assert 'flagged_products' in stages
     metrics = spark.sql('SELECT sum(products), sum(ingredient_records), sum(flagged_strengths) FROM rpt_catalogue').first()
     assert tuple(metrics) == (60, first['ingredient_records'], first['flagged_strengths'])
     plan = (tmp_path / 'reports' / f'plans_{DAY}.txt').read_text()

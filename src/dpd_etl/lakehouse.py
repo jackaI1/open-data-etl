@@ -38,11 +38,11 @@ def run_lakehouse(spark, *, raw_dir, delta_root, snapshot_date, report_dir,
     writers for a date must be serialized, and interrupted runs must be repeated.
     """
     valid_date(snapshot_date)
-    validate_freshness(snapshot_date, as_of)
     reports = Path(report_dir)
     reports.mkdir(parents=True, exist_ok=True)
     receipt = reports / f'lakehouse_{snapshot_date}.json'
     receipt.unlink(missing_ok=True)
+    validate_freshness(snapshot_date, as_of)
     day = F.lit(snapshot_date).cast('date')
     with checked_snapshot(spark, Path(raw_dir), snapshot_date,
                           FIXTURE_THRESHOLDS if fixture else Thresholds(), None,
@@ -94,8 +94,9 @@ def run_lakehouse(spark, *, raw_dir, delta_root, snapshot_date, report_dir,
             raise ValueError(f'stage reconciliation failed: {counts}')
         spark.sql('''SELECT snapshot_date, 'raw_rows' stage, count(*) rows FROM bronze_products GROUP BY snapshot_date
                      UNION ALL SELECT snapshot_date, 'cleaned_products', count(*) FROM silver_products GROUP BY snapshot_date
-                     UNION ALL SELECT snapshot_date, 'flagged_products', count(*) FROM gold_product
-                     WHERE flagged_strengths > 0 GROUP BY snapshot_date''').createOrReplaceTempView('stage_funnel')
+                     UNION ALL SELECT snapshot_date, 'flagged_products',
+                     sum(CASE WHEN flagged_strengths > 0 THEN 1 ELSE 0 END)
+                     FROM gold_product GROUP BY snapshot_date''').createOrReplaceTempView('stage_funnel')
         # Keep both plans. Filtering at the scan prunes Delta's date partitions.
         before = '\n'.join(r[0] for r in spark.sql('EXPLAIN FORMATTED SELECT * FROM gold_product').collect())
         after = '\n'.join(r[0] for r in spark.sql(

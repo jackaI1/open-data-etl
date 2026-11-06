@@ -62,8 +62,8 @@ in one transaction. Counts must match before it commits. Concurrent publishers
 for the same date are not supported. Historical dates remain available.
 
 I have exercised the production connector with fakesnow, a Snowflake emulator,
-and executed the dbt models with the DuckDB adapter. CI also parses the Snowflake
-adapter configuration. I have not loaded a hosted Snowflake trial, measured its
+and executed the dbt models with both the DuckDB and Snowflake adapters. CI also builds all models and runs all 31 dbt data tests through the real
+Snowflake adapter against fakesnow. I have not loaded a hosted Snowflake trial, measured its
 query plans or used a paid dbt Semantic Layer service. These are account-free
 checks of the implementation, not evidence of a hosted deployment.
 

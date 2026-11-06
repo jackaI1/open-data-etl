@@ -127,3 +127,32 @@ def test_identifiers_and_dates_cannot_be_sql(rows):
 def test_source_output_is_required(tmp_path):
     with pytest.raises(FileNotFoundError):
         read_snapshot(tmp_path, DAY)
+
+
+def test_dbt_snowflake_adapter_executes_models_and_tests_in_emulator(rows, monkeypatch):
+    fakesnow = pytest.importorskip('fakesnow')
+    pytest.importorskip('dbt.adapters.snowflake')
+    import snowflake.connector
+    from dbt.cli.main import dbtRunner
+    if os.environ.get('DPD_SPARK_PARQUET'):
+        rows = read_snapshot(Path(os.environ['DPD_SPARK_PARQUET']), DAY)
+    for key, value in {'ACCOUNT': 'local', 'USER': 'test', 'PASSWORD': 'test',
+                       'ROLE': 'tester', 'DATABASE': 'DPD', 'WAREHOUSE': 'TEST_WH'}.items():
+        monkeypatch.setenv('SNOWFLAKE_' + key, value)
+    monkeypatch.setenv('DBT_SEND_ANONYMOUS_USAGE_STATS', 'false')
+    with fakesnow.patch():
+        con = snowflake.connector.connect(database='DPD', schema='RAW', autocommit=False)
+        try:
+            publish(con, rows, DAY)
+            result = dbtRunner().invoke([
+                'build', '--target', 'snowflake', '--project-dir', str(ROOT / 'warehouse'),
+                '--profiles-dir', str(ROOT / 'warehouse'), '--target-path', 'target-snowflake',
+            ])
+            assert result.success, str(result.exception)
+            cur = con.cursor()
+            assert cur.execute('SELECT sum(products) FROM analytics.rpt_catalogue').fetchone()[0] == len(rows['products'])
+            assert cur.execute('SELECT sum(ingredient_records) FROM analytics.rpt_catalogue').fetchone()[0] == len(rows['ingredients'])
+            assert cur.execute('SELECT count(*) FROM analytics.fct_duplicate_pair').fetchone()[0] == len(rows['pairs'])
+            cur.close()
+        finally:
+            con.close()

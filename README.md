@@ -350,7 +350,7 @@ integration checks run in GitHub Actions.
 
 ## MongoDB catalogue copy
 
-I can copy one accepted DuckDB snapshot into a local document database to look up a product with its ingredients and flagged strengths together. The data is the same catalogue output; the small example below uses the synthetic fixture, not patient data. Each product is identified by its snapshot date and drug code, so rerunning the copy replaces the same records. I compare the count of flagged strengths by ingredient with DuckDB after each copy, and stop with an error if the totals differ.
+I can copy one accepted DuckDB snapshot into a local document database to look up a product with its ingredients and flagged strengths together. The data is the same public catalogue output; the small example below uses a real 60-product subset with one seeded duplicate, not patient data. Each product is identified by its snapshot date and drug code, so rerunning the copy replaces the same records. I compare the count of flagged strengths by ingredient with DuckDB after each copy, and stop with an error if the totals differ.
 
 ```sh
 python -m pip install -e '.[dev,mongo]'
