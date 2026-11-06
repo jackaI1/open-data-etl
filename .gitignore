@@ -27,3 +27,5 @@ warehouse/dbt_packages/
 *.duckdb.wal
 
 warehouse/target-snowflake/
+
+warehouse/.user.yml
