@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from datetime import date
 from pathlib import Path
 
@@ -32,7 +33,10 @@ def run(
     monitor: Monitor | None = None,
 ) -> None:
     monitor = monitor or Monitor()
+    started = time.perf_counter()
     paths = Paths(out_root)
+    receipt = paths.reports / f"run_{snapshot_date}.json"
+    receipt.unlink(missing_ok=True)
     spark = get_spark()
     try:
         with checked_snapshot(
@@ -82,6 +86,12 @@ def run(
                 json.dumps(review, indent=2) + "\n"
             )
             count = products.count()
+            from .summary import quality_summary
+
+            summary = quality_summary(paths.duckdb, snapshot_date)
+            summary.update(duration_seconds=round(time.perf_counter() - started, 6),
+                           source_kind="pipeline")
+            receipt.write_text(json.dumps(summary, indent=2) + "\n")
             monitor.products(count)
             print(f"[load] {count} products -> {paths.parquet} and {paths.duckdb}")
     finally:

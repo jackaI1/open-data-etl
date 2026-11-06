@@ -74,6 +74,38 @@ saved searches and cleanup. Repeating a date clears outdated flags without
 removing other dates. The small sample can have no flags; a zero count is still
 a result. These flags help me review data, not make medical decisions.
 
+## Compare runs in a dashboard
+
+I can compare product counts, flagged records, possible duplicate pairs and run
+seconds in Apache Superset, a free dashboard tool similar to Power BI, Looker
+and Tableau. I added it because separate dated reports made changes harder to
+compare. After `make install`, on a machine with Docker and Compose I run:
+
+```sh
+.venv/bin/python scripts/seed_dashboard.py
+export SUPERSET_SECRET_KEY="$(.venv/bin/python -c 'import secrets; print(secrets.token_hex(32))')"
+export SUPERSET_ADMIN_PASSWORD="$(.venv/bin/python -c 'import secrets; print(secrets.token_urlsafe(24))')"
+docker compose -p dpd-superset -f superset/compose.yml up -d --wait
+# Open http://127.0.0.1:18088/superset/dashboard/catalogue-quality/
+# Sign in as admin with SUPERSET_ADMIN_PASSWORD. When finished:
+docker compose -p dpd-superset -f superset/compose.yml down --volumes
+```
+
+The example history is invented and labelled. For my accepted pipeline output,
+I run `.venv/bin/python -m dpd_etl.dashboard --data-dir data/fixture
+--snapshot-date 2026-11-01` after a dated fixture run. The dashboard has eleven
+charts with date, drug-class and pair-review filters. Its definitions are saved
+in the repo, including SQL metrics that calculate the share of products with
+flagged strengths. The [dashboard guide](docs/superset.md) explains real data,
+review decisions, chart meanings and cleanup.
+
+I can also save a small daily summary with Azure Functions, a program started
+by a timer, and Azurite, a local imitation of Azure file storage. It reads the
+same accepted counts and measured run duration, then writes one dated JSON file.
+The [summary guide](docs/azure-summary.md) includes the start, read and stop
+commands. CI tests both the function and a real timer-driven Functions host;
+I have not deployed this app to Azure.
+
 ## Run locally
 
 Install Python 3.10 to 3.12, Java 17, curl, Make and
@@ -163,6 +195,22 @@ I use `make fixture SNAPSHOT_DATE=2026-11-01` for this dated example. Removing
 `--dry-run` prints up to 100 products needing review, with a 1 GiB query billing
 limit by default. The [guide](docs/bigquery.md) explains permissions, locations,
 cleanup and the emulator's limits.
+
+I also load duplicate-pair candidates and run parameterized SQL, queries with
+separate input values, to check counts, missing-value rates, strength flags and
+suggested duplicate pairs against the saved Spark results:
+
+```sh
+.venv/bin/python -m dpd_etl.bigquery_health --project my-project-id \
+  --dataset dpd_review --data-dir data/fixture --snapshot-date 2026-11-01
+```
+
+This command loads all four tables and fails if the SQL totals differ from the
+accepted local output. It recomputes the strength decision from the saved peer
+statistics and counts duplicate decisions from their reasons. The 637 flags
+mentioned above belong to my dated full download; the small fixture has its
+own expected count. CI tests the query through the BigQuery emulator, including
+a known flag, null values, cleared results and a date with no data.
 
 I divide each table into dates, called partitions, and group related values
 inside each date, called clustering. Every load replaces one date. The review
@@ -273,3 +321,10 @@ flags, preserved history and failed document handling. It also imports and
 exports the seven dashboard objects, including three saved searches. The local
 stack needs no account and is a free option for search and dashboards similar to
 those I would build in Splunk; I have not used Splunk in this project.
+
+The Superset CI job imports the eleven-chart export into Superset 4.1.2, runs
+all chart queries and date/class filters through its HTTP API, then exports it
+again. The Azure summary job invokes the Functions SDK harness against Azurite
+and starts the real Functions host to verify a timer-written blob. Both jobs
+clean up their containers. Small local checks run without containers; the Linux
+integration checks run in GitHub Actions.

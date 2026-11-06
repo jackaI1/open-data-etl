@@ -1,0 +1,26 @@
+slice_name: Pair review status
+description: null
+certified_by: null
+certification_details: null
+viz_type: pie
+params:
+  viz_type: pie
+  datasource: 1__table
+  metrics:
+  - pair_count
+  metric: pair_count
+  groupby:
+  - review_status
+  time_range: No filter
+  granularity_sqla: snapshot_date
+  time_grain_sqla: P1D
+  row_limit: 10000
+  adhoc_filters: []
+  show_legend: true
+  rich_tooltip: true
+  color_scheme: supersetColors
+  y_axis_format: SMART_NUMBER
+cache_timeout: 0
+uuid: 9346c5bc-00ce-5d01-931d-cdff6e01519e
+version: 1.0.0
+dataset_uuid: 65a386a5-add5-55ed-8874-70f91735bfb6

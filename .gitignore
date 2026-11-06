@@ -18,3 +18,5 @@ derby.log
 
 build/
 dist/
+
+local.settings.json

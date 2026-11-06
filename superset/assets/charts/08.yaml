@@ -1,0 +1,29 @@
+slice_name: Run seconds over time
+description: null
+certified_by: null
+certification_details: null
+viz_type: echarts_timeseries_line
+params:
+  viz_type: echarts_timeseries_line
+  datasource: 1__table
+  metrics:
+  - duration
+  metric: duration
+  groupby: []
+  time_range: No filter
+  granularity_sqla: snapshot_date
+  time_grain_sqla: P1D
+  row_limit: 10000
+  adhoc_filters: []
+  show_legend: true
+  rich_tooltip: true
+  color_scheme: supersetColors
+  y_axis_format: SMART_NUMBER
+  x_axis: snapshot_date
+  x_axis_sort_asc: true
+  truncate_metric: true
+  show_value: false
+cache_timeout: 0
+uuid: 6233ed28-c2cc-5d17-9ec1-40e934b0f368
+version: 1.0.0
+dataset_uuid: 4aed86be-0820-5695-bc6c-ecf594b9e664

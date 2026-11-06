@@ -35,7 +35,7 @@ def write_partition(root, table, rows, snapshot=DAY):
 def parquet(tmp_path):
     for table in FIELDS:
         write_partition(tmp_path, table, [{"drug_code": 7, "din": "00000007",
-                                         "brand_name": "SAMPLE"}])
+                                         "brand_name": "SAMPLE", "left_id": 7, "right_id": 8}])
     return tmp_path
 
 
@@ -59,7 +59,7 @@ def test_load_uses_explicit_partition_overwrite_and_publishes_last(parquet):
     result = load_snapshot(client, parquet, PROJECT, "review", DAY)
     assert result["rows"] == dict.fromkeys(FIELDS, 1)
     assert result["view"] == "dpd-test.review.reviewer_summary_20261101"
-    assert len(payloads) == 3
+    assert len(payloads) == len(FIELDS)
     for call, (target, rows) in zip(client.load_table_from_file.call_args_list, payloads):
         table = target.split(".")[-1].split("$")[0]
         assert target.endswith("$20261101")
@@ -76,7 +76,7 @@ def test_load_uses_explicit_partition_overwrite_and_publishes_last(parquet):
     assert client.mock_calls[-1][0] == "create_table"
     view = client.create_table.call_args.args[0]
     assert view.view_use_legacy_sql is False
-    for call in client.create_table.call_args_list[:3]:
+    for call in client.create_table.call_args_list[:len(FIELDS)]:
         table = call.args[0]
         assert table.time_partitioning.field == "snapshot_date"
         assert table.require_partition_filter
@@ -112,7 +112,7 @@ def test_job_conflict_resumes_same_job_and_existing_view_is_updated(parquet):
     client.create_table.side_effect = create
     client.load_table_from_file.side_effect = Conflict("job exists")
     load_snapshot(client, parquet, PROJECT, "review", DAY)
-    assert client.get_job.call_count == 3
+    assert client.get_job.call_count == len(FIELDS)
     for upload, lookup in zip(client.load_table_from_file.call_args_list,
                               client.get_job.call_args_list):
         assert upload.kwargs["job_id"] == lookup.args[0]

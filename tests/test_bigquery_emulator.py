@@ -10,7 +10,6 @@ import os
 import socket
 import subprocess
 import time
-from pathlib import Path
 
 import duckdb
 import pytest
@@ -37,6 +36,7 @@ def emulator(tmp_path_factory):
         process = subprocess.Popen(
             [binary, f"--project={PROJECT}", "--host=127.0.0.1", f"--port={port}",
              f"--grpc-port={grpc_port}"], stdout=output, stderr=output,
+            env=dict(os.environ, TZ="UTC"),
         )
         print(f"Owned emulator pid={process.pid} started={time.time()} "
               f"ports={port},{grpc_port}; cleanup=kill -TERM {process.pid}, then wait")
@@ -75,6 +75,18 @@ class PartitionAdapter:
 
     def __getattr__(self, key):
         return getattr(self.client, key)
+
+    def query(self, sql, *, job_config=None, **kwargs):
+        if job_config is not None:
+            # v0.8.1's Go decoder requires REST parameter values to be strings.
+            # Preserve the SQL and declared BigQuery types; normalize only wire JSON.
+            api = job_config.to_api_repr()
+            for parameter in api.get("query", {}).get("queryParameters", []):
+                value = parameter["parameterValue"].get("value")
+                if isinstance(value, (int, float)):
+                    parameter["parameterValue"]["value"] = str(value)
+            job_config = bq.QueryJobConfig.from_api_repr(api)
+        return self.client.query(sql, job_config=job_config, retry=None, timeout=30, **kwargs)
 
     def create_dataset(self, dataset, *, exists_ok=False):
         # v0.8.1 reports existing resources as HTTP 500 instead of 409.
@@ -127,11 +139,35 @@ def view_rows(client, dataset, snapshot=DAY):
     ).result(timeout=30)]
 
 
-def test_real_pipeline_snapshot_upload_rerun_and_history(emulator, tmp_path):
+def test_real_pipeline_snapshot_upload_rerun_and_history(emulator, tmp_path, raw_dir):
+    # Inject labelled QA cases into a copy, then let the actual Spark detector
+    # compute the flags. SQL must reproduce nonzero counts, not just zero totals.
+    import csv
+
     from dpd_etl.config import FIXTURE_THRESHOLDS
     from dpd_etl.pipeline import run
 
-    run(Path("tests/fixtures/raw"), tmp_path, DAY, FIXTURE_THRESHOLDS)
+    ingredients = raw_dir / "ingred.txt"
+    with ingredients.open(newline="") as handle:
+        rows = list(csv.reader(handle))
+    used = set()
+    for row in rows:
+        if row[0] not in used and len(used) < 12:
+            row[2] = "BIGQUERY TEST INGREDIENT"
+            row[4] = str(1000 if len(used) == 11 else 90 + 2 * len(used))
+            row[5] = "MG"
+            used.add(row[0])
+    assert len(used) == 12
+    with ingredients.open("w", newline="") as handle:
+        csv.writer(handle, quoting=csv.QUOTE_ALL).writerows(rows)
+    drugs = raw_dir / "drug.txt"
+    with drugs.open(newline="") as handle:
+        rows = list(csv.reader(handle))
+    rows[1][3] = rows[0][3]  # Same DIN, distinct product IDs.
+    with drugs.open("w", newline="") as handle:
+        csv.writer(handle, quoting=csv.QUOTE_ALL).writerows(rows)
+
+    run(raw_dir, tmp_path, DAY, FIXTURE_THRESHOLDS)
     root = tmp_path / "parquet"
     result = load_snapshot(emulator, root, PROJECT, "pipeline", DAY)
     rows = view_rows(emulator, "pipeline")
@@ -139,6 +175,13 @@ def test_real_pipeline_snapshot_upload_rerun_and_history(emulator, tmp_path):
         f"SELECT drug_code, snapshot_date, load_id FROM `{PROJECT}.pipeline.drug_products` "
         "LIMIT 2").result()]
     assert result["rows"]["drug_products"] == 60
+    from dpd_etl.bigquery_health import health_checks
+    from dpd_etl.summary import accepted_summary
+    expected_summary = accepted_summary(tmp_path, DAY)
+    actual = health_checks(emulator, PROJECT, "pipeline", DAY, expected=expected_summary)
+    assert actual["rows_processed"] == 60
+    assert actual["flagged_strengths"] == actual["duplicate_pairs"] == 1
+    assert actual["flagged_strengths"] == expected_summary["flagged_strengths"]
     with duckdb.connect() as con:
         expected = con.execute(
             "SELECT count(*) FROM read_parquet(?) WHERE is_anomaly",
@@ -173,6 +216,7 @@ def test_multiple_children_nulls_empty_flags_and_corrected_rerun(emulator, tmp_p
         {"drug_code": 1, "ingredient": "A", "is_anomaly": True, "is_evaluated": True},
         {"drug_code": 1, "ingredient": "B", "is_anomaly": False, "is_evaluated": False},
     ])
+    write_partition(tmp_path, "product_links", [])
     load_snapshot(emulator, tmp_path, PROJECT, "edge_cases", DAY)
     rows = view_rows(emulator, "edge_cases")
     assert rows[0]["ingredient_rows"] == 2
@@ -208,3 +252,33 @@ def test_multiple_children_nulls_empty_flags_and_corrected_rerun(emulator, tmp_p
     ])
     load_snapshot(emulator, tmp_path, PROJECT, "edge_cases", DAY)
     assert view_rows(emulator, "edge_cases")[0]["flagged_strengths"] == 1
+
+
+def test_health_parameter_date_flags_null_rates_pairs_and_isolation(emulator, tmp_path):
+    from dpd_etl.bigquery_health import health_checks
+
+    write_partition(tmp_path, "drug_products", [
+        {"drug_code": 1, "din": "00000001", "brand_name": "A", "company_name": "Maker"},
+        {"drug_code": 2, "din": None, "brand_name": None, "company_name": None}])
+    write_partition(tmp_path, "drug_ingredients", [{"drug_code": 1}, {"drug_code": 1}])
+    write_partition(tmp_path, "strength_anomalies", [
+        {"drug_code": 1, "is_anomaly": True, "is_evaluated": True,
+         "numeric_strength": 100, "peer_median": 10, "peer_mad": 1,
+         "peer_count": 10, "robust_z": 60.705},
+        {"drug_code": 1, "is_anomaly": False, "is_evaluated": False}])
+    write_partition(tmp_path, "product_links", [
+        {"left_id": 1, "right_id": 2, "is_match": True, "reason": "exact_din"}])
+    load_snapshot(emulator, tmp_path, PROJECT, "health_edges", DAY)
+    actual = health_checks(emulator, PROJECT, "health_edges", DAY)
+    assert actual == {"rows_processed": 2, "ingredient_rows": 2, "strength_rows": 2,
+        "flagged_strengths": 1, "flagged_records": 1, "recomputed_strength_flags": 1,
+        "candidate_pairs": 1, "duplicate_pairs": 1, "recomputed_duplicate_pairs": 1,
+        "null_rate_din": 0.5, "null_rate_brand_name": 0.5, "null_rate_company_name": 0.5}
+    with pytest.raises(ValueError, match="no products"):
+        health_checks(emulator, PROJECT, "health_edges", "2026-11-02")
+    # Replacing the date clears the old flags and pairs while keeping product rows.
+    write_partition(tmp_path, "strength_anomalies", [])
+    write_partition(tmp_path, "product_links", [])
+    load_snapshot(emulator, tmp_path, PROJECT, "health_edges", DAY)
+    cleared = health_checks(emulator, PROJECT, "health_edges", DAY)
+    assert cleared["flagged_strengths"] == cleared["duplicate_pairs"] == 0

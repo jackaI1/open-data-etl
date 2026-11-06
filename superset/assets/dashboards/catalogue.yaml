@@ -1,0 +1,347 @@
+dashboard_title: Catalogue quality review
+description: Accepted snapshot counts and review queues. Example history is invented.
+  Flags are review suggestions, not medical findings.
+css: ''
+slug: catalogue-quality
+certified_by: null
+certification_details: null
+published: true
+uuid: da3726da-fc0d-537a-9ebb-ce104692830f
+version: 1.0.0
+position:
+  DASHBOARD_VERSION_KEY: v2
+  ROOT_ID:
+    id: ROOT_ID
+    type: ROOT
+    children:
+    - GRID_ID
+  GRID_ID:
+    id: GRID_ID
+    type: GRID
+    children:
+    - ROW-NOTE
+    - ROW-0
+    - ROW-1
+    - ROW-2
+    - ROW-3
+    - ROW-4
+    parents:
+    - ROOT_ID
+  ROW-NOTE:
+    id: ROW-NOTE
+    type: ROW
+    children:
+    - NOTE
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    meta:
+      background: BACKGROUND_TRANSPARENT
+  NOTE:
+    id: NOTE
+    type: MARKDOWN
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-NOTE
+    meta:
+      width: 12
+      height: 12
+      code: The starter history is invented example data. Publish accepted pipeline
+        dates to replace it. Totals count product snapshots across the selected dates;
+        flags are suggestions to review records.
+  ROW-0:
+    id: ROW-0
+    type: ROW
+    children:
+    - CHART-1
+    - CHART-2
+    - CHART-3
+    - CHART-4
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    meta:
+      background: BACKGROUND_TRANSPARENT
+  CHART-1:
+    id: CHART-1
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-0
+    meta:
+      chartId: 1
+      uuid: 0dd0693e-b893-52e5-bb95-16c7dc4b1394
+      width: 3
+      height: 20
+      sliceName: Products processed
+  CHART-2:
+    id: CHART-2
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-0
+    meta:
+      chartId: 2
+      uuid: 4215142f-5f6d-59dd-a0be-5b06863cdfc8
+      width: 3
+      height: 20
+      sliceName: Products with flags
+  CHART-3:
+    id: CHART-3
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-0
+    meta:
+      chartId: 3
+      uuid: 4eac930a-789a-5793-af80-38aa5f7ea218
+      width: 3
+      height: 20
+      sliceName: Suggested duplicate pairs
+  CHART-4:
+    id: CHART-4
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-0
+    meta:
+      chartId: 4
+      uuid: 726e5063-589b-5454-a9d1-59cb20007333
+      width: 3
+      height: 20
+      sliceName: Mean run seconds
+  ROW-1:
+    id: ROW-1
+    type: ROW
+    children:
+    - CHART-5
+    - CHART-6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    meta:
+      background: BACKGROUND_TRANSPARENT
+  CHART-5:
+    id: CHART-5
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-1
+    meta:
+      chartId: 5
+      uuid: b7509fef-a87a-5ba4-9308-b898f4016678
+      width: 6
+      height: 45
+      sliceName: Products over time
+  CHART-6:
+    id: CHART-6
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-1
+    meta:
+      chartId: 6
+      uuid: cc2207c9-0681-5c87-b679-9a4c45dd15e3
+      width: 6
+      height: 45
+      sliceName: Flagged products over time
+  ROW-2:
+    id: ROW-2
+    type: ROW
+    children:
+    - CHART-7
+    - CHART-8
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    meta:
+      background: BACKGROUND_TRANSPARENT
+  CHART-7:
+    id: CHART-7
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-2
+    meta:
+      chartId: 7
+      uuid: 800bd977-1b61-54a0-a1ca-17ca00283edc
+      width: 6
+      height: 45
+      sliceName: Duplicate pairs over time
+  CHART-8:
+    id: CHART-8
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-2
+    meta:
+      chartId: 8
+      uuid: 6233ed28-c2cc-5d17-9ec1-40e934b0f368
+      width: 6
+      height: 45
+      sliceName: Run seconds over time
+  ROW-3:
+    id: ROW-3
+    type: ROW
+    children:
+    - CHART-9
+    - CHART-10
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    meta:
+      background: BACKGROUND_TRANSPARENT
+  CHART-9:
+    id: CHART-9
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-3
+    meta:
+      chartId: 9
+      uuid: 77b0bf55-c1eb-5fd9-abe0-106890a15f14
+      width: 6
+      height: 45
+      sliceName: Flagged product share by class
+  CHART-10:
+    id: CHART-10
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-3
+    meta:
+      chartId: 10
+      uuid: ed2ca654-7abf-5c83-895c-5b0187d58662
+      width: 6
+      height: 45
+      sliceName: Ingredient flags by class
+  ROW-4:
+    id: ROW-4
+    type: ROW
+    children:
+    - CHART-11
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    meta:
+      background: BACKGROUND_TRANSPARENT
+  CHART-11:
+    id: CHART-11
+    type: CHART
+    children: []
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-4
+    meta:
+      chartId: 11
+      uuid: 9346c5bc-00ce-5d01-931d-cdff6e01519e
+      width: 6
+      height: 45
+      sliceName: Pair review status
+metadata:
+  native_filter_configuration:
+  - id: NATIVE_FILTER-date
+    name: Snapshot date
+    filterType: filter_time
+    targets:
+    - {}
+    defaultDataMask:
+      extraFormData: {}
+      filterState: {}
+    cascadeParentIds: []
+    scope:
+      rootPath:
+      - ROOT_ID
+      excluded: []
+    controlValues: {}
+    type: NATIVE_FILTER
+    description: Select saved dates; totals count product snapshots.
+  - id: NATIVE_FILTER-drug_class
+    name: Drug Class
+    filterType: filter_select
+    targets:
+    - datasetUuid: b049cc82-74a0-5192-be27-663932b6861d
+      column:
+        name: drug_class
+    defaultDataMask:
+      extraFormData: {}
+      filterState: {}
+    cascadeParentIds: []
+    scope:
+      rootPath:
+      - ROOT_ID
+      excluded:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 11
+    controlValues:
+      enableEmptyFilter: false
+      multiSelect: true
+      searchAllOptions: false
+      inverseSelection: false
+    type: NATIVE_FILTER
+  - id: NATIVE_FILTER-review_status
+    name: Review Status
+    filterType: filter_select
+    targets:
+    - datasetUuid: 65a386a5-add5-55ed-8874-70f91735bfb6
+      column:
+        name: review_status
+    defaultDataMask:
+      extraFormData: {}
+      filterState: {}
+    cascadeParentIds: []
+    scope:
+      rootPath:
+      - ROOT_ID
+      excluded:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+    controlValues:
+      enableEmptyFilter: false
+      multiSelect: true
+      searchAllOptions: false
+      inverseSelection: false
+    type: NATIVE_FILTER
+  color_scheme: supersetColors
+  refresh_frequency: 0
+  expanded_slices: {}
+  label_colors: {}
+  timed_refresh_immune_slices: []
