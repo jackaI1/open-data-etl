@@ -5,6 +5,6 @@ allow_ctas: false
 allow_cvas: false
 allow_dml: false
 allow_run_async: false
-extra: '{}'
+extra: {}
 uuid: 27de02e0-294c-564a-837c-bdbd0e86f7ba
 version: 1.0.0

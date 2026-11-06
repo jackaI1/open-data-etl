@@ -35,7 +35,7 @@ def seed(destination):
             for day, flags in [("2026-11-01", 2), ("2026-11-02", 1), ("2026-11-03", 0)]:
                 for code in (1, 2, 3):
                     con.execute("INSERT INTO drug_products VALUES (?, ?, ?, ?, ?, ?, ?)",
-                                [day, code, f"{code:08d}", f"Example product {code}",
+                                [day, code, f"{1 if code == 2 else code:08d}", f"Example product {code}",
                                  "Example maker", "Human" if code < 3 else "Veterinary", "N"])
                     con.execute("INSERT INTO drug_ingredients VALUES (?, ?)", [day, code])
                     con.execute("INSERT INTO strength_anomalies VALUES (?, ?, ?)",

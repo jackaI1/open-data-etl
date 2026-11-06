@@ -16,3 +16,4 @@ trap cleanup EXIT
 "${compose[@]}" exec -T superset superset export-dashboards -f /tmp/roundtrip.zip
 "${compose[@]}" cp superset:/tmp/roundtrip.zip data/superset/roundtrip.zip
 "$PYTHON" scripts/check_superset.py
+"$PYTHON" scripts/check_superset_browser.py

@@ -111,6 +111,8 @@ format for its official import command.
 .venv/bin/python scripts/build_dashboard_assets.py
 .venv/bin/python -m pytest -q tests/test_dashboard.py
 # Full container import, HTTP queries, filters and export round trip:
+uv pip install --python .venv/bin/python playwright==1.56.0
+.venv/bin/python -m playwright install chromium
 PYTHON=.venv/bin/python scripts/test_superset.sh
 # Stop my interactive preview and delete its metadata volume:
 docker compose -p dpd-superset -f superset/compose.yml down --volumes
@@ -122,4 +124,5 @@ fresh pinned instance, executes every chart through Superset's HTTP API,
 checks date and class filtering, then exports the assets again. The regular
 pipeline CI also publishes the real 60-product Spark fixture and compares the
 SQLite totals with the source tables. The CI artifact keeps the round-trip ZIP
-and validation receipt. I do not claim production scale or hosted cloud usage.
+validation receipt and a Chromium screenshot. CI also opens the imported dashboard
+in a browser and rejects failed chart responses. I do not claim production scale or hosted cloud usage.

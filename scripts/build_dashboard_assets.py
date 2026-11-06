@@ -21,7 +21,7 @@ def main():
     write("databases/catalogue.yaml", {"database_name": "Accepted catalogue snapshots",
           "sqlalchemy_uri": "sqlite:////app/catalogue/catalogue.db", "expose_in_sqllab": True,
           "allow_ctas": False, "allow_cvas": False, "allow_dml": False, "allow_run_async": False,
-          "extra": '{}', "uuid": uid("database"), "version": "1.0.0"})
+          "extra": {}, "uuid": uid("database"), "version": "1.0.0"})
     datasets = {
         "runs": {
             "columns": {"snapshot_date": "DATE", "rows_processed": "BIGINT",
@@ -51,24 +51,24 @@ def main():
                 "source_kind=example is invented demo history." if table == "runs" else
                 "Dated review data. Pending means no human decision was supplied."),
             "default_endpoint": None, "offset": 0, "cache_timeout": 0, "schema": None,
-            "sql": None, "params": '{}', "template_params": None, "filter_select_enabled": True,
-            "fetch_values_predicate": None, "extra": '{}', "uuid": uid(table), "version": "1.0.0",
+            "sql": None, "params": {}, "template_params": None, "filter_select_enabled": True,
+            "fetch_values_predicate": None, "extra": {}, "uuid": uid(table), "version": "1.0.0",
             "database_uuid": uid("database"),
             "columns": [{"column_name": c, "is_dttm": c == "snapshot_date", "type": t,
                           "groupby": True, "filterable": True, "expression": None,
                           "verbose_name": None, "description": None, "python_date_format": None,
-                          "extra": '{}'} for c, t in data["columns"].items()],
+                          "extra": {}} for c, t in data["columns"].items()],
             "metrics": [{"metric_name": m, "verbose_name": m.replace("_", " ").title(),
                           "metric_type": None, "expression": e, "description": None,
                           "d3format": ".1%" if m == "flagged_share" else None,
-                          "extra": '{}', "warning_text": None} for m, e in data["metrics"].items()]})
+                          "extra": {}, "warning_text": None} for m, e in data["metrics"].items()]})
     specs = [
         ("Products processed", "runs", "products", "big_number_total", []),
         ("Products with flags", "runs", "flagged_products", "big_number_total", []),
         ("Suggested duplicate pairs", "runs", "matches", "big_number_total", []),
         ("Mean run seconds", "runs", "duration", "big_number_total", []),
         ("Products over time", "runs", "products", "echarts_timeseries_line", []),
-        ("Flags over time", "runs", "flags", "echarts_timeseries_line", []),
+        ("Flagged products over time", "runs", "flagged_products", "echarts_timeseries_line", []),
         ("Duplicate pairs over time", "runs", "matches", "echarts_timeseries_line", []),
         ("Run seconds over time", "runs", "duration", "echarts_timeseries_line", []),
         ("Flagged product share by class", "products", "flagged_share", "echarts_timeseries_bar", ["drug_class"]),

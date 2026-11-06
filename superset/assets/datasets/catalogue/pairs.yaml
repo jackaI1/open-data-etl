@@ -6,11 +6,11 @@ offset: 0
 cache_timeout: 0
 schema: null
 sql: null
-params: '{}'
+params: {}
 template_params: null
 filter_select_enabled: true
 fetch_values_predicate: null
-extra: '{}'
+extra: {}
 uuid: 65a386a5-add5-55ed-8874-70f91735bfb6
 version: 1.0.0
 database_uuid: 27de02e0-294c-564a-837c-bdbd0e86f7ba
@@ -24,7 +24,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: left_id
   is_dttm: false
   type: BIGINT
@@ -34,7 +34,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: right_id
   is_dttm: false
   type: BIGINT
@@ -44,7 +44,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: score
   is_dttm: false
   type: FLOAT
@@ -54,7 +54,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: is_match
   is_dttm: false
   type: BIGINT
@@ -64,7 +64,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: reason
   is_dttm: false
   type: TEXT
@@ -74,7 +74,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: review_status
   is_dttm: false
   type: TEXT
@@ -84,7 +84,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 metrics:
 - metric_name: pair_count
   verbose_name: Pair Count
@@ -92,7 +92,7 @@ metrics:
   expression: COUNT(*)
   description: null
   d3format: null
-  extra: '{}'
+  extra: {}
   warning_text: null
 - metric_name: suggested_matches
   verbose_name: Suggested Matches
@@ -100,5 +100,5 @@ metrics:
   expression: SUM(is_match)
   description: null
   d3format: null
-  extra: '{}'
+  extra: {}
   warning_text: null

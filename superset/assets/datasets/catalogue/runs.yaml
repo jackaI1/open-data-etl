@@ -7,11 +7,11 @@ offset: 0
 cache_timeout: 0
 schema: null
 sql: null
-params: '{}'
+params: {}
 template_params: null
 filter_select_enabled: true
 fetch_values_predicate: null
-extra: '{}'
+extra: {}
 uuid: 4aed86be-0820-5695-bc6c-ecf594b9e664
 version: 1.0.0
 database_uuid: 27de02e0-294c-564a-837c-bdbd0e86f7ba
@@ -25,7 +25,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: rows_processed
   is_dttm: false
   type: BIGINT
@@ -35,7 +35,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: flagged_records
   is_dttm: false
   type: BIGINT
@@ -45,7 +45,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: flagged_strengths
   is_dttm: false
   type: BIGINT
@@ -55,7 +55,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: duplicate_pairs
   is_dttm: false
   type: BIGINT
@@ -65,7 +65,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: duration_seconds
   is_dttm: false
   type: FLOAT
@@ -75,7 +75,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 - column_name: source_kind
   is_dttm: false
   type: TEXT
@@ -85,7 +85,7 @@ columns:
   verbose_name: null
   description: null
   python_date_format: null
-  extra: '{}'
+  extra: {}
 metrics:
 - metric_name: products
   verbose_name: Products
@@ -93,7 +93,7 @@ metrics:
   expression: SUM(rows_processed)
   description: null
   d3format: null
-  extra: '{}'
+  extra: {}
   warning_text: null
 - metric_name: flagged_products
   verbose_name: Flagged Products
@@ -101,7 +101,7 @@ metrics:
   expression: SUM(flagged_records)
   description: null
   d3format: null
-  extra: '{}'
+  extra: {}
   warning_text: null
 - metric_name: flags
   verbose_name: Flags
@@ -109,7 +109,7 @@ metrics:
   expression: SUM(flagged_strengths)
   description: null
   d3format: null
-  extra: '{}'
+  extra: {}
   warning_text: null
 - metric_name: matches
   verbose_name: Matches
@@ -117,7 +117,7 @@ metrics:
   expression: SUM(duplicate_pairs)
   description: null
   d3format: null
-  extra: '{}'
+  extra: {}
   warning_text: null
 - metric_name: duration
   verbose_name: Duration
@@ -125,5 +125,5 @@ metrics:
   expression: AVG(duration_seconds)
   description: null
   d3format: null
-  extra: '{}'
+  extra: {}
   warning_text: null
