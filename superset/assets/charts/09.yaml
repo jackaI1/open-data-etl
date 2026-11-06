@@ -1,0 +1,30 @@
+slice_name: Flagged product share by class
+description: null
+certified_by: null
+certification_details: null
+viz_type: echarts_timeseries_bar
+params:
+  viz_type: echarts_timeseries_bar
+  datasource: 1__table
+  metrics:
+  - flagged_share
+  metric: flagged_share
+  groupby:
+  - drug_class
+  time_range: No filter
+  granularity_sqla: snapshot_date
+  time_grain_sqla: P1D
+  row_limit: 10000
+  adhoc_filters: []
+  show_legend: true
+  rich_tooltip: true
+  color_scheme: supersetColors
+  y_axis_format: SMART_NUMBER
+  x_axis: drug_class
+  x_axis_sort_asc: true
+  truncate_metric: true
+  show_value: false
+cache_timeout: 0
+uuid: 77b0bf55-c1eb-5fd9-abe0-106890a15f14
+version: 1.0.0
+dataset_uuid: b049cc82-74a0-5192-be27-663932b6861d

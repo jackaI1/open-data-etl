@@ -55,7 +55,7 @@ dedicated dataset for this project.
 
 For a full catalogue run, use `make pipeline` and `--parquet-root data/parquet`.
 Use the date passed to that pipeline run. Only export snapshots that passed the
-pipeline's quality gate. The loader requires all three dated partitions and
+pipeline's quality gate. The loader requires all four dated partitions and
 prepares every upload before writing remotely. It rejects unexpected columns,
 null product keys, non-finite numbers and empty product snapshots.
 
@@ -104,6 +104,7 @@ values into storage blocks so selective queries can read fewer blocks:
 | `drug_products` | `atc_group`, `company_name`, `drug_code` | Review a therapeutic group or company |
 | `drug_ingredients` | `ingredient`, `drug_code` | Follow an ingredient across products |
 | `strength_anomalies` | `is_anomaly`, `ingredient`, `drug_code` | Find flagged strengths within peers |
+| `product_links` | `is_match`, `left_id`, `right_id` | Compare duplicate-pair suggestions |
 
 A load targets `table$20261101` with `WRITE_TRUNCATE`. BigQuery replaces that
 partition atomically, including replacing flags with an empty result, while
@@ -112,12 +113,12 @@ duplicates. Each invocation gets fresh job IDs so restoring an older input after
 a correction actually runs again. A conflicting job submission resumes its exact
 job ID and waits for completion rather than submitting a second copy.
 
-The three jobs are **not one transaction**. I run only one writer for a given
+The four jobs are **not one transaction**. I run only one writer for a given
 dataset/date at a time. Products load first, and each row carries the invocation's
-`load_id`. The dated review view is installed only after all three jobs succeed;
+`load_id`. The dated review view is installed only after all four jobs succeed;
 it filters every source to that date and load ID. If a later rerun stops midway,
 the old view returns no products rather than combining new products with older
-flags. Rerunning all three jobs repairs it. Direct base-table readers can see
+flags. Rerunning all four jobs repairs it. Direct base-table readers can see
 partial results during a load and should wait for the successful command output.
 Concurrent writers for the same date need external serialization.
 
@@ -146,7 +147,7 @@ loads avoid streaming writes, but stored snapshots and queries still consume
 quota or incur charges according to the project and region. I check the
 [pricing page](https://cloud.google.com/bigquery/pricing) before larger runs.
 
-I remove a dated view and its three partitions when I no longer need a snapshot.
+I remove a dated view and its four partitions when I no longer need a snapshot.
 To remove **all** exported data, only for the dedicated dataset created above:
 
 ```sh
@@ -179,3 +180,36 @@ I followed Google's guides for
 [clustered tables](https://docs.cloud.google.com/bigquery/docs/creating-clustered-tables),
 [dry runs](https://docs.cloud.google.com/bigquery/docs/running-queries#dry-run) and
 [cost controls](https://docs.cloud.google.com/bigquery/docs/best-practices-costs).
+
+## Load and reconcile quality totals
+
+```sh
+.venv/bin/python -m dpd_etl.bigquery_health --project "$PROJECT_ID" \
+  --dataset dpd_review --data-dir data/fixture --snapshot-date 2026-11-01
+```
+
+This command requires a successful-run receipt from the current pipeline. It
+loads four typed, daily-partitioned tables, executes `sql/health_checks.sql`
+with a STRING date parameter cast to DATE and a FLOAT64 strength threshold,
+then compares the result with counts from the accepted Spark output tables.
+The query aggregates tables separately, avoiding multiplied child rows. It
+reports product, ingredient and strength rows, distinct flagged products,
+flagged strengths, candidate and suggested duplicate pairs, and the fraction
+of products missing DIN, brand or company. A mismatch raises an error.
+
+The SQL recalculates the modified z-score from numeric strength, peer median
+and median absolute deviation, the detector's measure of spread. Only evaluated
+records with enough peers count. It also checks the stored match flag against
+`exact_din` and `fuzzy_match` reasons. It uses the peer statistics and comparison
+results already computed by Spark; it does not repeat pair generation in SQL.
+637 is the measured flag count from the full 2026-11-06 download in the Delta
+guide, not a constant substituted into a health check. Small fixture tests
+assert their own counts, including a known outlier. No cloud account was used
+for the new tests.
+
+Run this after a completed load, with a single writer for each dataset/date.
+The base-table health query can see partial uploads if another writer is active.
+Unlike the generation-bound review view, it is intended for the immediate
+load-and-check command rather than concurrent interactive readers. The default
+query billing limit is 1 GiB. The emulator checks the parameterized query results
+but not cloud partition pruning, billing or IAM.

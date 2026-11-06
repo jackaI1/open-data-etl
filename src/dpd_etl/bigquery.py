@@ -39,7 +39,13 @@ FIELDS = {
         "is_anomaly": "BOOLEAN",
     },
 }
+FIELDS["product_links"] = {
+    "left_id": "INTEGER", "right_id": "INTEGER", "left_din": "STRING", "right_din": "STRING",
+    "brand_similarity": "FLOAT", "company_similarity": "FLOAT", "score": "FLOAT",
+    "is_match": "BOOLEAN", "reason": "STRING",
+}
 CLUSTERS = {
+    "product_links": ["is_match", "left_id", "right_id"],
     "drug_products": ["atc_group", "company_name", "drug_code"],
     "drug_ingredients": ["ingredient", "drug_code"],
     "strength_anomalies": ["is_anomaly", "ingredient", "drug_code"],
@@ -97,7 +103,8 @@ def _export(root: Path, table: str, snapshot: str, load_id: str, output) -> int:
             for row in batch:
                 record = dict(zip(FIELDS[table], row))
                 record.update(snapshot_date=snapshot, load_id=load_id)
-                if record["drug_code"] is None:
+                keys = ["left_id", "right_id"] if table == "product_links" else ["drug_code"]
+                if any(record[key] is None for key in keys):
                     raise ValueError(f"null product key in {table}")
                 # Reject NaN/infinity instead of uploading invalid JSON.
                 output.write((json.dumps(record, default=str, allow_nan=False) + "\n").encode())

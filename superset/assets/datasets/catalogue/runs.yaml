@@ -1,0 +1,129 @@
+table_name: runs
+main_dttm_col: snapshot_date
+description: One row per accepted date. Totals across dates count product snapshots.
+  source_kind=example is invented demo history.
+default_endpoint: null
+offset: 0
+cache_timeout: 0
+schema: null
+sql: null
+params: '{}'
+template_params: null
+filter_select_enabled: true
+fetch_values_predicate: null
+extra: '{}'
+uuid: 4aed86be-0820-5695-bc6c-ecf594b9e664
+version: 1.0.0
+database_uuid: 27de02e0-294c-564a-837c-bdbd0e86f7ba
+columns:
+- column_name: snapshot_date
+  is_dttm: true
+  type: DATE
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: rows_processed
+  is_dttm: false
+  type: BIGINT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: flagged_records
+  is_dttm: false
+  type: BIGINT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: flagged_strengths
+  is_dttm: false
+  type: BIGINT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: duplicate_pairs
+  is_dttm: false
+  type: BIGINT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: duration_seconds
+  is_dttm: false
+  type: FLOAT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: source_kind
+  is_dttm: false
+  type: TEXT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+metrics:
+- metric_name: products
+  verbose_name: Products
+  metric_type: null
+  expression: SUM(rows_processed)
+  description: null
+  d3format: null
+  extra: '{}'
+  warning_text: null
+- metric_name: flagged_products
+  verbose_name: Flagged Products
+  metric_type: null
+  expression: SUM(flagged_records)
+  description: null
+  d3format: null
+  extra: '{}'
+  warning_text: null
+- metric_name: flags
+  verbose_name: Flags
+  metric_type: null
+  expression: SUM(flagged_strengths)
+  description: null
+  d3format: null
+  extra: '{}'
+  warning_text: null
+- metric_name: matches
+  verbose_name: Matches
+  metric_type: null
+  expression: SUM(duplicate_pairs)
+  description: null
+  d3format: null
+  extra: '{}'
+  warning_text: null
+- metric_name: duration
+  verbose_name: Duration
+  metric_type: null
+  expression: AVG(duration_seconds)
+  description: null
+  d3format: null
+  extra: '{}'
+  warning_text: null

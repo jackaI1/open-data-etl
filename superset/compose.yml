@@ -1,0 +1,26 @@
+services:
+  superset:
+    image: apache/superset:4.1.2
+    user: "0:0"
+    ports:
+      - "127.0.0.1:18088:8088"
+    environment:
+      SUPERSET_CONFIG_PATH: /app/config/superset_config.py
+      SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY:?set a random secret key}
+      SUPERSET_ADMIN_PASSWORD: ${SUPERSET_ADMIN_PASSWORD:?set a local admin password}
+    volumes:
+      - metadata:/app/superset_home
+      - ./superset_config.py:/app/config/superset_config.py:ro
+      - ./assets:/app/dashboard/assets:ro
+      - ./import_dashboard.py:/app/dashboard/import_dashboard.py:ro
+      - ./start.sh:/app/dashboard/start.sh:ro
+      - ../data/superset:/app/catalogue:ro
+    command: ["/bin/sh", "/app/dashboard/start.sh"]
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8088/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    mem_limit: 2g
+volumes:
+  metadata:

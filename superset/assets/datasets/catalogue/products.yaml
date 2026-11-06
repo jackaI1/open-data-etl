@@ -1,0 +1,132 @@
+table_name: products
+main_dttm_col: snapshot_date
+description: Dated review data. Pending means no human decision was supplied.
+default_endpoint: null
+offset: 0
+cache_timeout: 0
+schema: null
+sql: null
+params: '{}'
+template_params: null
+filter_select_enabled: true
+fetch_values_predicate: null
+extra: '{}'
+uuid: b049cc82-74a0-5192-be27-663932b6861d
+version: 1.0.0
+database_uuid: 27de02e0-294c-564a-837c-bdbd0e86f7ba
+columns:
+- column_name: snapshot_date
+  is_dttm: true
+  type: DATE
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: drug_code
+  is_dttm: false
+  type: BIGINT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: din
+  is_dttm: false
+  type: TEXT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: brand_name
+  is_dttm: false
+  type: TEXT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: drug_class
+  is_dttm: false
+  type: TEXT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: atc_group
+  is_dttm: false
+  type: TEXT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: ingredient_rows
+  is_dttm: false
+  type: BIGINT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: flagged_strengths
+  is_dttm: false
+  type: BIGINT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+- column_name: flagged_record
+  is_dttm: false
+  type: BIGINT
+  groupby: true
+  filterable: true
+  expression: null
+  verbose_name: null
+  description: null
+  python_date_format: null
+  extra: '{}'
+metrics:
+- metric_name: product_count
+  verbose_name: Product Count
+  metric_type: null
+  expression: COUNT(*)
+  description: null
+  d3format: null
+  extra: '{}'
+  warning_text: null
+- metric_name: strength_flags
+  verbose_name: Strength Flags
+  metric_type: null
+  expression: SUM(flagged_strengths)
+  description: null
+  d3format: null
+  extra: '{}'
+  warning_text: null
+- metric_name: flagged_share
+  verbose_name: Flagged Share
+  metric_type: null
+  expression: 1.0 * SUM(flagged_record) / NULLIF(COUNT(*), 0)
+  description: null
+  d3format: .1%
+  extra: '{}'
+  warning_text: null

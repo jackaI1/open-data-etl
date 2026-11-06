@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "DPD_SUMMARY_SCHEDULE": "0 0 8 * * *",
+    "DPD_DATA_DIR": "/absolute/path/to/open-data-etl/data/fixture",
+    "DPD_SNAPSHOT_DATE": "2026-11-01",
+    "DPD_SUMMARY_CONTAINER": "quality-summaries"
+  }
+}
