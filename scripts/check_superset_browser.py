@@ -23,7 +23,7 @@ with sync_playwright() as playwright:
     browser = playwright.chromium.launch()
     page = None
     try:
-        page = browser.new_page(viewport={"width": 1440, "height": 1100})
+        page = browser.new_page(viewport={"width": 1440, "height": 2200})
         page.on("response", chart_response)
         page.goto("http://127.0.0.1:18088/login/")
         page.locator("#username").fill("admin")

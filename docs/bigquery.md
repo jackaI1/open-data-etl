@@ -95,7 +95,7 @@ flags have explicit DATE, INTEGER and BOOLEAN types. Uploads stream batches of
 1,000 rows to temporary files and use newline-delimited JSON batch load jobs.
 No Spark session or intermediate cloud bucket is needed for the export.
 
-All three tables are partitioned by `snapshot_date`, meaning each date is a
+All four tables are partitioned by `snapshot_date`, meaning each date is a
 separate part of the table. All require a date filter. Clustering sorts related
 values into storage blocks so selective queries can read fewer blocks:
 

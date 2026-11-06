@@ -20,7 +20,7 @@ def main():
     write("metadata.yaml", {"version": "1.0.0", "type": "Dashboard", "timestamp": "2026-11-06T00:00:00+00:00"})
     write("databases/catalogue.yaml", {"database_name": "Accepted catalogue snapshots",
           "sqlalchemy_uri": "sqlite:////app/catalogue/catalogue.db", "expose_in_sqllab": True,
-          "allow_ctas": False, "allow_cvas": False, "allow_dml": False, "allow_run_async": False,
+          "allow_ctas": False, "allow_cvas": False, "allow_dml": False, "allow_csv_upload": False, "allow_run_async": False,
           "extra": {}, "uuid": uid("database"), "version": "1.0.0"})
     datasets = {
         "runs": {
