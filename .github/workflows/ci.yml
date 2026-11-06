@@ -214,3 +214,57 @@ jobs:
         with:
           name: mongo-and-refresh-tests
           path: mongo-tests.xml
+
+  warehouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SPARK_LOCAL_IP: 127.0.0.1
+      PYSPARK_PYTHON: python
+      DPD_SPARK_PARQUET: data/fixture/parquet
+      DPD_WAREHOUSE_PATH: ${{ github.workspace }}/data/warehouse.duckdb
+      DBT_SEND_ANONYMOUS_USAGE_STATS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: pip install -e '.[dev,warehouse]'
+      - run: make fixture PYTHON=python SNAPSHOT_DATE=2026-11-01
+      - run: python -m dpd_etl.warehouse --parquet-root data/fixture/parquet --snapshot-date 2026-11-01 --local-db data/warehouse.duckdb
+      - run: dbt build --project-dir warehouse --profiles-dir warehouse
+      - run: dbt docs generate --project-dir warehouse --profiles-dir warehouse
+      - run: dbt parse --target snowflake --project-dir warehouse --profiles-dir warehouse --target-path target-snowflake
+      - run: python -m pytest tests/warehouse/test_warehouse.py -q --junitxml=data/warehouse-tests.xml
+      - run: python -m dpd_etl.metrics && git diff --exit-code -- docs/data-dictionary.md warehouse/models/marts/rpt_catalogue.sql
+      - name: Start disposable SQL Server
+        env:
+          DPD_SQLSERVER_PASSWORD: ${{ secrets.DPD_SQLSERVER_TEST_PASSWORD }}
+        run: |
+          export DPD_SQLSERVER_PASSWORD="${DPD_SQLSERVER_PASSWORD:-TestOnly_Dpd2026!ci}"
+          docker compose -f sqlserver/compose.yml up -d --wait
+      - name: Exercise real T-SQL views, foreign keys, row counts and plans
+        env:
+          DPD_SQLSERVER_PASSWORD: ${{ secrets.DPD_SQLSERVER_TEST_PASSWORD }}
+        run: |
+          export DPD_SQLSERVER_PASSWORD="${DPD_SQLSERVER_PASSWORD:-TestOnly_Dpd2026!ci}"
+          python -m dpd_etl.sqlserver --warehouse-db data/warehouse.duckdb --plans data/sqlplans
+          python -m pytest tests/warehouse/test_sqlserver.py -q
+      - if: always()
+        env:
+          DPD_SQLSERVER_PASSWORD: placeholder-for-compose-cleanup
+        run: docker compose -f sqlserver/compose.yml down --volumes --remove-orphans
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: warehouse-validation
+          path: |
+            data/warehouse-tests.xml
+            data/sqlplans/
+            warehouse/target/manifest.json
+            warehouse/target/run_results.json
+            warehouse/target/catalog.json

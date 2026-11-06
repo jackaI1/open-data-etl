@@ -5,7 +5,7 @@ DATA_DIR ?= data
 .PHONY: install test lint fixture evaluate extract transform pipeline insights monitor-demo
 install:
 	uv venv --python 3.12 .venv
-	uv pip install --python $(PYTHON) -e '.[dev,gcp,cloud-test,bigquery]'
+	uv pip install --python $(PYTHON) -e '.[dev,gcp,cloud-test,bigquery,mongo]'
 test:
 	$(PYTHON) -m pytest -q
 lint:

@@ -1,0 +1,170 @@
+version: 2
+models:
+- name: stg_products
+  description: Typed product source. DIN means the eight digit Drug Identification
+    Number.
+  columns:
+  - name: din
+    data_tests:
+    - not_null
+  - name: din_status
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - valid
+- name: dim_product
+  description: One product on one snapshot date. Product keys include the date.
+  columns:
+  - name: product_key
+    description: Snapshot date and Health Canada drug code.
+    data_tests:
+    - unique
+    - not_null
+  - name: din
+    description: Eight digit identification number, kept as text to preserve leading
+      zeros.
+    data_tests:
+    - not_null
+  - name: company_key
+    description: Date and company code, with an explicit UNKNOWN member.
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('dim_company')
+          field: company_key
+- name: dim_company
+  description: One company code per date; deterministic name when source labels differ.
+  columns:
+  - name: company_key
+    description: Snapshot date and company code.
+    data_tests:
+    - unique
+    - not_null
+  - name: company_name
+    description: Source company name, nullable for unknown owners.
+- name: dim_ingredient
+  description: One distinct normalized ingredient name across dates.
+  columns:
+  - name: ingredient_key
+    description: MD5 of normalized ingredient name, independent of strength.
+    data_tests:
+    - unique
+    - not_null
+  - name: ingredient
+    description: Source ingredient name in upper case.
+    data_tests:
+    - unique
+    - not_null
+- name: fct_product
+  description: One product per date, with ingredient and review counts aggregated
+    before joins.
+  columns:
+  - name: product_key
+    data_tests:
+    - unique
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('dim_product')
+          field: product_key
+    entity:
+      type: primary
+      name: product
+  - name: company_key
+    data_tests:
+    - relationships:
+        arguments:
+          to: ref('dim_company')
+          field: company_key
+  - name: ingredient_records
+    description: Number of distinct ingredient, strength and unit records on this
+      product.
+  - name: flagged_strengths
+    description: Count of ingredient strength records requiring review, not a medical
+      finding.
+  - name: snapshot_date
+    granularity: day
+    dimension:
+      type: time
+  - name: drug_class
+    dimension:
+      type: categorical
+  semantic_model:
+    enabled: true
+  agg_time_dimension: snapshot_date
+  metrics:
+  - name: products
+    label: Products
+    type: simple
+    description: Products in the accepted catalogue, counted once per date.
+    agg: count
+    expr: '1'
+  - name: ingredient_records
+    label: Ingredient Records
+    type: simple
+    description: Distinct ingredient, strength and unit records belonging to those
+      products.
+    agg: sum
+    expr: ingredient_records
+  - name: flagged_strengths
+    label: Flagged Strengths
+    type: simple
+    description: Ingredient strength records marked for review, not medical findings.
+    agg: sum
+    expr: flagged_strengths
+- name: fct_product_ingredient
+  description: One product, ingredient, strength and unit per snapshot date.
+  columns:
+  - name: product_ingredient_key
+    data_tests:
+    - unique
+    - not_null
+  - name: product_key
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('dim_product')
+          field: product_key
+  - name: ingredient_key
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('dim_ingredient')
+          field: ingredient_key
+- name: fct_duplicate_pair
+  description: One ordered candidate pair per date; is_match distinguishes flagged
+    duplicates.
+  columns:
+  - name: pair_key
+    data_tests:
+    - unique
+    - not_null
+  - name: left_product_key
+    data_tests:
+    - relationships:
+        arguments:
+          to: ref('dim_product')
+          field: product_key
+  - name: right_product_key
+    data_tests:
+    - relationships:
+        arguments:
+          to: ref('dim_product')
+          field: product_key
+- name: rpt_catalogue
+  description: Product counts, ingredient records and flagged strengths by date and
+    drug class.
+- name: time_spine
+  description: One calendar date from 2020-01-01 for 10000 consecutive days.
+  time_spine:
+    standard_granularity_column: date_day
+  columns:
+  - name: date_day
+    granularity: day
+    data_tests:
+    - unique
+    - not_null

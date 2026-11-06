@@ -106,6 +106,25 @@ The [summary guide](docs/azure-summary.md) includes the start, read and stop
 commands. CI tests both the function and a real timer-driven Functions host;
 I have not deployed this app to Azure.
 
+## Compare counts without counting a product twice
+
+I can build a reporting copy that separates products, companies and ingredients.
+A product with three ingredients still counts as one product. The report checks
+its totals against the files my pipeline wrote and stops if they disagree.
+I start with the same 60-product sample, then follow the
+[warehouse guide](docs/warehouse.md) to run the reporting models without an
+account or configure a Snowflake trial. dbt, a tool that builds and checks SQL
+tables, tests the keys, links and eight-digit product numbers.
+
+I also keep the source rows, cleaned records and reporting counts as three
+Delta layers, so I can see why counts changed between steps. The
+[lakehouse guide](docs/lakehouse.md) includes dosage-form groups, stage counts,
+freshness checks, a scheduled run and a Databricks job configuration. A separate
+SQL Server copy has typed tables, reporting views and count checks. CI runs the
+small example on Linux; I have not run a hosted Snowflake or Databricks account.
+The [generated dictionary](docs/data-dictionary.md) explains the tables and
+metrics in one place.
+
 ## Run locally
 
 Install Python 3.10 to 3.12, Java 17, curl, Make and
@@ -343,3 +362,12 @@ docker compose -f mongo/compose.yml down -v
 ```
 
 The pinned MongoDB container binds only to localhost and is intended for a disposable local demonstration. The copy uses schema validation, a unique snapshot/product index and ingredient lookup indexes. The test deletes its own `dpd_mongo_integration_test` database. Do not point it at a database containing data you need. Publication is a separate step after the pipeline quality gate; interrupted bulk writes can leave a partial copy until the command succeeds again. This is not a transactional snapshot swap.
+
+The warehouse checks exercise the Snowflake Python connector against the fakesnow
+emulator and execute the dbt models with DuckDB. They include transaction rollback,
+leading-zero DINs, a rejected invalid DIN, repeated loads and row reconciliation
+against real Spark-written Parquet. Linux CI runs SQL Server constraints, T-SQL
+views and before/after optimizer plans. The additional Delta tests check bronze,
+silver and gold totals, dosage-form and stage SQL, schema rejection and freshness.
+The [warehouse guide](docs/warehouse.md) explains what these checks establish and
+which hosted-service behavior remains unverified.
