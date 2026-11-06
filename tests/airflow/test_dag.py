@@ -1,16 +1,18 @@
 """Import and execute the actual DAG against an isolated Airflow metadata DB."""
-import importlib.util
 import json
 import logging
 import os
 import shutil
 import zipfile
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 import duckdb
 import pytest
 
-if importlib.util.find_spec("airflow") is None:
+try:
+    version("apache-airflow")
+except PackageNotFoundError:
     pytest.skip("install the airflow extra to run DAG integration tests", allow_module_level=True)
 
 REPO = Path(__file__).resolve().parents[2]
