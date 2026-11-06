@@ -35,3 +35,14 @@ airflow-install:
 airflow-test:
 	$(PYTHON) -c "from airflow.sdk import DAG"
 	$(PYTHON) -m pytest -q tests/test_airflow_tasks.py tests/airflow
+
+.PHONY: delta-install delta-fixture delta-test delta
+delta-install:
+	uv pip install --python $(PYTHON) -e '.[dev,delta]'
+delta-fixture:
+	$(PYTHON) notebooks/health_canada_delta.py --fixture --raw-dir tests/fixtures/raw --delta-root $(DATA_DIR)/fixture/delta --report-dir $(DATA_DIR)/fixture/reports --snapshot-date $(SNAPSHOT_DATE)
+delta:
+	$(PYTHON) notebooks/health_canada_delta.py --raw-dir $(DATA_DIR)/raw/files --delta-root $(DATA_DIR)/delta --report-dir $(DATA_DIR)/reports --snapshot-date $(SNAPSHOT_DATE)
+delta-test:
+	$(PYTHON) -c "import delta"
+	$(PYTHON) -m pytest -q tests/delta
