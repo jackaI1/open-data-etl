@@ -7,6 +7,8 @@ then run `make install` and `make fixture`. The included sample has 60 products
 and needs no account or download. I can search the cleaned catalogue and review
 unusual ingredient strengths without changing the original records.
 
+I can also keep a dated, checked copy in Delta tables, which record changes to stored data. The bronze, silver and gold layers let me trace source rows through cleaning to a per-run quality summary and compare flagged strengths over time. The [lakehouse guide](docs/lakehouse.md) shows how to run the sample or deploy the job to Databricks.
+
 ## Overview
 
 Health Canada's catalogue separates products, ingredients, companies and status

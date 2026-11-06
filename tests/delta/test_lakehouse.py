@@ -1,3 +1,4 @@
+from pathlib import Path
 from datetime import date
 
 import pytest
@@ -26,6 +27,13 @@ def test_bronze_silver_gold_reconciles_rerun_sql_and_partition_plans(lake_spark,
     assert first['cleaned_products'] == first['gold_products'] == 60
     assert run_lakehouse(lake_spark, **args) == first
     spark = lake_spark
+    quality = spark.table('gold_quality').collect()
+    assert len(quality) == 1
+    assert quality[0].raw_rows == 61 and quality[0].cleaned_products == 60
+    assert quality[0].flagged_strengths == first['flagged_strengths']
+    sql = (Path(__file__).resolve().parents[2] / 'notebooks/quality_trends.sql').read_text()
+    spark.sql(sql)
+    assert spark.table('quality_trends').first().gold_products == 60
     assert spark.sql('SELECT sum(products) FROM dosage_cohorts').first()[0] == 60
     stages = {r.stage: r.rows for r in spark.table('stage_funnel').collect()}
     assert stages['raw_rows'] == 61 and stages['cleaned_products'] == 60

@@ -105,6 +105,12 @@ def run_lakehouse(spark, *, raw_dir, delta_root, snapshot_date, report_dir,
         (reports / f'plans_{snapshot_date}.txt').write_text('Unfiltered scan\n' + before + '\nDate-filtered scan\n' + after)
         summary = {'snapshot_date': snapshot_date, **counts,
                    'raw_duplicate_rows': counts['raw_rows'] - counts['raw_distinct_keys']}
+        quality = spark.createDataFrame([tuple(summary.values())], schema=(
+            'snapshot_date string, raw_rows long, cleaned_products long, raw_distinct_keys long, '
+            'gold_products long, ingredient_records long, flagged_strengths long, raw_duplicate_rows long'
+        )).withColumn('snapshot_date', F.col('snapshot_date').cast('date'))
+        write_snapshot(quality, f'{delta_root}/gold_quality', snapshot_date)
+        spark.read.format('delta').load(f'{delta_root}/gold_quality').createOrReplaceTempView('gold_quality')
         receipt.write_text(json.dumps(summary, indent=2) + '\n')
         return summary
 
