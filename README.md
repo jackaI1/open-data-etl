@@ -77,8 +77,7 @@ a result. These flags help me review data, not make medical decisions.
 ## Compare runs in a dashboard
 
 I can compare product counts, flagged records, possible duplicate pairs and run
-seconds in Apache Superset, a free dashboard tool similar to Power BI, Looker
-and Tableau. I added it because separate dated reports made changes harder to
+seconds in Apache Superset, a free dashboard tool. I added it because separate dated reports made changes harder to
 compare. After `make install`, on a machine with Docker and Compose I run:
 
 ```sh
@@ -338,8 +337,8 @@ stay correct in different browser timezones. The tests check bulk loads, explici
 field types, repeated dates, cleared
 flags, preserved history and failed document handling. It also imports and
 exports the seven dashboard objects, including three saved searches. The local
-stack needs no account and is a free option for search and dashboards similar to
-those I would build in Splunk; I have not used Splunk in this project.
+stack needs no account. It lets me search the saved catalogue and inspect the
+records behind each chart.
 
 The Superset CI job imports the eleven-chart export into Superset 4.1.2, runs
 all chart queries and date/class filters through its HTTP API, then exports it
