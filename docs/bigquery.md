@@ -208,8 +208,10 @@ records with enough peers count. It also checks the stored match flag against
 `exact_din` and `fuzzy_match` reasons. It uses the peer statistics and comparison
 results already computed by Spark; it does not repeat pair generation in SQL.
 637 is the measured flag count from the full 2026-11-06 download in the Delta
-guide, not a constant substituted into a health check. Small fixture tests
-assert their own counts, including a known outlier. No cloud account was used
+guide, not a constant substituted into a health check. The integration test injects a labelled outlier group and one duplicate DIN
+into a copy of the 60-product sample. Real Spark computes one strength flag and
+one matching pair; the parameterized SQL must reproduce both totals. The
+original fixture files remain unchanged. No cloud account was used
 for the new tests.
 
 Run this after a completed load, with a single writer for each dataset/date.

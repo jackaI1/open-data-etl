@@ -10,7 +10,6 @@ import os
 import socket
 import subprocess
 import time
-from pathlib import Path
 
 import duckdb
 import pytest
@@ -140,11 +139,35 @@ def view_rows(client, dataset, snapshot=DAY):
     ).result(timeout=30)]
 
 
-def test_real_pipeline_snapshot_upload_rerun_and_history(emulator, tmp_path):
+def test_real_pipeline_snapshot_upload_rerun_and_history(emulator, tmp_path, raw_dir):
+    # Inject labelled QA cases into a copy, then let the actual Spark detector
+    # compute the flags. SQL must reproduce nonzero counts, not just zero totals.
+    import csv
+
     from dpd_etl.config import FIXTURE_THRESHOLDS
     from dpd_etl.pipeline import run
 
-    run(Path("tests/fixtures/raw"), tmp_path, DAY, FIXTURE_THRESHOLDS)
+    ingredients = raw_dir / "ingred.txt"
+    with ingredients.open(newline="") as handle:
+        rows = list(csv.reader(handle))
+    used = set()
+    for row in rows:
+        if row[0] not in used and len(used) < 12:
+            row[2] = "BIGQUERY TEST INGREDIENT"
+            row[4] = str(1000 if len(used) == 11 else 90 + 2 * len(used))
+            row[5] = "MG"
+            used.add(row[0])
+    assert len(used) == 12
+    with ingredients.open("w", newline="") as handle:
+        csv.writer(handle, quoting=csv.QUOTE_ALL).writerows(rows)
+    drugs = raw_dir / "drug.txt"
+    with drugs.open(newline="") as handle:
+        rows = list(csv.reader(handle))
+    rows[1][3] = rows[0][3]  # Same DIN, distinct product IDs.
+    with drugs.open("w", newline="") as handle:
+        csv.writer(handle, quoting=csv.QUOTE_ALL).writerows(rows)
+
+    run(raw_dir, tmp_path, DAY, FIXTURE_THRESHOLDS)
     root = tmp_path / "parquet"
     result = load_snapshot(emulator, root, PROJECT, "pipeline", DAY)
     rows = view_rows(emulator, "pipeline")
@@ -157,6 +180,7 @@ def test_real_pipeline_snapshot_upload_rerun_and_history(emulator, tmp_path):
     expected_summary = accepted_summary(tmp_path, DAY)
     actual = health_checks(emulator, PROJECT, "pipeline", DAY, expected=expected_summary)
     assert actual["rows_processed"] == 60
+    assert actual["flagged_strengths"] == actual["duplicate_pairs"] == 1
     assert actual["flagged_strengths"] == expected_summary["flagged_strengths"]
     with duckdb.connect() as con:
         expected = con.execute(
