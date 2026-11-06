@@ -9,8 +9,7 @@ params:
   metrics:
   - flagged_share
   metric: flagged_share
-  groupby:
-  - drug_class
+  groupby: []
   time_range: No filter
   granularity_sqla: snapshot_date
   time_grain_sqla: P1D

@@ -34,7 +34,9 @@ with requests.Session() as session:
                      "time_range": "No filter", "row_limit": 10000,
                      "granularity": "snapshot_date", "is_timeseries": False,
                      "order_desc": True}
-        if params["viz_type"].startswith("echarts") and not params["groupby"]:
+        if params["viz_type"].startswith("echarts") and params["x_axis"] != "snapshot_date":
+            query["columns"] = [params["x_axis"], *params["groupby"]]
+        elif params["viz_type"].startswith("echarts"):
             query.update(columns=[{"timeGrain": "P1D", "columnType": "BASE_AXIS",
                 "sqlExpression": "snapshot_date", "label": "snapshot_date",
                 "expressionType": "SQL"}])

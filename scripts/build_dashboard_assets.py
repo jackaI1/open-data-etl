@@ -95,6 +95,8 @@ def main():
             params.update(x_axis="snapshot_date" if not groups else groups[0],
                           x_axis_sort_asc=True, truncate_metric=True,
                           show_value=False)
+        if viz == "echarts_timeseries_bar":
+            params["groupby"] = []  # x_axis already supplies the class column
         if metric == "flagged_share":
             params["y_axis_format"] = ".0%"
         chart_id = uid(name)

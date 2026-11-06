@@ -33,6 +33,7 @@ with sync_playwright() as playwright:
         deadline = time.monotonic() + 120
         while len(completed) < 11 and not errors and time.monotonic() < deadline:
             page.wait_for_timeout(500)
+        page.wait_for_load_state("networkidle", timeout=60000)
         assert not errors, errors
         assert len(completed) >= 11, f"only {len(completed)} successful browser queries"
         assert page.get_by_text("Products processed", exact=True).count() >= 1

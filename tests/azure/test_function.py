@@ -1,5 +1,6 @@
 """Use the Functions SDK's registered timer and real Azurite storage in CI."""
 
+from contextlib import suppress
 import importlib.util
 import json
 import os
@@ -10,16 +11,18 @@ from uuid import uuid4
 import pytest
 
 func = pytest.importorskip("azure.functions")
+from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.blob import BlobServiceClient
 
 ROOT = Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location("summary_function", ROOT / "azure_summary/function_app.py")
 function_app = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(function_app)
+FUNCTIONS = function_app.app.get_functions()
 
 
 def test_real_functions_registration_and_invocation(monkeypatch):
-    functions = function_app.app.get_functions()
+    functions = FUNCTIONS
     assert len(functions) == 1
     registered = functions[0]
     assert registered.get_function_name() == "daily_quality_summary"
@@ -60,7 +63,7 @@ def test_timer_writes_replaces_and_reads_real_azurite(monkeypatch):
     with BlobServiceClient.from_connection_string(connection) as service:
         client = service.get_container_client(container)
         try:
-            registered = function_app.app.get_functions()[0]
+            registered = FUNCTIONS[0]
             for past_due in (False, True):
                 registered.get_user_function()(Mock(spec=func.TimerRequest, past_due=past_due))
             blobs = list(client.list_blobs())
@@ -69,4 +72,5 @@ def test_timer_writes_replaces_and_reads_real_azurite(monkeypatch):
             assert json.loads(blob.download_blob().readall()) == expected
             assert blob.get_blob_properties().content_settings.content_type == "application/json"
         finally:
-            client.delete_container()
+            with suppress(ResourceNotFoundError):
+                client.delete_container()
