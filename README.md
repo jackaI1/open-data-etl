@@ -238,7 +238,7 @@ contains the diagram, table descriptions, example queries, measured data
 summaries and source links. Only marketed products are included; the approved,
 cancelled and dormant catalogues are separate upstream downloads.
 
-CI runs lint, 89 pipeline and task tests, two Airflow runtime tests, the sample
+CI runs lint, the pipeline and task tests, two Airflow runtime tests, the sample
 pipeline, the detection evaluation and the monitoring demo. The demo receives
 61 Datadog packets across one successful and
 one rejected snapshot. Its captured report is included in the CI artifact.
@@ -264,8 +264,11 @@ versions. The notebook and the original local pipeline share the same cleaning
 and quality gate. Each Delta table commits separately; if a run stops between
 tables, I rerun that date before reviewing it.
 
-The Elastic CI job runs the 60-product sample through real Elasticsearch and
-Kibana 8.19.6. It checks bulk loads, explicit field types, repeated dates, cleared
+The Elastic CI job runs 13 export and server checks with Elasticsearch and
+Kibana 8.19.6. The 60-product sample produces 173 searchable documents, including
+its ingredient checks and quality results. Kibana uses UTC so the snapshot dates
+stay correct in different browser timezones. The tests check bulk loads, explicit
+field types, repeated dates, cleared
 flags, preserved history and failed document handling. It also imports and
 exports the seven dashboard objects, including three saved searches. The local
 stack needs no account and is a free option for search and dashboards similar to

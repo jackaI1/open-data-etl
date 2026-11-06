@@ -175,3 +175,14 @@ def test_export_real_pipeline_sample(server):
     checks = search(server, {"size": 100, "query": {"term": {"kind": "quality_check"}}})
     assert checks["hits"]["total"]["value"] >= 10
     assert all(h["_source"]["passed"] for h in checks["hits"]["hits"])
+
+
+def test_kibana_keeps_snapshot_calendar_dates_in_utc():
+    url = os.environ.get("KIBANA_URL")
+    if not url:
+        pytest.skip("set KIBANA_URL to verify the actual dashboard timezone")
+    with urlopen(f"{url}/api/kibana/settings", timeout=30) as response:
+        settings = json.load(response)["settings"]
+    timezone = settings.get("dateFormat:tz", {})
+    assert timezone.get("userValue", "Browser") == "UTC", timezone
+    assert timezone.get("isOverridden") is True, timezone

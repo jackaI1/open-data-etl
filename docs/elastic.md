@@ -29,6 +29,7 @@ make elastic-import
 I open <http://127.0.0.1:15601/app/dashboards#/view/dpd-quality>.
 The dashboard uses the last year by default. For older saved snapshots I choose
 an absolute date range that includes them, then click **Refresh**.
+I keep Kibana in UTC so calendar dates stay correct in every browser timezone.
 The top charts count flagged ingredient rows and matched duplicate pairs per
 snapshot date. Each pair counts once, not once per product. The tables below
 show the flagged strengths, matched pairs, and searchable product catalogue.
@@ -121,7 +122,10 @@ disabled for this local setup. I do not expose these ports publicly. For a secur
 external Elasticsearch service I set `ELASTICSEARCH_URL` to an HTTPS endpoint and
 `ELASTIC_API_KEY` in the environment. I keep keys out of commands and files.
 Custom `--prefix` exports need a matching Kibana data view; the shipped dashboard
-uses `dpd-snapshots`. Host ports can be changed with `ES_PORT` and `KIBANA_PORT`;
+uses `dpd-snapshots`. If I import the export into another Kibana instance, I also
+set its Advanced Settings time zone (`dateFormat:tz`) to **UTC** so a midnight
+snapshot is not shown under the previous day in Toronto. The included
+`elastic/kibana.yml` locks this setting for the local stack. Host ports can be changed with `ES_PORT` and `KIBANA_PORT`;
 I then set the export URL and adjust the curl/browser URL as well.
 
 ## Dashboard artifact and checks

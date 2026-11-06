@@ -27,6 +27,8 @@ services:
     ports:
       - '127.0.0.1:${KIBANA_PORT:-15601}:5601'
     mem_limit: 1536m
+    volumes:
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     depends_on:
       elasticsearch:
         condition: service_healthy
