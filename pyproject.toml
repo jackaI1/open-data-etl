@@ -13,6 +13,7 @@ dependencies = ["pyspark>=3.5,<4", "duckdb>=1.0,<3", "datadog>=0.56,<1"]
 bigquery = ["google-cloud-bigquery>=3.27,<4"]
 dev = ["pytest>=8", "ruff>=0.5"]
 gcp = ["google-cloud-storage>=2.18,<4", "flask>=3,<4", "gunicorn>=23,<24"]
+airflow = ["apache-airflow==3.3.2"]
 cloud-test = ["google-cloud-batch>=0.17,<1"]
 
 [tool.setuptools.packages.find]

@@ -13,3 +13,5 @@ derby.log
 *.tfplan
 *.tfvars
 !*.tfvars.example
+
+.airflow/

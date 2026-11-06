@@ -2,6 +2,9 @@
 
 I built a local copy of Canada's drug catalogue because I wanted to look up products and their history without piecing together several files each time.
 
+To try it, install the local tools listed below, then run `make install` and
+`make fixture`. The included sample has 60 products and needs no account or download.
+
 ## Overview
 
 Health Canada's catalogue separates products, ingredients, companies and status
@@ -26,6 +29,12 @@ I can also watch run times, product counts and rejected snapshots without
 opening each report. The optional monitoring sends summary numbers to Datadog,
 a service for watching software runs. `make monitor-demo` tries a good snapshot
 and a deliberately broken one on this computer, with no account needed.
+
+I can schedule the same work each day and retry just the step that failed.
+Airflow, a tool for scheduling ordered tasks, keeps a separate copy for each
+date. I can rerun a date or fill in earlier dates from saved downloads without
+adding duplicate rows. The [scheduling guide](docs/airflow.md) starts with a local
+sample and shows how to turn on the daily schedule.
 
 This is a personal project for exploring Canada's drug catalogue and keeping a
 queryable copy of its history. It uses public product and company data.
@@ -113,6 +122,19 @@ SQL counts ingredients and flags before joining them, so several ingredients do
 not inflate the flag count. A failed rerun can temporarily hide that date's
 summary; rerunning repairs it. I serialize uploads for the same date.
 
+## Schedule daily snapshots
+
+After `make install`, run `make airflow-install` and `make airflow-test` to try
+the scheduler tests without a server or account. The [Airflow guide](docs/airflow.md)
+shows the commands to run the sample, start a local scheduler and backfill,
+meaning process earlier dates. I keep each date's original download so retries
+use the same input. An older date without a saved download fails, since the
+current catalogue cannot reconstruct history.
+
+Each date has its own database under `data/airflow/snapshots/`. I accept the
+results only after a final check writes `complete.json`. This keeps the existing
+local and cloud commands available alongside the daily schedule.
+
 ## Run in Google Cloud
 
 I use this option when I want a run to finish without keeping my laptop open.
@@ -168,8 +190,9 @@ contains the diagram, table descriptions, example queries, measured data
 summaries and source links. Only marketed products are included; the approved,
 cancelled and dormant catalogues are separate upstream downloads.
 
-CI runs lint, 75 tests, the sample pipeline, the detection evaluation and the
-monitoring demo. The demo receives 61 Datadog packets across one successful and
+CI runs lint, 89 pipeline and task tests, two Airflow runtime tests, the sample
+pipeline, the detection evaluation and the monitoring demo. The demo receives
+61 Datadog packets across one successful and
 one rejected snapshot. Its captured report is included in the CI artifact.
 The cloud checks also validate infrastructure, build the container, run the sample
 inside it and check the report server. I have verified the storage flow with
@@ -180,3 +203,8 @@ including a 60-product export, repeated dates, preserved history and cleared
 flags. Separate tests check the production load configuration. I have not
 measured query cost or clustering speedups in Google's cloud; the emulator
 checks results and cannot reproduce cloud billing or physical storage behavior.
+
+The Airflow tests execute 12 real task instances across two dates and one rerun.
+They compare all six output tables, check retries and task ordering, and reject
+missing historical archives and corrupt input. The [scheduling guide](docs/airflow.md)
+explains shared-storage requirements and the limits of dated snapshots.
