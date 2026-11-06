@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 from pyspark.sql import functions as F
 
-pytest.importorskip("delta", reason="install .[delta] for the Delta integration suite")
+pytest.importorskip("delta.tables", reason="install .[delta] for the Delta integration suite")
 
 from delta.tables import DeltaTable
 
