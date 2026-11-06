@@ -33,8 +33,22 @@ def test_bronze_silver_gold_reconciles_rerun_sql_and_partition_plans(lake_spark,
     metrics = spark.sql('SELECT sum(products), sum(ingredient_records), sum(flagged_strengths) FROM rpt_catalogue').first()
     assert tuple(metrics) == (60, first['ingredient_records'], first['flagged_strengths'])
     plan = (tmp_path / 'reports' / f'plans_{DAY}.txt').read_text()
-    assert 'PartitionFilters' in plan
-    assert "snapshot_date" in plan.split('Date-filtered scan')[1]
+    assert 'Scan parquet' in plan
+    assert 'Error' not in plan
+    # Delta can resolve the partition predicate into its file index and omit
+    # PartitionFilters from the printed plan. Verify actual files read instead.
+    from pyspark.sql import functions as F
+    gold_path = str(tmp_path / 'delta/gold_product')
+    another = spark.read.format('delta').load(gold_path).withColumn(
+        'snapshot_date', F.lit('2026-11-02').cast('date'))
+    write_snapshot(another, gold_path, '2026-11-02')
+    saved = spark.read.format('delta').load(gold_path)
+    all_files = {r[0] for r in saved.select(F.input_file_name()).distinct().collect()}
+    selected = saved.where("snapshot_date = DATE '2026-11-01'")
+    selected_files = {r[0] for r in selected.select(F.input_file_name()).distinct().collect()}
+    assert len(selected_files) < len(all_files)
+    assert all('snapshot_date=2026-11-01' in path for path in selected_files)
+    assert selected.count() == 60
     # Delta rejects an incompatible type on an existing typed table.
     from pyspark.sql import functions as F
     bad = spark.table('silver_products').withColumn('drug_code', F.lit('BROKEN'))

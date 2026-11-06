@@ -53,7 +53,9 @@ The job saves `EXPLAIN FORMATTED` plans for an unfiltered scan and a date-filter
 scan. I compare `PartitionFilters` and the scan's data filters in
 `plans_YYYY-MM-DD.txt`. Date predicates prune partitions; other predicates can
 be pushed down into Parquet scans. I don't claim a runtime speedup from this
-small sample. Tests check the date filter appears in the filtered plan.
+small sample. Tests also compare the actual files read across two date partitions, since Delta
+can fold a partition predicate into its file index and omit that label from the
+printed plan. The selected date reads fewer files and returns 60 products.
 
 ## Run as a Databricks job
 

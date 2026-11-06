@@ -100,8 +100,8 @@ def run_lakehouse(spark, *, raw_dir, delta_root, snapshot_date, report_dir,
         # Keep both plans. Filtering at the scan prunes Delta's date partitions.
         before = '\n'.join(r[0] for r in spark.sql('EXPLAIN FORMATTED SELECT * FROM gold_product').collect())
         after = '\n'.join(r[0] for r in spark.sql(
-            'EXPLAIN FORMATTED SELECT * FROM gold_product WHERE snapshot_date = :day',
-            args={'day': snapshot_date}).collect())
+            f"EXPLAIN FORMATTED SELECT * FROM gold_product WHERE snapshot_date = DATE '{snapshot_date}'"
+        ).collect())
         (reports / f'plans_{snapshot_date}.txt').write_text('Unfiltered scan\n' + before + '\nDate-filtered scan\n' + after)
         summary = {'snapshot_date': snapshot_date, **counts,
                    'raw_duplicate_rows': counts['raw_rows'] - counts['raw_distinct_keys']}
