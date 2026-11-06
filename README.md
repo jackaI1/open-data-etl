@@ -24,6 +24,13 @@ and a deliberately broken one on this computer, with no account needed.
 This is a personal project for exploring Canada's drug catalogue and keeping a
 queryable copy of its history. It uses public product and company data.
 
+For longer runs, I can put the source files in Google Cloud Storage (GCS), a cloud
+file store, and run the same pipeline on Cloud Batch, which starts a temporary
+computer for the job. Cloud Run hosts a small page where I can read that run's
+checks. Each attempt keeps its own outputs, including rejected-run reports.
+The [cloud guide](docs/gcp.md) walks through deployment and cleanup; the local
+cloud tests below work without an account.
+
 ## Run locally
 
 Install Python 3.10 to 3.12, Java 17, curl, Make and
@@ -63,6 +70,30 @@ of tables. Quality checks run before either output is written. A failed database
 load rolls back its changes, but the table files and database are separate
 stores, so recovery can require rerunning that date.
 
+## Run in Google Cloud
+
+I use this option when I want a run to finish without keeping my laptop open.
+It needs a cloud project with billing enabled, Docker, Terraform and Google's
+`gcloud` command. After `make install` and `gcloud auth login` plus
+`gcloud auth application-default login`, I can deploy and try the sample:
+
+```sh
+export PROJECT_ID=my-project-id BUCKET=my-unique-dpd-bucket
+export SNAPSHOT_DATE=2026-11-01 RUN_ID=sample-001 FIXTURE=true
+scripts/deploy_gcp.sh deploy
+gcloud storage cp tests/fixtures/raw/*.txt "gs://$BUCKET/raw/$SNAPSHOT_DATE/"
+scripts/deploy_gcp.sh submit
+gcloud run services proxy dpd-report --project "$PROJECT_ID" --region us-central1 --port 8080
+# Open http://localhost:8080/reports/2026-11-01/sample-001
+# Ctrl-C stops the local report proxy.
+```
+
+The job description checks stay in `infra/gcp/`; the script builds and submits
+the container, a package of the program and its dependencies. The
+[cloud guide](docs/gcp.md) explains real-data uploads, job state, using an earlier
+snapshot for comparisons, permissions, costs and removing resources when finished.
+I accept a snapshot only when its `complete.json` record exists in the bucket.
+
 ## Watching scheduled runs
 
 I keep monitoring off unless I choose to enable it. With a Datadog Agent, the
@@ -82,6 +113,8 @@ changes whether a snapshot passes its checks.
 
 ```sh
 make lint test
+# Exercise cloud storage boundaries and the report page without a cloud account:
+.venv/bin/python -m pytest -q tests/test_gcp.py
 ```
 
 The tests use a small public-data sample and cover cleaning, history intervals,
@@ -92,6 +125,9 @@ contains the diagram, table descriptions, example queries, measured data
 summaries and source links. Only marketed products are included; the approved,
 cancelled and dormant catalogues are separate upstream downloads.
 
-CI runs lint, 48 tests, the sample pipeline, the detection evaluation and the
+CI runs lint, 60 tests, the sample pipeline, the detection evaluation and the
 monitoring demo. The demo receives 61 Datadog packets across one successful and
 one rejected snapshot. Its captured report is included in the CI artifact.
+The cloud checks also validate infrastructure, build the container, run the sample
+inside it and check the report server. I have verified the storage flow with
+mocked clients; running it on GCP requires a project with billing enabled.

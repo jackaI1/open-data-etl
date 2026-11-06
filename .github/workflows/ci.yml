@@ -20,8 +20,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - run: python -m pip install -e '.[dev]'
+      - run: python -m pip install -e '.[dev,gcp,cloud-test]'
       - run: make lint test fixture evaluate monitor-demo PYTHON=python SNAPSHOT_DATE=2026-11-01
+      - name: Render a deployment without credentials
+        run: PROJECT_ID=sample-project BUCKET=sample-dpd-data RUN_ID=sample FIXTURE=true PYTHON=python scripts/deploy_gcp.sh render
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -30,3 +32,29 @@ jobs:
             data/fixture/reports/
             data/reports/detection_evaluation.json
             data/reports/monitoring-demo.json
+            data/gcp/job.json
+  gcp-config:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.9.8'
+      - run: terraform -chdir=infra/gcp fmt -check
+      - run: terraform -chdir=infra/gcp init -backend=false -input=false -lockfile=readonly
+      - run: terraform -chdir=infra/gcp validate
+      - run: terraform -chdir=infra/gcp test
+      - run: bash -n scripts/deploy_gcp.sh
+      - run: docker build --target report -t dpd-report:test .
+      - name: Run real Spark sample inside the Batch image
+        run: >-
+          docker run --rm --entrypoint python
+          -v "$PWD/tests/fixtures/raw:/fixtures:ro" dpd-report:test
+          -m dpd_etl transform --fixture --raw-dir /fixtures
+          --data-dir /tmp/output --snapshot-date 2026-11-01
+      - name: Check report HTTP server inside the container
+        run: >-
+          docker run --rm --entrypoint python
+          -v "$PWD/scripts/smoke_report.py:/tmp/smoke_report.py:ro"
+          dpd-report:test /tmp/smoke_report.py
