@@ -2,7 +2,7 @@
 
 I use three Delta layers so I can check where a changed count came from. Bronze
 keeps the raw product rows, silver keeps cleaned products and ingredient-strength
-checks, and gold keeps one product per date with reporting counts. Delta tables
+checks, and gold keeps one product per date and a quality summary for each run date. Delta tables
 are files with a transaction log; rerunning a date replaces its partition.
 
 ```sh
@@ -28,6 +28,13 @@ written only when key, reference and total checks pass. On this sample, 61 raw
 rows include one old duplicate, leaving 60 products in both silver and gold.
 Tables commit separately, so readers must require the receipt and serialize
 writers for a date; a failed rerun removes the old receipt before starting.
+
+The `gold_quality` Delta table saves the reconciled counts for each date. The
+notebook-style SQL in `notebooks/quality_trends.sql` creates a `quality_trends`
+view from that table, including the change in flagged strengths from the previous
+date. Run it in the same session after the job, or first load the saved Delta
+table into a `gold_quality` temporary view. A receipt is needed for each date
+before treating its counts as complete.
 
 After the job runs, these Spark SQL views are available in its session:
 
