@@ -10,6 +10,7 @@ from pyspark.sql import functions as F
 
 from .config import FIXTURE_THRESHOLDS, Thresholds
 from .delta_job import get_delta_spark, valid_date, write_snapshot
+from .delta_ops import check_release_order, load_raw_files, merge_release
 from .detection import detect_strength_anomalies
 from .metrics import definitions, report_sql
 from .monitoring import Monitor
@@ -43,6 +44,7 @@ def run_lakehouse(spark, *, raw_dir, delta_root, snapshot_date, report_dir,
     receipt = reports / f'lakehouse_{snapshot_date}.json'
     receipt.unlink(missing_ok=True)
     validate_freshness(snapshot_date, as_of)
+    check_release_order(spark, delta_root, snapshot_date)
     day = F.lit(snapshot_date).cast('date')
     with checked_snapshot(spark, Path(raw_dir), snapshot_date,
                           FIXTURE_THRESHOLDS if fixture else Thresholds(), None,
@@ -76,6 +78,10 @@ def run_lakehouse(spark, *, raw_dir, delta_root, snapshot_date, report_dir,
         if strengths.join(products, ['snapshot_date', 'drug_code'], 'left_anti').count():
             raise ValueError('ingredient foreign key does not exist')
         write_snapshot(gold, f'{delta_root}/gold_product', snapshot_date)
+        # Bronze keeps each raw file as received; current_products is merged, not rewritten.
+        load_raw_files(spark, Path(raw_dir), delta_root, snapshot_date)
+        merge = merge_release(spark, delta_root, silver, snapshot_date)
+        (reports / f'merge_{snapshot_date}.json').write_text(json.dumps(merge, indent=2) + '\n')
         spark.read.format('delta').load(f'{delta_root}/gold_product').createOrReplaceTempView('gold_product')
         spark.sql(report_sql('gold_product')).createOrReplaceTempView('rpt_catalogue')
         # Cohorts group by dosage form; funnel stages use their own grain.

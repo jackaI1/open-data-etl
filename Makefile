@@ -58,3 +58,16 @@ elastic-import:
 	curl --fail --silent --show-error -X POST 'http://127.0.0.1:15601/api/saved_objects/_import?overwrite=true' -H 'kbn-xsrf: true' --form file=@elastic/dashboard.ndjson
 elastic-test:
 	PYTHON=$(PYTHON) scripts/test_elastic.sh
+
+# Monthly release archive in Azure Blob Storage. Set DPD_ARCHIVE_CONNECTION_STRING first.
+ARCHIVE_OUTPUT_DIR ?= $(DATA_DIR)/lakehouse
+RESTORE_DIR ?= $(DATA_DIR)/restored
+.PHONY: archive-upload archive-list archive-restore archive-test
+archive-upload:
+	$(PYTHON) -m dpd_etl.archive upload --snapshot-date $(SNAPSHOT_DATE) --raw-dir $(DATA_DIR)/raw/files --output-dir $(ARCHIVE_OUTPUT_DIR)
+archive-list:
+	$(PYTHON) -m dpd_etl.archive list
+archive-restore:
+	$(PYTHON) -m dpd_etl.archive restore --snapshot-date $(SNAPSHOT_DATE) --dest $(RESTORE_DIR)
+archive-test:
+	$(PYTHON) -m pytest -q tests/azure/test_archive.py
