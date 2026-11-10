@@ -51,6 +51,34 @@ distinct raw product keys with cleaned and gold products, then compare ingredien
 and flagged-strength totals. Reconciliation fails on any difference. Metrics
 and lineage come from [one definition file](../src/dpd_etl/metrics.yml).
 
+## Monthly merges, version comparisons and schema checks
+
+Each run also merges its products into `current_products`, one row per drug code,
+with Delta's `MERGE`. A product that changed is updated, a new one is inserted, and
+one missing from the release is marked `active = false` rather than deleted. The
+run writes `merge_YYYY-MM-DD.json` with the inserted and updated counts. Rerunning
+the same release changes nothing, and an older release is refused once a newer one
+has loaded.
+
+Every merge is a Delta commit, so I can compare two releases without reprocessing
+the source files. This compares the first two versions of the table:
+
+```python
+from dpd_etl.delta_job import get_delta_spark
+from dpd_etl.delta_ops import compare_versions, table_versions
+
+spark = get_delta_spark()
+root = "data/lakehouse"
+versions = table_versions(spark, root)
+print(compare_versions(spark, root, versions[0], versions[-1]))
+```
+
+The result counts added, removed, changed and deactivated drug codes. Changed means
+the row's SHA-256 over its columns differs. A release with a new, missing or retyped
+column is rejected before the current table changes, and the error names the column. Bronze keeps
+each raw file in `bronze_raw_files` with its SHA-256, byte count, line count, load
+time and the exact bytes, so a later question can be checked against the original.
+
 ## Query optimization I can inspect
 
 I partition by snapshot date because review queries nearly always select a date.

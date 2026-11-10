@@ -7,7 +7,7 @@ then run `make install` and `make fixture`. The included sample has 60 products
 and needs no account or download. I can search the cleaned catalogue and review
 unusual ingredient strengths without changing the original records.
 
-I can also keep a dated, checked copy in Delta tables, which record changes to stored data. The bronze, silver and gold layers let me trace source rows through cleaning to a per-run quality summary and compare flagged strengths over time. The [lakehouse guide](docs/lakehouse.md) shows how to run the sample or deploy the job to Databricks.
+I can also keep a dated, checked copy in Delta tables, which record changes to stored data. The bronze, silver and gold layers let me trace source rows through cleaning to a per-run quality summary and compare flagged strengths over time. The [lakehouse guide](docs/lakehouse.md) shows how to run the sample or deploy the job to Databricks. I can also archive each monthly download to Azure Blob Storage and restore any month with its checksums verified.
 
 ## Overview
 
@@ -190,6 +190,40 @@ The [notebook guide](docs/delta.md) shows how to reopen the tables, query a date
 and pass the parameters in Databricks, a hosted service for running Spark jobs.
 I have tested this workflow with local Spark and Delta Lake; I have not run it
 in a hosted Databricks workspace.
+
+## Add each month without reprocessing everything
+
+Each new monthly download is merged into one `current_products` table, keyed by
+drug code. A product that changed is updated, a new one is added, and one that
+disappeared is marked inactive rather than deleted. Rerunning the same month
+changes nothing. Delta keeps every committed version, so I can compare two months
+and see how many products were added, changed or deactivated, without parsing the
+source files again. A download with a new or retyped column is refused before the current table
+changes, and the error names the column. The raw files are also kept byte for byte,
+each with its checksum, in `bronze_raw_files`. The [lakehouse guide](docs/lakehouse.md)
+has the commands.
+
+## Keep monthly releases in Azure
+
+I built an archive for the monthly downloads because I wanted them off my laptop
+and reproducible. `make archive-upload` sends one month's raw files and Delta tables
+to a private Azure Blob Storage container, a cloud file store. A manifest records
+every file's SHA-256 checksum. `make archive-list` shows the stored months, and
+`make archive-restore` downloads one back and refuses any file that fails its checksum.
+
+```sh
+export DPD_ARCHIVE_CONNECTION_STRING='...'  # the storage account's connection string
+make archive-upload SNAPSHOT_DATE=2026-11-06
+make archive-list
+make archive-restore SNAPSHOT_DATE=2026-11-06 RESTORE_DIR=data/restored
+```
+
+The storage account, its container and the access rules are a Bicep template in
+[`infra/azure/main.bicep`](infra/azure/main.bicep). Bicep is Azure's file format for
+describing resources, so the same setup can be rebuilt later. The tests run against
+Azurite, Microsoft's free local storage emulator, so no account or cost is needed.
+The [archive guide](docs/archive.md) has the setup steps, the tests and what I have not
+checked in a real subscription.
 
 ## Query a saved snapshot in BigQuery
 

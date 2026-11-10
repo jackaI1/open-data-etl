@@ -196,6 +196,17 @@ jobs:
           docker compose -p dpd-azure-test -f azure_summary/compose.yml logs --tail 60
           docker compose -p dpd-azure-test -f azure_summary/compose.yml down --volumes --remove-orphans
 
+  azure-infra:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and lint the storage template with the Azure CLI's Bicep
+        run: |
+          az bicep version
+          az bicep build --file infra/azure/main.bicep --stdout > /dev/null
+          az bicep lint --file infra/azure/main.bicep
+
   mongo:
     runs-on: ubuntu-latest
     timeout-minutes: 10
