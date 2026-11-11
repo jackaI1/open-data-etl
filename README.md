@@ -228,6 +228,15 @@ Azurite, Microsoft's free local storage emulator, so no account or cost is neede
 The [archive guide](docs/archive.md) has the setup steps, the tests and what I have not
 checked in a real subscription.
 
+I do not want to run that by hand every month, so a timer in the Azure Functions host also
+archives the accepted snapshot once a day (08:30 UTC by default). It uploads only after the
+same checks pass, including the duplicate-pair and unusual-strength counts. If that date is
+already archived, it compares my local files with the stored checksums instead of uploading
+them again, and it stops with an error if a file has changed. I have run this on my computer
+against Azurite, not in a deployed Azure app; CI also starts the real Functions host.
+`make azure-test` runs its tests, and the [archive guide](docs/archive.md#archive-on-a-daily-timer)
+lists the settings.
+
 ## Query a saved snapshot in BigQuery
 
 After `make install` and the sample run above, I can test the export and review
@@ -382,7 +391,8 @@ records behind each chart.
 The Superset CI job imports the eleven-chart export into Superset 4.1.2, runs
 all chart queries and date/class filters through its HTTP API, then exports it
 again. The Azure summary job invokes the Functions SDK harness against Azurite
-and starts the real Functions host to verify a timer-written blob. Both jobs
+and starts the real Functions host to verify both timers: a summary blob and a
+checksummed release manifest. Both jobs
 clean up their containers. Small local checks run without containers; the Linux
 integration checks run in GitHub Actions.
 

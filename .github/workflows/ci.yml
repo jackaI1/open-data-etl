@@ -170,6 +170,7 @@ jobs:
       PYSPARK_PYTHON: python
       DPD_SNAPSHOT_DATE: '2026-11-01'
       DPD_SUMMARY_SCHEDULE: '*/5 * * * * *'
+      DPD_ARCHIVE_SCHEDULE: '*/5 * * * * *'
       AZURITE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=dpdlocal;AccountKey=ZHBkLWxvY2FsLWVtdWxhdG9yLW9ubHkta2V5LTAwMDE=;BlobEndpoint=http://127.0.0.1:11000/dpdlocal;QueueEndpoint=http://127.0.0.1:11001/dpdlocal;TableEndpoint=http://127.0.0.1:11002/dpdlocal;
     steps:
       - uses: actions/checkout@v4

@@ -72,6 +72,25 @@ blob being caught, a half-finished upload being ignored, the refusal to overwrit
 and the list command. CI runs the same tests in the `azure-summary` job, and the
 `azure-infra` job compiles and lints the Bicep template with the Azure CLI.
 
+## Archive on a daily timer
+
+The Functions app in `azure_summary/` has a second timer, `daily_release_archive`,
+which runs `dpd_etl.archive.archive_accepted_release`. It is scheduled by
+`DPD_ARCHIVE_SCHEDULE` (default `0 30 8 * * *`, UTC). It does four things:
+
+1. Calls `accepted_summary`, so a rejected snapshot, a changed run receipt or
+   changed duplicate-pair and unusual-strength counts stop it before any upload.
+2. Uploads the raw files (`DPD_RAW_DIR`, default `<data>/raw/files`) and the outputs
+   (`DPD_ARCHIVE_OUTPUT_DIR`, required) with checksums and a manifest.
+3. If the manifest already exists, it does not upload again. It checks each local
+   file against the stored checksum and raises `ReleaseMismatch` if one differs.
+4. Returns the status (`archived` or `already_archived`) with the file count and
+   the flagged-strength and duplicate-pair counts, which the Functions log shows.
+
+Settings for `func start` are in `azure_summary/local.settings.json.example`. The
+Compose host and the CI job set the same variables and check the manifest in
+the `dpd-releases` container, using Azurite.
+
 ## What this does not do
 
 I have not deployed the template to a real Azure subscription in this repository.

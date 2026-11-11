@@ -27,5 +27,10 @@ services:
       DPD_SUMMARY_SCHEDULE: ${DPD_SUMMARY_SCHEDULE:-0 0 8 * * *}
       DPD_DATA_DIR: /data
       DPD_SNAPSHOT_DATE: ${DPD_SNAPSHOT_DATE:-}
+      DPD_ARCHIVE_SCHEDULE: ${DPD_ARCHIVE_SCHEDULE:-0 30 8 * * *}
+      DPD_ARCHIVE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=dpdlocal;AccountKey=ZHBkLWxvY2FsLWVtdWxhdG9yLW9ubHkta2V5LTAwMDE=;BlobEndpoint=http://azurite:10000/dpdlocal;
+      DPD_ARCHIVE_OUTPUT_DIR: /data
+      DPD_RAW_DIR: /raw
     volumes:
       - ../data/fixture:/data:ro
+      - ../tests/fixtures/raw:/raw:ro
