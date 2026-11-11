@@ -1,0 +1,3951 @@
+{
+  "description": "Synthetic duplicate challenge built from the public 60-product sample",
+  "seed": 20261111,
+  "source_snapshot": "2026-11-01",
+  "products": [
+    {
+      "drug_code": 8060,
+      "brand_name": "PDP-BENZTROPINE",
+      "din": "00706531",
+      "company_name": "PENDOPHARM DIVISION OF PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p8060",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 10030,
+      "brand_name": "LINCO-SPECTIN 100",
+      "din": "00813818",
+      "company_name": "PHIBRO ANIMAL HEALTH CORPORATION",
+      "drug_class": "VETERINARY",
+      "form": "POWDER FOR SOLUTION",
+      "route": "ORAL",
+      "entity": "p10030",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 10398,
+      "brand_name": "PMS-METHYLPHENIDATE",
+      "din": "00584991",
+      "company_name": "PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p10398",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 10517,
+      "brand_name": "OSMITROL INJECTION 10%",
+      "din": "00060410",
+      "company_name": "BAXTER CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p10517",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 11760,
+      "brand_name": "TEVA-CAPTOPRIL",
+      "din": "01942964",
+      "company_name": "TEVA CANADA LIMITED",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p11760",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 11942,
+      "brand_name": "RETROVIR (AZT)",
+      "din": "01902652",
+      "company_name": "VIIV HEALTHCARE ULC",
+      "drug_class": "HUMAN",
+      "form": "SYRUP",
+      "route": "ORAL",
+      "entity": "p11942",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 12688,
+      "brand_name": "HEARTGARD-30 PLUS",
+      "din": "01909975",
+      "company_name": "BOEHRINGER INGELHEIM ANIMAL HEALTH CANADA INC.",
+      "drug_class": "VETERINARY",
+      "form": "TABLET (CHEWABLE)",
+      "route": "ORAL",
+      "entity": "p12688",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 12862,
+      "brand_name": "TEVA-TRIACOMB",
+      "din": "00550507",
+      "company_name": "TEVA CANADA LIMITED",
+      "drug_class": "HUMAN",
+      "form": "CREAM",
+      "route": "TOPICAL",
+      "entity": "p12862",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 14032,
+      "brand_name": "AA-THEO LA",
+      "din": "00692697",
+      "company_name": "AA PHARMA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET (EXTENDED-RELEASE)",
+      "route": "ORAL",
+      "entity": "p14032",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 14388,
+      "brand_name": "APO-ENALAPRIL",
+      "din": "02019906",
+      "company_name": "APOTEX INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p14388",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 18245,
+      "brand_name": "INTERCEPTOR FLAVOR TABS",
+      "din": "02141434",
+      "company_name": "ELANCO CANADA LIMITED",
+      "drug_class": "VETERINARY",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p18245",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 18903,
+      "brand_name": "CARNITOR",
+      "din": "02144344",
+      "company_name": "LEADIANT BIOSCIENCES, INC",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p18903",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 19348,
+      "brand_name": "TORADOL",
+      "din": "02162660",
+      "company_name": "AA PHARMA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p19348",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 19722,
+      "brand_name": "TEVA-TIAPROFENIC ACID",
+      "din": "02179687",
+      "company_name": "TEVA CANADA LIMITED",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p19722",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 28280,
+      "brand_name": "COLACE SYRUP",
+      "din": "02086018",
+      "company_name": "PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "SYRUP",
+      "route": "ORAL",
+      "entity": "p28280",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 43923,
+      "brand_name": "PLANATE",
+      "din": "02137631",
+      "company_name": "INTERVET CANADA CORP",
+      "drug_class": "VETERINARY",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p43923",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 49244,
+      "brand_name": "CLOPIXOL ACUPHASE",
+      "din": "02230405",
+      "company_name": "LUNDBECK CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p49244",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 60085,
+      "brand_name": "DEEP PORE ACNE VANISHING TREATMENT",
+      "din": "02236796",
+      "company_name": "THE MENTHOLATUM COMPANY OF CANADA LTD",
+      "drug_class": "HUMAN",
+      "form": "LOTION",
+      "route": "TOPICAL",
+      "entity": "p60085",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 63128,
+      "brand_name": "PROVOCHOLINE",
+      "din": "02239656",
+      "company_name": "METHAPHARM INC",
+      "drug_class": "HUMAN",
+      "form": "POWDER FOR SOLUTION",
+      "route": "INHALATION",
+      "entity": "p63128",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 65047,
+      "brand_name": "UROMITEXAN",
+      "din": "02241411",
+      "company_name": "BAXTER CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p65047",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 70785,
+      "brand_name": "PAMIDRONATE DISODIUM FOR INJECTION",
+      "din": "02246598",
+      "company_name": "FRESENIUS KABI CANADA LTD",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p70785",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 72045,
+      "brand_name": "OMEGA ALLERGENIC EXTRACTS - POLLENS (AQUEOUS)",
+      "din": "02247753",
+      "company_name": "OMEGA LABORATORIES LIMITED",
+      "drug_class": "HUMAN",
+      "form": "LIQUID",
+      "route": "INTRADERMAL",
+      "entity": "p72045",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 75588,
+      "brand_name": "DIOVAN",
+      "din": "02270528",
+      "company_name": "NOVARTIS PHARMACEUTICALS CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p75588",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 76244,
+      "brand_name": "QUEST PLUS GEL",
+      "din": "02276763",
+      "company_name": "ZOETIS CANADA INC",
+      "drug_class": "VETERINARY",
+      "form": "GEL",
+      "route": "ORAL",
+      "entity": "p76244",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 76481,
+      "brand_name": "PMS-RISPERIDONE",
+      "din": "02279266",
+      "company_name": "PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "ORAL",
+      "entity": "p76481",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 78105,
+      "brand_name": "SUBOXONE",
+      "din": "02295709",
+      "company_name": "INDIVIOR UK LIMITED",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "SUBLINGUAL",
+      "entity": "p78105",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 81832,
+      "brand_name": "FELIMAZOLE 2.5MG",
+      "din": "02332655",
+      "company_name": "DECHRA LTD",
+      "drug_class": "VETERINARY",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p81832",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 84015,
+      "brand_name": "DEXILANT",
+      "din": "02354969",
+      "company_name": "TAKEDA CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE (DELAYED-RELEASE)",
+      "route": "NASOGASTRIC",
+      "entity": "p84015",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 85001,
+      "brand_name": "PRO-IRBESARTAN-HCTZ",
+      "din": "02365162",
+      "company_name": "PRO DOC LIMITEE",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p85001",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 87637,
+      "brand_name": "TOPOTECAN INJECTION",
+      "din": "02390981",
+      "company_name": "SANDOZ CANADA INCORPORATED",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p87637",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 88007,
+      "brand_name": "SEEBRI BREEZHALER",
+      "din": "02394936",
+      "company_name": "NOVARTIS PHARMACEUTICALS CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE",
+      "route": "INHALATION",
+      "entity": "p88007",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 89335,
+      "brand_name": "MINT-DONEPEZIL",
+      "din": "02408619",
+      "company_name": "MINT PHARMACEUTICALS INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p89335",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 89429,
+      "brand_name": "TAFINLAR",
+      "din": "02409607",
+      "company_name": "NOVARTIS PHARMACEUTICALS CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE",
+      "route": "ORAL",
+      "entity": "p89429",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 90624,
+      "brand_name": "JAMP ALLOPURINOL",
+      "din": "02421593",
+      "company_name": "JAMP PHARMA CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p90624",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 90678,
+      "brand_name": "CANDESARTAN",
+      "din": "02422069",
+      "company_name": "PRO DOC LIMITEE",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p90678",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 90928,
+      "brand_name": "FINAL RINSE CONCENTRATE",
+      "din": "02424606",
+      "company_name": "CP INDUSTRIES LTD",
+      "drug_class": "DISINFECTANT",
+      "form": "LIQUID",
+      "route": "DISINFECTANT (Hospital/HC Facilities)",
+      "entity": "p90928",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 91433,
+      "brand_name": "MAR-AMITRIPTYLINE",
+      "din": "02429918",
+      "company_name": "MARCAN PHARMACEUTICALS INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p91433",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 95260,
+      "brand_name": "SANDOZ DEFERASIROX",
+      "din": "02464462",
+      "company_name": "SANDOZ CANADA INCORPORATED",
+      "drug_class": "HUMAN",
+      "form": "TABLET FOR SUSPENSION",
+      "route": "ORAL",
+      "entity": "p95260",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 96480,
+      "brand_name": "CP INDUSTRIES LTD. SURE 5",
+      "din": "02474573",
+      "company_name": "CP INDUSTRIES LTD",
+      "drug_class": "DISINFECTANT",
+      "form": "SOLUTION",
+      "route": "DISINFECTANT (Institutional/Industrial)",
+      "entity": "p96480",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 96721,
+      "brand_name": "PYRITHIONE ZINC DANDRUFF SHAMPOO MEN 2IN1 SWAGGER",
+      "din": "02476193",
+      "company_name": "PROCTER & GAMBLE INC",
+      "drug_class": "HUMAN",
+      "form": "SHAMPOO",
+      "route": "TOPICAL",
+      "entity": "p96721",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 96998,
+      "brand_name": "RIVA-ARIPIPRAZOLE",
+      "din": "02479389",
+      "company_name": "LABORATOIRE RIVA INC.",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p96998",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 97107,
+      "brand_name": "XYDALBA",
+      "din": "02480522",
+      "company_name": "KNIGHT THERAPEUTICS INC.",
+      "drug_class": "HUMAN",
+      "form": "POWDER FOR SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p97107",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 97288,
+      "brand_name": "KAMRAB",
+      "din": "02482436",
+      "company_name": "KAMADA LTD",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p97288",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 97412,
+      "brand_name": "FACIAL FUEL",
+      "din": "02483777",
+      "company_name": "KIEHLS CANADA",
+      "drug_class": "HUMAN",
+      "form": "LOTION",
+      "route": "TOPICAL",
+      "entity": "p97412",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 97562,
+      "brand_name": "JAMP RIVASTIGMINE",
+      "din": "02485370",
+      "company_name": "JAMP PHARMA CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE",
+      "route": "ORAL",
+      "entity": "p97562",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 97587,
+      "brand_name": "YESCARTA",
+      "din": "02485648",
+      "company_name": "GILEAD SCIENCES CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "SUSPENSION",
+      "route": "INTRAVENOUS",
+      "entity": "p97587",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 97787,
+      "brand_name": "ACH-APIXABAN",
+      "din": "02487721",
+      "company_name": "ACCORD HEALTHCARE INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p97787",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 97794,
+      "brand_name": "DRY-TOUCH SUNSCREEN SPF 45",
+      "din": "02487780",
+      "company_name": "KENVUE CANADA INC.",
+      "drug_class": "HUMAN",
+      "form": "LOTION",
+      "route": "TOPICAL",
+      "entity": "p97794",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 98002,
+      "brand_name": "JAMP-DOXAZOSIN",
+      "din": "02489945",
+      "company_name": "JAMP PHARMA CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p98002",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 98139,
+      "brand_name": "SPORT 30 PUMP SPRAY GEL SUNSCREEN ÉCRAN SOLAIRE GEL EN VAPORISATEUR",
+      "din": "02491389",
+      "company_name": "PRIME ENTERPRISES, LLC",
+      "drug_class": "HUMAN",
+      "form": "GEL",
+      "route": "TOPICAL",
+      "entity": "p98139",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 98169,
+      "brand_name": "HYDROMORPHONE HYDROCHLORIDE INJECTION, USP",
+      "din": "02491680",
+      "company_name": "FRESENIUS KABI CANADA LTD",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p98169",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 98172,
+      "brand_name": "ATIPAM",
+      "din": "02491710",
+      "company_name": "EUROVET ANIMAL HEALTH B.V.",
+      "drug_class": "VETERINARY",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p98172",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 98259,
+      "brand_name": "TARO-TICAGRELOR",
+      "din": "02492598",
+      "company_name": "TARO PHARMACEUTICALS INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p98259",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 99607,
+      "brand_name": "ARIPIPRAZOLE",
+      "din": "02506726",
+      "company_name": "SANIS HEALTH INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p99607",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 99712,
+      "brand_name": "BIO-DULOXETINE",
+      "din": "02507722",
+      "company_name": "BIOMED PHARMA",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE (DELAYED-RELEASE)",
+      "route": "ORAL",
+      "entity": "p99712",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 100020,
+      "brand_name": "AG-ESCITALOPRAM TABLETS",
+      "din": "02510952",
+      "company_name": "ANGITA PHARMA INC.",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p100020",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 100562,
+      "brand_name": "WAKIX",
+      "din": "02516268",
+      "company_name": "KNIGHT THERAPEUTICS INC.",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p100562",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 101610,
+      "brand_name": "PREVNAR 20",
+      "din": "02527049",
+      "company_name": "PFIZER CANADA ULC",
+      "drug_class": "HUMAN",
+      "form": "SUSPENSION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p101610",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 102451,
+      "brand_name": "NRA-PRAVASTATIN",
+      "din": "02535661",
+      "company_name": "NORA PHARMA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p102451",
+      "corruption": null,
+      "split": "test"
+    },
+    {
+      "drug_code": 107194,
+      "brand_name": "KOSELUGO GRANULES",
+      "din": "02569736",
+      "company_name": "ALEXION PHARMA GMBH",
+      "drug_class": "HUMAN",
+      "form": "GRANULES",
+      "route": "ORAL",
+      "entity": "p107194",
+      "corruption": null,
+      "split": "train"
+    },
+    {
+      "drug_code": 1008060,
+      "brand_name": "PDP-BENZTROPINE",
+      "din": "00706531",
+      "company_name": "PENDOPHARM DIVISION OF PHARMASCIENCE",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p8060",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1010030,
+      "brand_name": "LINCO-SPECTIN 100",
+      "din": null,
+      "company_name": "PHIBRO ANIMAL HEALTH CORPORATION",
+      "drug_class": "VETERINARY",
+      "form": "POWDER FOR SOLUTION",
+      "route": "ORAL",
+      "entity": "p10030",
+      "corruption": "missing_din",
+      "split": "test"
+    },
+    {
+      "drug_code": 1010398,
+      "brand_name": "PMS-METHYLPHENIDATE",
+      "din": null,
+      "company_name": "PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p10398",
+      "corruption": "missing_din",
+      "split": "test"
+    },
+    {
+      "drug_code": 1010517,
+      "brand_name": "10% OSMITROL INJECTION",
+      "din": "00060410",
+      "company_name": "BAXTER CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p10517",
+      "corruption": "word_order",
+      "split": "train"
+    },
+    {
+      "drug_code": 1011760,
+      "brand_name": "TEVA-CAPTOPRIL",
+      "din": "01942964",
+      "company_name": "TEVA CANADA",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p11760",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1011942,
+      "brand_name": "RETROVIR (AZT)",
+      "din": null,
+      "company_name": "VIIV HEALTHCARE ULC",
+      "drug_class": "HUMAN",
+      "form": "SYRUP",
+      "route": "ORAL",
+      "entity": "p11942",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1012688,
+      "brand_name": "HEARTAGRD-30 PLUS",
+      "din": "01909975",
+      "company_name": "BOEHRINGER INGELHEIM ANIMAL HEALTH CANADA INC.",
+      "drug_class": "VETERINARY",
+      "form": "TABLET (CHEWABLE)",
+      "route": "ORAL",
+      "entity": "p12688",
+      "corruption": "typo",
+      "split": "train"
+    },
+    {
+      "drug_code": 1012862,
+      "brand_name": "TEV-ATRIACOMB",
+      "din": "00550507",
+      "company_name": "TEVA CANADA LIMITED",
+      "drug_class": "HUMAN",
+      "form": "CREAM",
+      "route": "TOPICAL",
+      "entity": "p12862",
+      "corruption": "typo",
+      "split": "train"
+    },
+    {
+      "drug_code": 1014032,
+      "brand_name": "AA-THEO LA",
+      "din": "00692697",
+      "company_name": "AA PHARMA",
+      "drug_class": "HUMAN",
+      "form": "TABLET (EXTENDED-RELEASE)",
+      "route": "ORAL",
+      "entity": "p14032",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1014388,
+      "brand_name": "APO-ENALAPRIL",
+      "din": "02019906",
+      "company_name": "APOTEX",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p14388",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1018245,
+      "brand_name": "INTERCEPTOR FLAVOR TABS",
+      "din": null,
+      "company_name": "ELANCO CANADA LIMITED",
+      "drug_class": "VETERINARY",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p18245",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1018903,
+      "brand_name": "CARNITOR",
+      "din": null,
+      "company_name": "LEADIANT BIOSCIENCES, INC",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p18903",
+      "corruption": "missing_din",
+      "split": "test"
+    },
+    {
+      "drug_code": 1019348,
+      "brand_name": "TORADOL",
+      "din": null,
+      "company_name": "AA PHARMA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p19348",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1019722,
+      "brand_name": "TEVA-TIAPROFENIC ACID",
+      "din": null,
+      "company_name": "TEVA CANADA LIMITED",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p19722",
+      "corruption": "missing_din",
+      "split": "test"
+    },
+    {
+      "drug_code": 1028280,
+      "brand_name": "COLACE YSRUP",
+      "din": "02086018",
+      "company_name": "PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "SYRUP",
+      "route": "ORAL",
+      "entity": "p28280",
+      "corruption": "typo",
+      "split": "test"
+    },
+    {
+      "drug_code": 1043923,
+      "brand_name": "PLANATE",
+      "din": null,
+      "company_name": "INTERVET CANADA CORP",
+      "drug_class": "VETERINARY",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p43923",
+      "corruption": "missing_din",
+      "split": "test"
+    },
+    {
+      "drug_code": 1049244,
+      "brand_name": "CLOPIXOL ACUPAHSE",
+      "din": "02230405",
+      "company_name": "LUNDBECK CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p49244",
+      "corruption": "typo",
+      "split": "train"
+    },
+    {
+      "drug_code": 1060085,
+      "brand_name": "TREATMENT DEEP PORE ACNE VANISHING",
+      "din": "02236796",
+      "company_name": "THE MENTHOLATUM COMPANY OF CANADA LTD",
+      "drug_class": "HUMAN",
+      "form": "LOTION",
+      "route": "TOPICAL",
+      "entity": "p60085",
+      "corruption": "word_order",
+      "split": "test"
+    },
+    {
+      "drug_code": 1063128,
+      "brand_name": "PROOVCHOLINE",
+      "din": "02239656",
+      "company_name": "METHAPHARM INC",
+      "drug_class": "HUMAN",
+      "form": "POWDER FOR SOLUTION",
+      "route": "INHALATION",
+      "entity": "p63128",
+      "corruption": "typo",
+      "split": "train"
+    },
+    {
+      "drug_code": 1065047,
+      "brand_name": "UROMITEXAN",
+      "din": "02241411",
+      "company_name": "BAXTER",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p65047",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1070785,
+      "brand_name": "PAMIDRONATE DISODIUM FOR INJECTION",
+      "din": null,
+      "company_name": "FRESENIUS KABI CANADA LTD",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p70785",
+      "corruption": "missing_din",
+      "split": "test"
+    },
+    {
+      "drug_code": 1072045,
+      "brand_name": "OMEGA ALLEGRENIC EXTRACTS - POLLENS (AQUEOUS)",
+      "din": "02247753",
+      "company_name": "OMEGA LABORATORIES LIMITED",
+      "drug_class": "HUMAN",
+      "form": "LIQUID",
+      "route": "INTRADERMAL",
+      "entity": "p72045",
+      "corruption": "typo",
+      "split": "train"
+    },
+    {
+      "drug_code": 1075588,
+      "brand_name": "DIOVAN",
+      "din": null,
+      "company_name": "NOVARTIS PHARMACEUTICALS CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p75588",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1076244,
+      "brand_name": "QUEST PLUS GEL",
+      "din": "02276763",
+      "company_name": "ZOETIS CANADA",
+      "drug_class": "VETERINARY",
+      "form": "GEL",
+      "route": "ORAL",
+      "entity": "p76244",
+      "corruption": "company_suffix",
+      "split": "test"
+    },
+    {
+      "drug_code": 1076481,
+      "brand_name": "PMS-RISPERIDONE",
+      "din": null,
+      "company_name": "PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "ORAL",
+      "entity": "p76481",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1078105,
+      "brand_name": "SUBOXONE",
+      "din": null,
+      "company_name": "INDIVIOR UK LIMITED",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "SUBLINGUAL",
+      "entity": "p78105",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1081832,
+      "brand_name": "FELIMAZOLE 2.5MG",
+      "din": null,
+      "company_name": "DECHRA LTD",
+      "drug_class": "VETERINARY",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p81832",
+      "corruption": "missing_din",
+      "split": "test"
+    },
+    {
+      "drug_code": 1084015,
+      "brand_name": "DEXILANT",
+      "din": "02354969",
+      "company_name": "TAKEDA CANADA",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE (DELAYED-RELEASE)",
+      "route": "NASOGASTRIC",
+      "entity": "p84015",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1085001,
+      "brand_name": "PRO-IRBESARTAN-HCTZ",
+      "din": "02365162",
+      "company_name": "PRO DOC LIMITEE INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p85001",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1087637,
+      "brand_name": "TOPOTECAN INJECTION",
+      "din": "02390981",
+      "company_name": "SANDOZ CANADA INCORPORATED INC",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p87637",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1088007,
+      "brand_name": "BREEZHALER SEEBRI",
+      "din": "02394936",
+      "company_name": "NOVARTIS PHARMACEUTICALS CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE",
+      "route": "INHALATION",
+      "entity": "p88007",
+      "corruption": "word_order",
+      "split": "train"
+    },
+    {
+      "drug_code": 1089335,
+      "brand_name": "MINT-DONEPEZIL",
+      "din": null,
+      "company_name": "MINT PHARMACEUTICALS INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p89335",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1089429,
+      "brand_name": "TAFINLAR",
+      "din": null,
+      "company_name": "NOVARTIS PHARMACEUTICALS CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE",
+      "route": "ORAL",
+      "entity": "p89429",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1090624,
+      "brand_name": "ALLOPURINOL JAMP",
+      "din": "02421593",
+      "company_name": "JAMP PHARMA CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p90624",
+      "corruption": "word_order",
+      "split": "test"
+    },
+    {
+      "drug_code": 1090678,
+      "brand_name": "CANDESARTAN",
+      "din": "02422069",
+      "company_name": "PRO DOC LIMITEE INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p90678",
+      "corruption": "company_suffix",
+      "split": "test"
+    },
+    {
+      "drug_code": 1090928,
+      "brand_name": "FINAL RINSE CONCENTRATE",
+      "din": null,
+      "company_name": "CP INDUSTRIES LTD",
+      "drug_class": "DISINFECTANT",
+      "form": "LIQUID",
+      "route": "DISINFECTANT (Hospital/HC Facilities)",
+      "entity": "p90928",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1091433,
+      "brand_name": "MAR-AMITRIPTYLINE",
+      "din": null,
+      "company_name": "MARCAN PHARMACEUTICALS INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p91433",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1095260,
+      "brand_name": "SANDOZ DEFERASIROX",
+      "din": "02464462",
+      "company_name": "SANDOZ CANADA INCORPORATED INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET FOR SUSPENSION",
+      "route": "ORAL",
+      "entity": "p95260",
+      "corruption": "company_suffix",
+      "split": "test"
+    },
+    {
+      "drug_code": 1096480,
+      "brand_name": "CP INDUSTRIES LTD. SURE 5",
+      "din": "02474573",
+      "company_name": "CP INDUSTRIES",
+      "drug_class": "DISINFECTANT",
+      "form": "SOLUTION",
+      "route": "DISINFECTANT (Institutional/Industrial)",
+      "entity": "p96480",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1096721,
+      "brand_name": "SWAGGER PYRITHIONE ZINC DANDRUFF SHAMPOO MEN 2IN1",
+      "din": "02476193",
+      "company_name": "PROCTER & GAMBLE INC",
+      "drug_class": "HUMAN",
+      "form": "SHAMPOO",
+      "route": "TOPICAL",
+      "entity": "p96721",
+      "corruption": "word_order",
+      "split": "test"
+    },
+    {
+      "drug_code": 1096998,
+      "brand_name": "RIVA-ARIPIPRAZOLE",
+      "din": "02479389",
+      "company_name": "LABORATOIRE RIVA",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p96998",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1097107,
+      "brand_name": "XYDALBA",
+      "din": null,
+      "company_name": "KNIGHT THERAPEUTICS INC.",
+      "drug_class": "HUMAN",
+      "form": "POWDER FOR SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "p97107",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1097288,
+      "brand_name": "KAMARB",
+      "din": "02482436",
+      "company_name": "KAMADA LTD",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p97288",
+      "corruption": "typo",
+      "split": "train"
+    },
+    {
+      "drug_code": 1097412,
+      "brand_name": "FACIAL FUEL",
+      "din": null,
+      "company_name": "KIEHLS CANADA",
+      "drug_class": "HUMAN",
+      "form": "LOTION",
+      "route": "TOPICAL",
+      "entity": "p97412",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1097562,
+      "brand_name": "JAMP RIVASTIGMINE",
+      "din": "02485370",
+      "company_name": "JAMP PHARMA",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE",
+      "route": "ORAL",
+      "entity": "p97562",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1097587,
+      "brand_name": "YESCARTA",
+      "din": "02485648",
+      "company_name": "GILEAD SCIENCES CANADA",
+      "drug_class": "HUMAN",
+      "form": "SUSPENSION",
+      "route": "INTRAVENOUS",
+      "entity": "p97587",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1097787,
+      "brand_name": "ACH-APIXABAN",
+      "din": null,
+      "company_name": "ACCORD HEALTHCARE INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p97787",
+      "corruption": "missing_din",
+      "split": "test"
+    },
+    {
+      "drug_code": 1097794,
+      "brand_name": "DRY-TOUCH SNUSCREEN SPF 45",
+      "din": "02487780",
+      "company_name": "KENVUE CANADA INC.",
+      "drug_class": "HUMAN",
+      "form": "LOTION",
+      "route": "TOPICAL",
+      "entity": "p97794",
+      "corruption": "typo",
+      "split": "train"
+    },
+    {
+      "drug_code": 1098002,
+      "brand_name": "JAMP-DOXAOZSIN",
+      "din": "02489945",
+      "company_name": "JAMP PHARMA CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p98002",
+      "corruption": "typo",
+      "split": "train"
+    },
+    {
+      "drug_code": 1098139,
+      "brand_name": "SPORT 30 PUMP SPRAY GEL SUNSCREEN ÉCRAN SOLAIRE GEL EN VAPORISATEUR",
+      "din": "02491389",
+      "company_name": "PRIME ENTERPRISES, LLC INC",
+      "drug_class": "HUMAN",
+      "form": "GEL",
+      "route": "TOPICAL",
+      "entity": "p98139",
+      "corruption": "company_suffix",
+      "split": "test"
+    },
+    {
+      "drug_code": 1098169,
+      "brand_name": "HYDROMORPHONE HYDROCHLORDIE INJECTION, USP",
+      "din": "02491680",
+      "company_name": "FRESENIUS KABI CANADA LTD",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p98169",
+      "corruption": "typo",
+      "split": "train"
+    },
+    {
+      "drug_code": 1098172,
+      "brand_name": "ATIPAM",
+      "din": null,
+      "company_name": "EUROVET ANIMAL HEALTH B.V.",
+      "drug_class": "VETERINARY",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p98172",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1098259,
+      "brand_name": "TARO-TICAGRELOR",
+      "din": "02492598",
+      "company_name": "TARO PHARMACEUTICALS",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p98259",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1099607,
+      "brand_name": "ARIPIPRAZOLE",
+      "din": null,
+      "company_name": "SANIS HEALTH INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p99607",
+      "corruption": "missing_din",
+      "split": "test"
+    },
+    {
+      "drug_code": 1099712,
+      "brand_name": "BIO-DULOXETINE",
+      "din": "02507722",
+      "company_name": "BIOMED PHARMA INC",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE (DELAYED-RELEASE)",
+      "route": "ORAL",
+      "entity": "p99712",
+      "corruption": "company_suffix",
+      "split": "test"
+    },
+    {
+      "drug_code": 1100020,
+      "brand_name": "AG-ESCITALOPRAM TABLETS",
+      "din": null,
+      "company_name": "ANGITA PHARMA INC.",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p100020",
+      "corruption": "missing_din",
+      "split": "train"
+    },
+    {
+      "drug_code": 1100562,
+      "brand_name": "WAKIX",
+      "din": "02516268",
+      "company_name": "KNIGHT THERAPEUTICS",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p100562",
+      "corruption": "company_suffix",
+      "split": "test"
+    },
+    {
+      "drug_code": 1101610,
+      "brand_name": "PREVNAR 20",
+      "din": "02527049",
+      "company_name": "PFIZER CANADA ULC INC",
+      "drug_class": "HUMAN",
+      "form": "SUSPENSION",
+      "route": "INTRAMUSCULAR",
+      "entity": "p101610",
+      "corruption": "company_suffix",
+      "split": "train"
+    },
+    {
+      "drug_code": 1102451,
+      "brand_name": "NRA-PRAVASTATIN",
+      "din": null,
+      "company_name": "NORA PHARMA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "p102451",
+      "corruption": "missing_din",
+      "split": "test"
+    },
+    {
+      "drug_code": 1107194,
+      "brand_name": "GRANULES KOSELUGO",
+      "din": "02569736",
+      "company_name": "ALEXION PHARMA GMBH",
+      "drug_class": "HUMAN",
+      "form": "GRANULES",
+      "route": "ORAL",
+      "entity": "p107194",
+      "corruption": "word_order",
+      "split": "train"
+    },
+    {
+      "drug_code": 2008060,
+      "brand_name": "PDP-BENZTROPINE 2",
+      "din": "12210674",
+      "company_name": "PENDOPHARM DIVISION OF PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s8060",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2010030,
+      "brand_name": "LINCO-SPECTIN 100 2",
+      "din": "43329591",
+      "company_name": "PHIBRO ANIMAL HEALTH CORPORATION",
+      "drug_class": "VETERINARY",
+      "form": "POWDER FOR SOLUTION",
+      "route": "ORAL",
+      "entity": "s10030",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2010398,
+      "brand_name": "PMS-METHYLPHENIDATE 2",
+      "din": "56455565",
+      "company_name": "PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s10398",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2010517,
+      "brand_name": "OSMITROL INJECTION 10% 2",
+      "din": "82893009",
+      "company_name": "BAXTER CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "s10517",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2011760,
+      "brand_name": "TEVA-CAPTOPRIL 2",
+      "din": "74221713",
+      "company_name": "TEVA CANADA LIMITED",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s11760",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2011942,
+      "brand_name": "RETROVIR (AZT) 2",
+      "din": "46038423",
+      "company_name": "VIIV HEALTHCARE ULC",
+      "drug_class": "HUMAN",
+      "form": "SYRUP",
+      "route": "ORAL",
+      "entity": "s11942",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2012688,
+      "brand_name": "HEARTGARD-30 PLUS 2",
+      "din": "10963410",
+      "company_name": "BOEHRINGER INGELHEIM ANIMAL HEALTH CANADA INC.",
+      "drug_class": "VETERINARY",
+      "form": "TABLET (CHEWABLE)",
+      "route": "ORAL",
+      "entity": "s12688",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2012862,
+      "brand_name": "TEVA-TRIACOMB 2",
+      "din": "99517119",
+      "company_name": "TEVA CANADA LIMITED",
+      "drug_class": "HUMAN",
+      "form": "CREAM",
+      "route": "TOPICAL",
+      "entity": "s12862",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2014032,
+      "brand_name": "AA-THEO LA 2",
+      "din": "38003638",
+      "company_name": "AA PHARMA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET (EXTENDED-RELEASE)",
+      "route": "ORAL",
+      "entity": "s14032",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2014388,
+      "brand_name": "APO-ENALAPRIL 2",
+      "din": "88491996",
+      "company_name": "APOTEX INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s14388",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2018245,
+      "brand_name": "INTERCEPTOR FLAVOR TABS 2",
+      "din": "31079241",
+      "company_name": "ELANCO CANADA LIMITED",
+      "drug_class": "VETERINARY",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s18245",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2018903,
+      "brand_name": "CARNITOR 2",
+      "din": "64455511",
+      "company_name": "LEADIANT BIOSCIENCES, INC",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "s18903",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2019348,
+      "brand_name": "TORADOL 2",
+      "din": "33853932",
+      "company_name": "AA PHARMA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s19348",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2019722,
+      "brand_name": "TEVA-TIAPROFENIC ACID 2",
+      "din": "94368725",
+      "company_name": "TEVA CANADA LIMITED",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s19722",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2028280,
+      "brand_name": "COLACE SYRUP 2",
+      "din": "78623121",
+      "company_name": "PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "SYRUP",
+      "route": "ORAL",
+      "entity": "s28280",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2043923,
+      "brand_name": "PLANATE 2",
+      "din": "89623364",
+      "company_name": "INTERVET CANADA CORP",
+      "drug_class": "VETERINARY",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "s43923",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2049244,
+      "brand_name": "CLOPIXOL ACUPHASE 2",
+      "din": "50906971",
+      "company_name": "LUNDBECK CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "s49244",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2060085,
+      "brand_name": "DEEP PORE ACNE VANISHING TREATMENT 2",
+      "din": "25668533",
+      "company_name": "THE MENTHOLATUM COMPANY OF CANADA LTD",
+      "drug_class": "HUMAN",
+      "form": "LOTION",
+      "route": "TOPICAL",
+      "entity": "s60085",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2063128,
+      "brand_name": "PROVOCHOLINE 2",
+      "din": "60928374",
+      "company_name": "METHAPHARM INC",
+      "drug_class": "HUMAN",
+      "form": "POWDER FOR SOLUTION",
+      "route": "INHALATION",
+      "entity": "s63128",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2065047,
+      "brand_name": "UROMITEXAN 2",
+      "din": "83472050",
+      "company_name": "BAXTER CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "s65047",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2070785,
+      "brand_name": "PAMIDRONATE DISODIUM FOR INJECTION 2",
+      "din": "44480750",
+      "company_name": "FRESENIUS KABI CANADA LTD",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "s70785",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2072045,
+      "brand_name": "OMEGA ALLERGENIC EXTRACTS - POLLENS (AQUEOUS) 2",
+      "din": "48104232",
+      "company_name": "OMEGA LABORATORIES LIMITED",
+      "drug_class": "HUMAN",
+      "form": "LIQUID",
+      "route": "INTRADERMAL",
+      "entity": "s72045",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2075588,
+      "brand_name": "DIOVAN 2",
+      "din": "76228188",
+      "company_name": "NOVARTIS PHARMACEUTICALS CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s75588",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2076244,
+      "brand_name": "QUEST PLUS GEL 2",
+      "din": "67363557",
+      "company_name": "ZOETIS CANADA INC",
+      "drug_class": "VETERINARY",
+      "form": "GEL",
+      "route": "ORAL",
+      "entity": "s76244",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2076481,
+      "brand_name": "PMS-RISPERIDONE 2",
+      "din": "17827269",
+      "company_name": "PHARMASCIENCE INC",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "ORAL",
+      "entity": "s76481",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2078105,
+      "brand_name": "SUBOXONE 2",
+      "din": "20140026",
+      "company_name": "INDIVIOR UK LIMITED",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "SUBLINGUAL",
+      "entity": "s78105",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2081832,
+      "brand_name": "FELIMAZOLE 2.5MG 2",
+      "din": "93968321",
+      "company_name": "DECHRA LTD",
+      "drug_class": "VETERINARY",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s81832",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2084015,
+      "brand_name": "DEXILANT 2",
+      "din": "22924010",
+      "company_name": "TAKEDA CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE (DELAYED-RELEASE)",
+      "route": "NASOGASTRIC",
+      "entity": "s84015",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2085001,
+      "brand_name": "PRO-IRBESARTAN-HCTZ 2",
+      "din": "56937903",
+      "company_name": "PRO DOC LIMITEE",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s85001",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2087637,
+      "brand_name": "TOPOTECAN INJECTION 2",
+      "din": "94316140",
+      "company_name": "SANDOZ CANADA INCORPORATED",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "s87637",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2088007,
+      "brand_name": "SEEBRI BREEZHALER 2",
+      "din": "80287204",
+      "company_name": "NOVARTIS PHARMACEUTICALS CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE",
+      "route": "INHALATION",
+      "entity": "s88007",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2089335,
+      "brand_name": "MINT-DONEPEZIL 2",
+      "din": "12953609",
+      "company_name": "MINT PHARMACEUTICALS INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s89335",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2089429,
+      "brand_name": "TAFINLAR 2",
+      "din": "26017398",
+      "company_name": "NOVARTIS PHARMACEUTICALS CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE",
+      "route": "ORAL",
+      "entity": "s89429",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2090624,
+      "brand_name": "JAMP ALLOPURINOL 2",
+      "din": "96830301",
+      "company_name": "JAMP PHARMA CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s90624",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2090678,
+      "brand_name": "CANDESARTAN 2",
+      "din": "46768249",
+      "company_name": "PRO DOC LIMITEE",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s90678",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2090928,
+      "brand_name": "FINAL RINSE CONCENTRATE 2",
+      "din": "24192549",
+      "company_name": "CP INDUSTRIES LTD",
+      "drug_class": "DISINFECTANT",
+      "form": "LIQUID",
+      "route": "DISINFECTANT (Hospital/HC Facilities)",
+      "entity": "s90928",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2091433,
+      "brand_name": "MAR-AMITRIPTYLINE 2",
+      "din": "34803987",
+      "company_name": "MARCAN PHARMACEUTICALS INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s91433",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2095260,
+      "brand_name": "SANDOZ DEFERASIROX 2",
+      "din": "71890828",
+      "company_name": "SANDOZ CANADA INCORPORATED",
+      "drug_class": "HUMAN",
+      "form": "TABLET FOR SUSPENSION",
+      "route": "ORAL",
+      "entity": "s95260",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2096480,
+      "brand_name": "CP INDUSTRIES LTD. SURE 5 2",
+      "din": "32943856",
+      "company_name": "CP INDUSTRIES LTD",
+      "drug_class": "DISINFECTANT",
+      "form": "SOLUTION",
+      "route": "DISINFECTANT (Institutional/Industrial)",
+      "entity": "s96480",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2096721,
+      "brand_name": "PYRITHIONE ZINC DANDRUFF SHAMPOO MEN 2IN1 SWAGGER 2",
+      "din": "80166968",
+      "company_name": "PROCTER & GAMBLE INC",
+      "drug_class": "HUMAN",
+      "form": "SHAMPOO",
+      "route": "TOPICAL",
+      "entity": "s96721",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2096998,
+      "brand_name": "RIVA-ARIPIPRAZOLE 2",
+      "din": "43693537",
+      "company_name": "LABORATOIRE RIVA INC.",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s96998",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2097107,
+      "brand_name": "XYDALBA 2",
+      "din": "19140885",
+      "company_name": "KNIGHT THERAPEUTICS INC.",
+      "drug_class": "HUMAN",
+      "form": "POWDER FOR SOLUTION",
+      "route": "INTRAVENOUS",
+      "entity": "s97107",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2097288,
+      "brand_name": "KAMRAB 2",
+      "din": "95732428",
+      "company_name": "KAMADA LTD",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "s97288",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2097412,
+      "brand_name": "FACIAL FUEL 2",
+      "din": "70782766",
+      "company_name": "KIEHLS CANADA",
+      "drug_class": "HUMAN",
+      "form": "LOTION",
+      "route": "TOPICAL",
+      "entity": "s97412",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2097562,
+      "brand_name": "JAMP RIVASTIGMINE 2",
+      "din": "99458842",
+      "company_name": "JAMP PHARMA CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE",
+      "route": "ORAL",
+      "entity": "s97562",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2097587,
+      "brand_name": "YESCARTA 2",
+      "din": "34384395",
+      "company_name": "GILEAD SCIENCES CANADA INC",
+      "drug_class": "HUMAN",
+      "form": "SUSPENSION",
+      "route": "INTRAVENOUS",
+      "entity": "s97587",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2097787,
+      "brand_name": "ACH-APIXABAN 2",
+      "din": "61575544",
+      "company_name": "ACCORD HEALTHCARE INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s97787",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2097794,
+      "brand_name": "DRY-TOUCH SUNSCREEN SPF 45 2",
+      "din": "83275642",
+      "company_name": "KENVUE CANADA INC.",
+      "drug_class": "HUMAN",
+      "form": "LOTION",
+      "route": "TOPICAL",
+      "entity": "s97794",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2098002,
+      "brand_name": "JAMP-DOXAZOSIN 2",
+      "din": "47449349",
+      "company_name": "JAMP PHARMA CORPORATION",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s98002",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2098139,
+      "brand_name": "SPORT 30 PUMP SPRAY GEL SUNSCREEN ÉCRAN SOLAIRE GEL EN VAPORISATEUR 2",
+      "din": "47779471",
+      "company_name": "PRIME ENTERPRISES, LLC",
+      "drug_class": "HUMAN",
+      "form": "GEL",
+      "route": "TOPICAL",
+      "entity": "s98139",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2098169,
+      "brand_name": "HYDROMORPHONE HYDROCHLORIDE INJECTION, USP 2",
+      "din": "45870882",
+      "company_name": "FRESENIUS KABI CANADA LTD",
+      "drug_class": "HUMAN",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "s98169",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2098172,
+      "brand_name": "ATIPAM 2",
+      "din": "24402390",
+      "company_name": "EUROVET ANIMAL HEALTH B.V.",
+      "drug_class": "VETERINARY",
+      "form": "SOLUTION",
+      "route": "INTRAMUSCULAR",
+      "entity": "s98172",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2098259,
+      "brand_name": "TARO-TICAGRELOR 2",
+      "din": "68027401",
+      "company_name": "TARO PHARMACEUTICALS INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s98259",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2099607,
+      "brand_name": "ARIPIPRAZOLE 2",
+      "din": "77280784",
+      "company_name": "SANIS HEALTH INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s99607",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2099712,
+      "brand_name": "BIO-DULOXETINE 2",
+      "din": "87143793",
+      "company_name": "BIOMED PHARMA",
+      "drug_class": "HUMAN",
+      "form": "CAPSULE (DELAYED-RELEASE)",
+      "route": "ORAL",
+      "entity": "s99712",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2100020,
+      "brand_name": "AG-ESCITALOPRAM TABLETS 2",
+      "din": "89538399",
+      "company_name": "ANGITA PHARMA INC.",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s100020",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2100562,
+      "brand_name": "WAKIX 2",
+      "din": "62840186",
+      "company_name": "KNIGHT THERAPEUTICS INC.",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s100562",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2101610,
+      "brand_name": "PREVNAR 20 2",
+      "din": "34243303",
+      "company_name": "PFIZER CANADA ULC",
+      "drug_class": "HUMAN",
+      "form": "SUSPENSION",
+      "route": "INTRAMUSCULAR",
+      "entity": "s101610",
+      "corruption": "sibling",
+      "split": "train"
+    },
+    {
+      "drug_code": 2102451,
+      "brand_name": "NRA-PRAVASTATIN 2",
+      "din": "46526974",
+      "company_name": "NORA PHARMA INC",
+      "drug_class": "HUMAN",
+      "form": "TABLET",
+      "route": "ORAL",
+      "entity": "s102451",
+      "corruption": "sibling",
+      "split": "test"
+    },
+    {
+      "drug_code": 2107194,
+      "brand_name": "KOSELUGO GRANULES 2",
+      "din": "54393815",
+      "company_name": "ALEXION PHARMA GMBH",
+      "drug_class": "HUMAN",
+      "form": "GRANULES",
+      "route": "ORAL",
+      "entity": "s107194",
+      "corruption": "sibling",
+      "split": "train"
+    }
+  ],
+  "ingredients": [
+    {
+      "drug_code": 8060,
+      "ingredient": "BENZTROPINE MESYLATE",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1008060,
+      "ingredient": "BENZTROPINE MESYLATE",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2008060,
+      "ingredient": "BENZTROPINE MESYLATE",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 10030,
+      "ingredient": "LINCOMYCIN (LINCOMYCIN HYDROCHLORIDE)",
+      "strength": "33.3",
+      "strength_unit": "G"
+    },
+    {
+      "drug_code": 1010030,
+      "ingredient": "LINCOMYCIN (LINCOMYCIN HYDROCHLORIDE)",
+      "strength": "33.3",
+      "strength_unit": "G"
+    },
+    {
+      "drug_code": 2010030,
+      "ingredient": "LINCOMYCIN (LINCOMYCIN HYDROCHLORIDE)",
+      "strength": "33.3",
+      "strength_unit": "G"
+    },
+    {
+      "drug_code": 10030,
+      "ingredient": "SPECTINOMYCIN (SPECTINOMYCIN SULFATE)",
+      "strength": "66.7",
+      "strength_unit": "G"
+    },
+    {
+      "drug_code": 1010030,
+      "ingredient": "SPECTINOMYCIN (SPECTINOMYCIN SULFATE)",
+      "strength": "66.7",
+      "strength_unit": "G"
+    },
+    {
+      "drug_code": 2010030,
+      "ingredient": "SPECTINOMYCIN (SPECTINOMYCIN SULFATE)",
+      "strength": "66.7",
+      "strength_unit": "G"
+    },
+    {
+      "drug_code": 10398,
+      "ingredient": "METHYLPHENIDATE HYDROCHLORIDE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1010398,
+      "ingredient": "METHYLPHENIDATE HYDROCHLORIDE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2010398,
+      "ingredient": "METHYLPHENIDATE HYDROCHLORIDE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 10517,
+      "ingredient": "MANNITOL",
+      "strength": "10",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1010517,
+      "ingredient": "MANNITOL",
+      "strength": "10",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2010517,
+      "ingredient": "MANNITOL",
+      "strength": "10",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 11760,
+      "ingredient": "CAPTOPRIL",
+      "strength": "12.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1011760,
+      "ingredient": "CAPTOPRIL",
+      "strength": "12.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2011760,
+      "ingredient": "CAPTOPRIL",
+      "strength": "12.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 11942,
+      "ingredient": "ZIDOVUDINE",
+      "strength": "50",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1011942,
+      "ingredient": "ZIDOVUDINE",
+      "strength": "50",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2011942,
+      "ingredient": "ZIDOVUDINE",
+      "strength": "50",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 12688,
+      "ingredient": "IVERMECTIN",
+      "strength": "68",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1012688,
+      "ingredient": "IVERMECTIN",
+      "strength": "68",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2012688,
+      "ingredient": "IVERMECTIN",
+      "strength": "68",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 12688,
+      "ingredient": "PYRANTEL (PYRANTEL PAMOATE)",
+      "strength": "57",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1012688,
+      "ingredient": "PYRANTEL (PYRANTEL PAMOATE)",
+      "strength": "57",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2012688,
+      "ingredient": "PYRANTEL (PYRANTEL PAMOATE)",
+      "strength": "57",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 12862,
+      "ingredient": "GRAMICIDIN",
+      "strength": "0.25",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1012862,
+      "ingredient": "GRAMICIDIN",
+      "strength": "0.25",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2012862,
+      "ingredient": "GRAMICIDIN",
+      "strength": "0.25",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 12862,
+      "ingredient": "NEOMYCIN (NEOMYCIN SULFATE)",
+      "strength": "2.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1012862,
+      "ingredient": "NEOMYCIN (NEOMYCIN SULFATE)",
+      "strength": "2.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2012862,
+      "ingredient": "NEOMYCIN (NEOMYCIN SULFATE)",
+      "strength": "2.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 12862,
+      "ingredient": "NYSTATIN",
+      "strength": "100000",
+      "strength_unit": "UNIT"
+    },
+    {
+      "drug_code": 1012862,
+      "ingredient": "NYSTATIN",
+      "strength": "100000",
+      "strength_unit": "UNIT"
+    },
+    {
+      "drug_code": 2012862,
+      "ingredient": "NYSTATIN",
+      "strength": "100000",
+      "strength_unit": "UNIT"
+    },
+    {
+      "drug_code": 12862,
+      "ingredient": "TRIAMCINOLONE ACETONIDE",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1012862,
+      "ingredient": "TRIAMCINOLONE ACETONIDE",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2012862,
+      "ingredient": "TRIAMCINOLONE ACETONIDE",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 14032,
+      "ingredient": "THEOPHYLLINE",
+      "strength": "200",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1014032,
+      "ingredient": "THEOPHYLLINE",
+      "strength": "200",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2014032,
+      "ingredient": "THEOPHYLLINE",
+      "strength": "200",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 14388,
+      "ingredient": "ENALAPRIL MALEATE",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1014388,
+      "ingredient": "ENALAPRIL MALEATE",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2014388,
+      "ingredient": "ENALAPRIL MALEATE",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 18245,
+      "ingredient": "MILBEMYCIN OXIME",
+      "strength": "2.3",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1018245,
+      "ingredient": "MILBEMYCIN OXIME",
+      "strength": "2.3",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2018245,
+      "ingredient": "MILBEMYCIN OXIME",
+      "strength": "2.3",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 18903,
+      "ingredient": "LEVOCARNITINE",
+      "strength": "200",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1018903,
+      "ingredient": "LEVOCARNITINE",
+      "strength": "200",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2018903,
+      "ingredient": "LEVOCARNITINE",
+      "strength": "200",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 19348,
+      "ingredient": "KETOROLAC TROMETHAMINE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1019348,
+      "ingredient": "KETOROLAC TROMETHAMINE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2019348,
+      "ingredient": "KETOROLAC TROMETHAMINE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 19722,
+      "ingredient": "TIAPROFENIC ACID",
+      "strength": "300",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1019722,
+      "ingredient": "TIAPROFENIC ACID",
+      "strength": "300",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2019722,
+      "ingredient": "TIAPROFENIC ACID",
+      "strength": "300",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 28280,
+      "ingredient": "DOCUSATE SODIUM",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1028280,
+      "ingredient": "DOCUSATE SODIUM",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2028280,
+      "ingredient": "DOCUSATE SODIUM",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 43923,
+      "ingredient": "CLOPROSTENOL (CLOPROSTENOL SODIUM)",
+      "strength": "175",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1043923,
+      "ingredient": "CLOPROSTENOL (CLOPROSTENOL SODIUM)",
+      "strength": "175",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2043923,
+      "ingredient": "CLOPROSTENOL (CLOPROSTENOL SODIUM)",
+      "strength": "175",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 49244,
+      "ingredient": "ZUCLOPENTHIXOL ACETATE",
+      "strength": "50",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1049244,
+      "ingredient": "ZUCLOPENTHIXOL ACETATE",
+      "strength": "50",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2049244,
+      "ingredient": "ZUCLOPENTHIXOL ACETATE",
+      "strength": "50",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 60085,
+      "ingredient": "BENZOYL PEROXIDE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1060085,
+      "ingredient": "BENZOYL PEROXIDE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2060085,
+      "ingredient": "BENZOYL PEROXIDE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 63128,
+      "ingredient": "METHACHOLINE CHLORIDE",
+      "strength": "100",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1063128,
+      "ingredient": "METHACHOLINE CHLORIDE",
+      "strength": "100",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2063128,
+      "ingredient": "METHACHOLINE CHLORIDE",
+      "strength": "100",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 65047,
+      "ingredient": "MESNA",
+      "strength": "100",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1065047,
+      "ingredient": "MESNA",
+      "strength": "100",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2065047,
+      "ingredient": "MESNA",
+      "strength": "100",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 70785,
+      "ingredient": "PAMIDRONATE DISODIUM",
+      "strength": "6",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1070785,
+      "ingredient": "PAMIDRONATE DISODIUM",
+      "strength": "6",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2070785,
+      "ingredient": "PAMIDRONATE DISODIUM",
+      "strength": "6",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 72045,
+      "ingredient": "ALLERGENIC EXTRACTS POLLENS",
+      "strength": "40000",
+      "strength_unit": "UNIT"
+    },
+    {
+      "drug_code": 1072045,
+      "ingredient": "ALLERGENIC EXTRACTS POLLENS",
+      "strength": "40000",
+      "strength_unit": "UNIT"
+    },
+    {
+      "drug_code": 2072045,
+      "ingredient": "ALLERGENIC EXTRACTS POLLENS",
+      "strength": "40000",
+      "strength_unit": "UNIT"
+    },
+    {
+      "drug_code": 75588,
+      "ingredient": "VALSARTAN",
+      "strength": "40",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1075588,
+      "ingredient": "VALSARTAN",
+      "strength": "40",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2075588,
+      "ingredient": "VALSARTAN",
+      "strength": "40",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 76244,
+      "ingredient": "MOXIDECTIN",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1076244,
+      "ingredient": "MOXIDECTIN",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2076244,
+      "ingredient": "MOXIDECTIN",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 76244,
+      "ingredient": "PRAZIQUANTEL",
+      "strength": "125",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1076244,
+      "ingredient": "PRAZIQUANTEL",
+      "strength": "125",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2076244,
+      "ingredient": "PRAZIQUANTEL",
+      "strength": "125",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 76481,
+      "ingredient": "RISPERIDONE (RISPERIDONE TARTRATE)",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1076481,
+      "ingredient": "RISPERIDONE (RISPERIDONE TARTRATE)",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2076481,
+      "ingredient": "RISPERIDONE (RISPERIDONE TARTRATE)",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 78105,
+      "ingredient": "BUPRENORPHINE (BUPRENORPHINE HYDROCHLORIDE)",
+      "strength": "8",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1078105,
+      "ingredient": "BUPRENORPHINE (BUPRENORPHINE HYDROCHLORIDE)",
+      "strength": "8",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2078105,
+      "ingredient": "BUPRENORPHINE (BUPRENORPHINE HYDROCHLORIDE)",
+      "strength": "8",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 78105,
+      "ingredient": "NALOXONE (NALOXONE HYDROCHLORIDE DIHYDRATE)",
+      "strength": "2",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1078105,
+      "ingredient": "NALOXONE (NALOXONE HYDROCHLORIDE DIHYDRATE)",
+      "strength": "2",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2078105,
+      "ingredient": "NALOXONE (NALOXONE HYDROCHLORIDE DIHYDRATE)",
+      "strength": "2",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 81832,
+      "ingredient": "METHIMAZOLE",
+      "strength": "2.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1081832,
+      "ingredient": "METHIMAZOLE",
+      "strength": "2.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2081832,
+      "ingredient": "METHIMAZOLE",
+      "strength": "2.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 84015,
+      "ingredient": "DEXLANSOPRAZOLE",
+      "strength": "60",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1084015,
+      "ingredient": "DEXLANSOPRAZOLE",
+      "strength": "60",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2084015,
+      "ingredient": "DEXLANSOPRAZOLE",
+      "strength": "60",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 85001,
+      "ingredient": "HYDROCHLOROTHIAZIDE",
+      "strength": "12.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1085001,
+      "ingredient": "HYDROCHLOROTHIAZIDE",
+      "strength": "12.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2085001,
+      "ingredient": "HYDROCHLOROTHIAZIDE",
+      "strength": "12.5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 85001,
+      "ingredient": "IRBESARTAN",
+      "strength": "150",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1085001,
+      "ingredient": "IRBESARTAN",
+      "strength": "150",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2085001,
+      "ingredient": "IRBESARTAN",
+      "strength": "150",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 87637,
+      "ingredient": "TOPOTECAN (TOPOTECAN HYDROCHLORIDE)",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1087637,
+      "ingredient": "TOPOTECAN (TOPOTECAN HYDROCHLORIDE)",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2087637,
+      "ingredient": "TOPOTECAN (TOPOTECAN HYDROCHLORIDE)",
+      "strength": "1",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 88007,
+      "ingredient": "GLYCOPYRRONIUM (GLYCOPYRRONIUM BROMIDE)",
+      "strength": "50",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1088007,
+      "ingredient": "GLYCOPYRRONIUM (GLYCOPYRRONIUM BROMIDE)",
+      "strength": "50",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2088007,
+      "ingredient": "GLYCOPYRRONIUM (GLYCOPYRRONIUM BROMIDE)",
+      "strength": "50",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 89335,
+      "ingredient": "DONEPEZIL HYDROCHLORIDE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1089335,
+      "ingredient": "DONEPEZIL HYDROCHLORIDE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2089335,
+      "ingredient": "DONEPEZIL HYDROCHLORIDE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 89429,
+      "ingredient": "DABRAFENIB (DABRAFENIB MESYLATE)",
+      "strength": "50",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1089429,
+      "ingredient": "DABRAFENIB (DABRAFENIB MESYLATE)",
+      "strength": "50",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2089429,
+      "ingredient": "DABRAFENIB (DABRAFENIB MESYLATE)",
+      "strength": "50",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 90624,
+      "ingredient": "ALLOPURINOL",
+      "strength": "100",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1090624,
+      "ingredient": "ALLOPURINOL",
+      "strength": "100",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2090624,
+      "ingredient": "ALLOPURINOL",
+      "strength": "100",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 90678,
+      "ingredient": "CANDESARTAN CILEXETIL",
+      "strength": "32",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1090678,
+      "ingredient": "CANDESARTAN CILEXETIL",
+      "strength": "32",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2090678,
+      "ingredient": "CANDESARTAN CILEXETIL",
+      "strength": "32",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 90928,
+      "ingredient": "ALKYL DIMETHYL ETHYLBENZYL AMMONIUM CHLORIDE",
+      "strength": "1.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1090928,
+      "ingredient": "ALKYL DIMETHYL ETHYLBENZYL AMMONIUM CHLORIDE",
+      "strength": "1.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2090928,
+      "ingredient": "ALKYL DIMETHYL ETHYLBENZYL AMMONIUM CHLORIDE",
+      "strength": "1.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 90928,
+      "ingredient": "BENZALKONIUM CHLORIDE",
+      "strength": "1.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1090928,
+      "ingredient": "BENZALKONIUM CHLORIDE",
+      "strength": "1.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2090928,
+      "ingredient": "BENZALKONIUM CHLORIDE",
+      "strength": "1.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 91433,
+      "ingredient": "AMITRIPTYLINE HYDROCHLORIDE",
+      "strength": "75",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1091433,
+      "ingredient": "AMITRIPTYLINE HYDROCHLORIDE",
+      "strength": "75",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2091433,
+      "ingredient": "AMITRIPTYLINE HYDROCHLORIDE",
+      "strength": "75",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 95260,
+      "ingredient": "DEFERASIROX",
+      "strength": "250",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1095260,
+      "ingredient": "DEFERASIROX",
+      "strength": "250",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2095260,
+      "ingredient": "DEFERASIROX",
+      "strength": "250",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 96480,
+      "ingredient": "ALKYL DIMETHYL ETHYLBENZYL AMMONIUM CHLORIDE",
+      "strength": "4.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1096480,
+      "ingredient": "ALKYL DIMETHYL ETHYLBENZYL AMMONIUM CHLORIDE",
+      "strength": "4.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2096480,
+      "ingredient": "ALKYL DIMETHYL ETHYLBENZYL AMMONIUM CHLORIDE",
+      "strength": "4.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 96480,
+      "ingredient": "BENZALKONIUM CHLORIDE",
+      "strength": "4.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1096480,
+      "ingredient": "BENZALKONIUM CHLORIDE",
+      "strength": "4.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2096480,
+      "ingredient": "BENZALKONIUM CHLORIDE",
+      "strength": "4.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 96721,
+      "ingredient": "PYRITHIONE ZINC",
+      "strength": "1",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1096721,
+      "ingredient": "PYRITHIONE ZINC",
+      "strength": "1",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2096721,
+      "ingredient": "PYRITHIONE ZINC",
+      "strength": "1",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 96998,
+      "ingredient": "ARIPIPRAZOLE",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1096998,
+      "ingredient": "ARIPIPRAZOLE",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2096998,
+      "ingredient": "ARIPIPRAZOLE",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 97107,
+      "ingredient": "DALBAVANCIN (DALBAVANCIN HYDROCHLORIDE)",
+      "strength": "500",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1097107,
+      "ingredient": "DALBAVANCIN (DALBAVANCIN HYDROCHLORIDE)",
+      "strength": "500",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2097107,
+      "ingredient": "DALBAVANCIN (DALBAVANCIN HYDROCHLORIDE)",
+      "strength": "500",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 97288,
+      "ingredient": "RABIES IMMUNOGLOBULIN (HUMAN)",
+      "strength": "150",
+      "strength_unit": "UNIT"
+    },
+    {
+      "drug_code": 1097288,
+      "ingredient": "RABIES IMMUNOGLOBULIN (HUMAN)",
+      "strength": "150",
+      "strength_unit": "UNIT"
+    },
+    {
+      "drug_code": 2097288,
+      "ingredient": "RABIES IMMUNOGLOBULIN (HUMAN)",
+      "strength": "150",
+      "strength_unit": "UNIT"
+    },
+    {
+      "drug_code": 97412,
+      "ingredient": "AVOBENZONE",
+      "strength": "3",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1097412,
+      "ingredient": "AVOBENZONE",
+      "strength": "3",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2097412,
+      "ingredient": "AVOBENZONE",
+      "strength": "3",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 97412,
+      "ingredient": "HOMOSALATE",
+      "strength": "8.8",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1097412,
+      "ingredient": "HOMOSALATE",
+      "strength": "8.8",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2097412,
+      "ingredient": "HOMOSALATE",
+      "strength": "8.8",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 97412,
+      "ingredient": "OCTISALATE",
+      "strength": "4.9",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1097412,
+      "ingredient": "OCTISALATE",
+      "strength": "4.9",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2097412,
+      "ingredient": "OCTISALATE",
+      "strength": "4.9",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 97412,
+      "ingredient": "OCTOCRYLENE",
+      "strength": "5.9",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1097412,
+      "ingredient": "OCTOCRYLENE",
+      "strength": "5.9",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2097412,
+      "ingredient": "OCTOCRYLENE",
+      "strength": "5.9",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 97562,
+      "ingredient": "RIVASTIGMINE (RIVASTIGMINE HYDROGEN TARTRATE)",
+      "strength": "3",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1097562,
+      "ingredient": "RIVASTIGMINE (RIVASTIGMINE HYDROGEN TARTRATE)",
+      "strength": "3",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2097562,
+      "ingredient": "RIVASTIGMINE (RIVASTIGMINE HYDROGEN TARTRATE)",
+      "strength": "3",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 97587,
+      "ingredient": "AXICABTAGENE CILOLEUCEL",
+      "strength": "200000000",
+      "strength_unit": "CELLS"
+    },
+    {
+      "drug_code": 1097587,
+      "ingredient": "AXICABTAGENE CILOLEUCEL",
+      "strength": "200000000",
+      "strength_unit": "CELLS"
+    },
+    {
+      "drug_code": 2097587,
+      "ingredient": "AXICABTAGENE CILOLEUCEL",
+      "strength": "200000000",
+      "strength_unit": "CELLS"
+    },
+    {
+      "drug_code": 97787,
+      "ingredient": "APIXABAN",
+      "strength": "5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1097787,
+      "ingredient": "APIXABAN",
+      "strength": "5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2097787,
+      "ingredient": "APIXABAN",
+      "strength": "5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 97794,
+      "ingredient": "AVOBENZONE",
+      "strength": "3",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1097794,
+      "ingredient": "AVOBENZONE",
+      "strength": "3",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2097794,
+      "ingredient": "AVOBENZONE",
+      "strength": "3",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 97794,
+      "ingredient": "HOMOSALATE",
+      "strength": "10",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1097794,
+      "ingredient": "HOMOSALATE",
+      "strength": "10",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2097794,
+      "ingredient": "HOMOSALATE",
+      "strength": "10",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 97794,
+      "ingredient": "OCTISALATE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1097794,
+      "ingredient": "OCTISALATE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2097794,
+      "ingredient": "OCTISALATE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 97794,
+      "ingredient": "OCTOCRYLENE",
+      "strength": "10",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1097794,
+      "ingredient": "OCTOCRYLENE",
+      "strength": "10",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2097794,
+      "ingredient": "OCTOCRYLENE",
+      "strength": "10",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 98002,
+      "ingredient": "DOXAZOSIN (DOXAZOSIN MESYLATE)",
+      "strength": "2",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1098002,
+      "ingredient": "DOXAZOSIN (DOXAZOSIN MESYLATE)",
+      "strength": "2",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2098002,
+      "ingredient": "DOXAZOSIN (DOXAZOSIN MESYLATE)",
+      "strength": "2",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 98139,
+      "ingredient": "AVOBENZONE",
+      "strength": "3",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1098139,
+      "ingredient": "AVOBENZONE",
+      "strength": "3",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2098139,
+      "ingredient": "AVOBENZONE",
+      "strength": "3",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 98139,
+      "ingredient": "HOMOSALATE",
+      "strength": "7.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1098139,
+      "ingredient": "HOMOSALATE",
+      "strength": "7.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2098139,
+      "ingredient": "HOMOSALATE",
+      "strength": "7.5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 98139,
+      "ingredient": "OCTISALATE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1098139,
+      "ingredient": "OCTISALATE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2098139,
+      "ingredient": "OCTISALATE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 98139,
+      "ingredient": "OCTOCRYLENE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 1098139,
+      "ingredient": "OCTOCRYLENE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 2098139,
+      "ingredient": "OCTOCRYLENE",
+      "strength": "5",
+      "strength_unit": "%"
+    },
+    {
+      "drug_code": 98169,
+      "ingredient": "HYDROMORPHONE HYDROCHLORIDE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1098169,
+      "ingredient": "HYDROMORPHONE HYDROCHLORIDE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2098169,
+      "ingredient": "HYDROMORPHONE HYDROCHLORIDE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 98172,
+      "ingredient": "ATIPAMEZOLE HYDROCHLORIDE",
+      "strength": "5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1098172,
+      "ingredient": "ATIPAMEZOLE HYDROCHLORIDE",
+      "strength": "5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2098172,
+      "ingredient": "ATIPAMEZOLE HYDROCHLORIDE",
+      "strength": "5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 98259,
+      "ingredient": "TICAGRELOR",
+      "strength": "90",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1098259,
+      "ingredient": "TICAGRELOR",
+      "strength": "90",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2098259,
+      "ingredient": "TICAGRELOR",
+      "strength": "90",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 99607,
+      "ingredient": "ARIPIPRAZOLE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1099607,
+      "ingredient": "ARIPIPRAZOLE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2099607,
+      "ingredient": "ARIPIPRAZOLE",
+      "strength": "10",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 99712,
+      "ingredient": "DULOXETINE (DULOXETINE HYDROCHLORIDE)",
+      "strength": "30",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1099712,
+      "ingredient": "DULOXETINE (DULOXETINE HYDROCHLORIDE)",
+      "strength": "30",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2099712,
+      "ingredient": "DULOXETINE (DULOXETINE HYDROCHLORIDE)",
+      "strength": "30",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 100020,
+      "ingredient": "ESCITALOPRAM (ESCITALOPRAM OXALATE)",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1100020,
+      "ingredient": "ESCITALOPRAM (ESCITALOPRAM OXALATE)",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2100020,
+      "ingredient": "ESCITALOPRAM (ESCITALOPRAM OXALATE)",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 100562,
+      "ingredient": "PITOLISANT HYDROCHLORIDE",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1100562,
+      "ingredient": "PITOLISANT HYDROCHLORIDE",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2100562,
+      "ingredient": "PITOLISANT HYDROCHLORIDE",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "CORYNEBACTERIUM DIPHTHERIAE CRM-197 PROTEIN",
+      "strength": "51",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "CORYNEBACTERIUM DIPHTHERIAE CRM-197 PROTEIN",
+      "strength": "51",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "CORYNEBACTERIUM DIPHTHERIAE CRM-197 PROTEIN",
+      "strength": "51",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 1",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 1",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 1",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 10A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 10A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 10A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 11A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 11A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 11A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 12F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 12F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 12F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 14",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 14",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 14",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 15B",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 15B",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 15B",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 18C",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 18C",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 18C",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 19A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 19A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 19A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 19F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 19F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 19F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 22F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 22F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 22F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 23F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 23F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 23F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 3",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 3",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 3",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 33F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 33F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 33F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 4",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 4",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 4",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 5",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 5",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 5",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 6A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 6A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 6A",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 6B",
+      "strength": "4.4",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 6B",
+      "strength": "4.4",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 6B",
+      "strength": "4.4",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 7F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 7F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 7F",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 8",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 8",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 8",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 9V",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 1101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 9V",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 2101610,
+      "ingredient": "PNEUMOCOCCAL POLYSACCHARIDE SEROTYPE 9V",
+      "strength": "2.2",
+      "strength_unit": "MCG"
+    },
+    {
+      "drug_code": 102451,
+      "ingredient": "PRAVASTATIN SODIUM",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1102451,
+      "ingredient": "PRAVASTATIN SODIUM",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2102451,
+      "ingredient": "PRAVASTATIN SODIUM",
+      "strength": "20",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 107194,
+      "ingredient": "SELUMETINIB (SELUMETINIB SULFATE)",
+      "strength": "5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 1107194,
+      "ingredient": "SELUMETINIB (SELUMETINIB SULFATE)",
+      "strength": "5",
+      "strength_unit": "MG"
+    },
+    {
+      "drug_code": 2107194,
+      "ingredient": "SELUMETINIB (SELUMETINIB SULFATE)",
+      "strength": "5",
+      "strength_unit": "MG"
+    }
+  ]
+}

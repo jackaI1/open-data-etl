@@ -5,7 +5,7 @@ DATA_DIR ?= data
 .PHONY: install test lint fixture evaluate extract transform pipeline insights monitor-demo
 install:
 	uv venv --python 3.12 .venv
-	uv pip install --python $(PYTHON) -e '.[dev,gcp,cloud-test,bigquery,mongo]'
+	uv pip install --python $(PYTHON) -e '.[dev,gcp,cloud-test,bigquery,mongo,graph]'
 test:
 	$(PYTHON) -m pytest -q
 lint:
@@ -83,3 +83,13 @@ archive-test:
 # Archive, summary and timer tests. Set AZURITE_CONNECTION_STRING to run the Azurite cases.
 azure-test:
 	$(PYTHON) -m pytest -q tests/azure
+
+# Graph neural network duplicate matcher, compared with the rule matcher on held-out pairs.
+# The challenge file is committed; `graph-challenge` rebuilds it from the fixture warehouse.
+.PHONY: graph-challenge graph-eval graph-test
+graph-challenge:
+	$(PYTHON) scripts/build_graph_challenge.py --warehouse $(DATA_DIR)/fixture/warehouse/dpd.duckdb --output tests/fixtures/graph_challenge.json
+graph-eval:
+	$(PYTHON) -m dpd_etl.graph_match --challenge tests/fixtures/graph_challenge.json --output $(DATA_DIR)/reports/graph_match_evaluation.json
+graph-test:
+	$(PYTHON) -m pytest -q tests/graph

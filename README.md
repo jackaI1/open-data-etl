@@ -126,6 +126,46 @@ small example on Linux; I have not run a hosted Snowflake or Databricks account.
 The [generated dictionary](docs/data-dictionary.md) explains the tables and
 metrics in one place.
 
+## Compare a graph model with my duplicate rules
+
+I built a graph model for finding duplicate product entries because my rule matcher
+only compares names and companies, and I wanted to know whether the links between
+products, ingredients and brand families help. The model is a small neural network
+written with PyTorch, a Python library for learning from examples. It reads a graph
+where each product links to its ingredients and to its brand family, the first word
+of its brand name, such as `APO`.
+
+It scores the same candidate pairs that my blocking step proposes, so both matchers
+start from the same list. I trained it on one set of product groups and tested it on
+groups it had never seen, using a challenge built from the public 60-product sample.
+Each product has a copy with one realistic change, and a sibling from the same company
+with a different DIN, the Canadian drug identification number.
+
+On the held-out groups there are 20 true duplicate pairs:
+
+| Matcher | Found | Correct among flagged | False flags |
+| --- | --- | --- | --- |
+| Rule matcher (name edit distance and DIN) | 20 of 20 | 20 of 30 | 10 |
+| Graph model | 16 of 20 | 16 of 21 | 5 |
+| Graph model without links | 19 of 20 | 19 of 24 | 5 |
+
+The links did not help on this challenge. Removing them improved the graph model.
+The rule matcher's false flags all come from products with a missing DIN, where it
+falls back to name similarity. The graph model never reads DINs, so it cannot tell a
+sibling from its original. This is a small synthetic test, so each missed pair changes
+the score by 5 points. The [graph guide](docs/graph-matcher.md) explains the model,
+the challenge and the limits.
+
+```sh
+make install          # now includes PyTorch
+make fixture SNAPSHOT_DATE=2026-11-01
+make graph-test       # checks graph building, a seeded training run and the challenge
+make graph-eval       # writes data/reports/graph_match_evaluation.json
+```
+
+CI runs the same tests and comparison in its `graph` job and keeps the report as an
+artifact. The model does not yet run on the live catalogue.
+
 ## Run locally
 
 Install Python 3.10 to 3.12, Java 17, curl, Make and

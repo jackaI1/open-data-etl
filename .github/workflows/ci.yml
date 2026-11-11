@@ -208,6 +208,36 @@ jobs:
           az bicep build --file infra/azure/main.bicep --stdout > /dev/null
           az bicep lint --file infra/azure/main.bicep
 
+  graph:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SPARK_LOCAL_IP: 127.0.0.1
+      PYSPARK_PYTHON: python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install CPU-only PyTorch first to keep the runner download small
+        run: python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -e '.[dev,graph]'
+      - name: Build the sample warehouse the challenge comes from
+        run: make fixture PYTHON=python SNAPSHOT_DATE=2026-11-01
+      - name: Test graph construction, seeded training and the challenge build
+        run: make graph-test PYTHON=python
+      - name: Compare the graph matcher with the rule matcher on held-out pairs
+        run: make graph-eval PYTHON=python
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: graph-match-report
+          path: data/reports/graph_match_evaluation.json
+
   mongo:
     runs-on: ubuntu-latest
     timeout-minutes: 10
