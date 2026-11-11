@@ -228,10 +228,10 @@ jobs:
       - run: python -m pip install -e '.[dev,graph]'
       - name: Build the sample warehouse the challenge comes from
         run: make fixture PYTHON=python SNAPSHOT_DATE=2026-11-01
-      - name: Test graph construction, seeded training and the challenge build
-        run: make graph-test PYTHON=python
       - name: Compare the graph matcher with the rule matcher on held-out pairs
         run: make graph-eval PYTHON=python
+      - name: Test graph construction, seeded training and the challenge build
+        run: make graph-test PYTHON=python
       - uses: actions/upload-artifact@v4
         if: always()
         with:
