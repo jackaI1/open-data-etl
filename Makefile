@@ -47,6 +47,15 @@ delta-test:
 	$(PYTHON) -c "import delta"
 	$(PYTHON) -m pytest -q tests/delta
 
+.PHONY: lakehouse-versions lakehouse-compare
+LAKEHOUSE_ROOT ?= $(DATA_DIR)/lakehouse
+OLD ?= 0
+NEW ?= 1
+lakehouse-versions:
+	$(PYTHON) -m dpd_etl.delta_ops --delta-root $(LAKEHOUSE_ROOT) versions
+lakehouse-compare:
+	$(PYTHON) -m dpd_etl.delta_ops --delta-root $(LAKEHOUSE_ROOT) compare --old-version $(OLD) --new-version $(NEW)
+
 .PHONY: elastic-up elastic-down elastic-load elastic-import elastic-test
 elastic-up:
 	docker compose -p dpd-elastic -f elastic/compose.yml up -d --wait

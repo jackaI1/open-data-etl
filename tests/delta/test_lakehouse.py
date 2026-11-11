@@ -26,6 +26,10 @@ def test_bronze_silver_gold_reconciles_rerun_sql_and_partition_plans(lake_spark,
     assert first['raw_rows'] == 61 and first['raw_duplicate_rows'] == 1
     assert first['cleaned_products'] == first['gold_products'] == 60
     assert run_lakehouse(lake_spark, **args) == first
+    # The 60-product sample has no candidate duplicate pairs (see test_pipeline), but the
+    # silver linkage table must still exist and agree with the receipt.
+    links = lake_spark.read.format('delta').load(str(tmp_path / 'delta/silver_product_links'))
+    assert links.where('is_match').count() == first['matched_product_pairs'] == 0
     spark = lake_spark
     quality = spark.table('gold_quality').collect()
     assert len(quality) == 1
