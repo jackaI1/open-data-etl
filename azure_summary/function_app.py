@@ -1,4 +1,4 @@
-"""Write an accepted snapshot's quality summary on a configurable daily timer."""
+"""Write an accepted snapshot's summary and archive its release on configurable daily timers."""
 
 import json
 import os
@@ -9,15 +9,20 @@ import azure.functions as func
 from azure.core.exceptions import ResourceExistsError
 from azure.storage.blob import BlobServiceClient, ContentSettings
 
+from dpd_etl import archive
 from dpd_etl.summary import accepted_summary
 
 app = func.FunctionApp()
 
 
+def _snapshot_date() -> str:
+    # Unset means today's UTC snapshot; a missing or rejected date raises and retries.
+    return os.environ.get("DPD_SNAPSHOT_DATE") or datetime.now(timezone.utc).date().isoformat()
+
+
 def write_summary():
     data_dir = Path(os.environ["DPD_DATA_DIR"])
-    # Unset means today's UTC snapshot; a missing or rejected date raises and retries.
-    snapshot = os.environ.get("DPD_SNAPSHOT_DATE") or datetime.now(timezone.utc).date().isoformat()
+    snapshot = _snapshot_date()
     payload = accepted_summary(data_dir, snapshot)
     container = os.environ.get("DPD_SUMMARY_CONTAINER", "quality-summaries")
     with BlobServiceClient.from_connection_string(os.environ["AzureWebJobsStorage"]) as service:
@@ -33,7 +38,27 @@ def write_summary():
     return payload
 
 
+def archive_release() -> dict:
+    """Upload the accepted snapshot's raw files and outputs to Blob Storage, once."""
+    data_dir = Path(os.environ["DPD_DATA_DIR"])
+    raw_dir = Path(os.environ.get("DPD_RAW_DIR") or data_dir / "raw" / "files")
+    output_dir = Path(os.environ["DPD_ARCHIVE_OUTPUT_DIR"])
+    with archive.container_client(
+        os.environ["DPD_ARCHIVE_CONNECTION_STRING"],
+        os.environ.get("DPD_ARCHIVE_CONTAINER", archive.DEFAULT_CONTAINER),
+    ) as container:
+        return archive.archive_accepted_release(
+            container, data_dir, _snapshot_date(), raw_dir=raw_dir, output_dir=output_dir,
+        )
+
+
 @app.timer_trigger(schedule="%DPD_SUMMARY_SCHEDULE%", arg_name="timer",
                    run_on_startup=False, use_monitor=True)
 def daily_quality_summary(timer: func.TimerRequest) -> None:
     write_summary()
+
+
+@app.timer_trigger(schedule="%DPD_ARCHIVE_SCHEDULE%", arg_name="timer",
+                   run_on_startup=False, use_monitor=True)
+def daily_release_archive(timer: func.TimerRequest) -> None:
+    archive_release()

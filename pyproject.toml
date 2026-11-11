@@ -19,6 +19,7 @@ azure = ["azure-functions==1.26.0", "azure-storage-blob==12.31.1"]
 gcp = ["google-cloud-storage>=2.18,<4", "flask>=3,<4", "gunicorn>=23,<24"]
 airflow = ["apache-airflow==3.3.2"]
 cloud-test = ["google-cloud-batch>=0.17,<1"]
+graph = ["torch>=2.4,<3", "numpy>=1.26,<3"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

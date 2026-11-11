@@ -14,7 +14,8 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .delta_job import valid_date
+from .elastic import validate_date as valid_date  # light import: the Functions image has no PySpark
+from .summary import accepted_summary
 
 MANIFEST = "MANIFEST.json"
 DEFAULT_CONTAINER = "dpd-releases"
@@ -109,6 +110,51 @@ def restore_manifest(container, snapshot_date: str) -> dict:
     valid_date(snapshot_date)
     blob = container.get_blob_client(f"{snapshot_date}/{MANIFEST}")
     return json.loads(blob.download_blob().readall())
+
+
+def verify_local_copy(manifest: dict, raw_dir: Path | None, output_dir: Path | None) -> None:
+    """Refuse to continue when a local file no longer matches the archived checksum."""
+    roots = {"raw": raw_dir, "outputs": output_dir}
+    for entry in manifest["files"]:
+        root = roots.get(entry["part"])
+        if root is None:
+            continue
+        path = Path(root) / entry["path"]
+        if not path.is_file() or sha256_file(path) != entry["sha256"]:
+            raise ReleaseMismatch(
+                f"local {entry['part']}/{entry['path']} differs from the archived "
+                f"{manifest['snapshot_date']} release"
+            )
+
+
+def archive_accepted_release(
+    container, data_dir: Path, snapshot_date: str, *, raw_dir: Path, output_dir: Path,
+) -> dict:
+    """Archive one snapshot only after its accepted-run checks pass.
+
+    `accepted_summary` rejects a snapshot whose quality checks failed, whose run receipt
+    disagrees with the database, or whose duplicate-pair and strength counts changed.
+    A release that is already archived is not uploaded again; its local files must still
+    match the stored checksums, otherwise the call raises instead of skipping silently.
+    """
+    summary = accepted_summary(Path(data_dir), snapshot_date)
+    ensure_container(container)
+    if container.get_blob_client(f"{snapshot_date}/{MANIFEST}").exists():
+        manifest = restore_manifest(container, snapshot_date)
+        verify_local_copy(manifest, raw_dir, output_dir)
+        status = "already_archived"
+    else:
+        manifest = upload_release(container, snapshot_date, raw_dir=Path(raw_dir),
+                                  output_dir=Path(output_dir))
+        status = "archived"
+    return {
+        "status": status,
+        "snapshot_date": snapshot_date,
+        "file_count": manifest["file_count"],
+        "total_bytes": manifest["total_bytes"],
+        "flagged_strengths": summary["flagged_strengths"],
+        "duplicate_pairs": summary["duplicate_pairs"],
+    }
 
 
 def list_releases(container) -> list[dict]:

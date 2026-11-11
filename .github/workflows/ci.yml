@@ -50,7 +50,7 @@ jobs:
       - run: python -m pip install -e '.[dev,gcp,cloud-test,bigquery,azure,mongo]'
       - run: make lint fixture evaluate monitor-demo PYTHON=python SNAPSHOT_DATE=2026-11-01
       - name: Test all features and SQL against the pinned BigQuery emulator
-        run: PYTHON=python scripts/test_bigquery.sh --junitxml=data/reports/bigquery-tests.xml
+        run: PYTHON=python scripts/test_bigquery.sh --ignore=tests/graph --junitxml=data/reports/bigquery-tests.xml
       - name: Render a deployment without credentials
         run: PROJECT_ID=sample-project BUCKET=sample-dpd-data RUN_ID=sample FIXTURE=true PYTHON=python scripts/deploy_gcp.sh render
       - uses: actions/upload-artifact@v4
@@ -170,6 +170,7 @@ jobs:
       PYSPARK_PYTHON: python
       DPD_SNAPSHOT_DATE: '2026-11-01'
       DPD_SUMMARY_SCHEDULE: '*/5 * * * * *'
+      DPD_ARCHIVE_SCHEDULE: '*/5 * * * * *'
       AZURITE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=dpdlocal;AccountKey=ZHBkLWxvY2FsLWVtdWxhdG9yLW9ubHkta2V5LTAwMDE=;BlobEndpoint=http://127.0.0.1:11000/dpdlocal;QueueEndpoint=http://127.0.0.1:11001/dpdlocal;TableEndpoint=http://127.0.0.1:11002/dpdlocal;
     steps:
       - uses: actions/checkout@v4
@@ -206,6 +207,36 @@ jobs:
           az bicep version
           az bicep build --file infra/azure/main.bicep --stdout > /dev/null
           az bicep lint --file infra/azure/main.bicep
+
+  graph:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SPARK_LOCAL_IP: 127.0.0.1
+      PYSPARK_PYTHON: python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install CPU-only PyTorch first to keep the runner download small
+        run: python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -e '.[dev,graph]'
+      - name: Build the sample warehouse the challenge comes from
+        run: make fixture PYTHON=python SNAPSHOT_DATE=2026-11-01
+      - name: Compare the graph matcher with the rule matcher on held-out pairs
+        run: make graph-eval PYTHON=python
+      - name: Test graph construction, seeded training and the challenge build
+        run: make graph-test PYTHON=python
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: graph-match-report
+          path: data/reports/graph_match_evaluation.json
 
   mongo:
     runs-on: ubuntu-latest

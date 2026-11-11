@@ -4,7 +4,11 @@
     "FUNCTIONS_WORKER_RUNTIME": "python",
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "DPD_SUMMARY_SCHEDULE": "0 0 8 * * *",
+    "DPD_ARCHIVE_SCHEDULE": "0 30 8 * * *",
     "DPD_DATA_DIR": "/absolute/path/to/open-data-etl/data/fixture",
+    "DPD_RAW_DIR": "/absolute/path/to/open-data-etl/tests/fixtures/raw",
+    "DPD_ARCHIVE_OUTPUT_DIR": "/absolute/path/to/open-data-etl/data/fixture",
+    "DPD_ARCHIVE_CONNECTION_STRING": "UseDevelopmentStorage=true",
     "DPD_SNAPSHOT_DATE": "2026-11-01",
     "DPD_SUMMARY_CONTAINER": "quality-summaries"
   }

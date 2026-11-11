@@ -5,7 +5,7 @@ DATA_DIR ?= data
 .PHONY: install test lint fixture evaluate extract transform pipeline insights monitor-demo
 install:
 	uv venv --python 3.12 .venv
-	uv pip install --python $(PYTHON) -e '.[dev,gcp,cloud-test,bigquery,mongo]'
+	uv pip install --python $(PYTHON) -e '.[dev,gcp,cloud-test,bigquery,mongo,graph]'
 test:
 	$(PYTHON) -m pytest -q
 lint:
@@ -71,7 +71,7 @@ elastic-test:
 # Monthly release archive in Azure Blob Storage. Set DPD_ARCHIVE_CONNECTION_STRING first.
 ARCHIVE_OUTPUT_DIR ?= $(DATA_DIR)/lakehouse
 RESTORE_DIR ?= $(DATA_DIR)/restored
-.PHONY: archive-upload archive-list archive-restore archive-test
+.PHONY: archive-upload archive-list archive-restore archive-test azure-test
 archive-upload:
 	$(PYTHON) -m dpd_etl.archive upload --snapshot-date $(SNAPSHOT_DATE) --raw-dir $(DATA_DIR)/raw/files --output-dir $(ARCHIVE_OUTPUT_DIR)
 archive-list:
@@ -80,3 +80,16 @@ archive-restore:
 	$(PYTHON) -m dpd_etl.archive restore --snapshot-date $(SNAPSHOT_DATE) --dest $(RESTORE_DIR)
 archive-test:
 	$(PYTHON) -m pytest -q tests/azure/test_archive.py
+# Archive, summary and timer tests. Set AZURITE_CONNECTION_STRING to run the Azurite cases.
+azure-test:
+	$(PYTHON) -m pytest -q tests/azure
+
+# Graph neural network duplicate matcher, compared with the rule matcher on held-out pairs.
+# The challenge file is committed; `graph-challenge` rebuilds it from the fixture warehouse.
+.PHONY: graph-challenge graph-eval graph-test
+graph-challenge:
+	$(PYTHON) scripts/build_graph_challenge.py --warehouse $(DATA_DIR)/fixture/warehouse/dpd.duckdb --output tests/fixtures/graph_challenge.json
+graph-eval:
+	$(PYTHON) -m dpd_etl.graph_match --challenge tests/fixtures/graph_challenge.json --output $(DATA_DIR)/reports/graph_match_evaluation.json
+graph-test:
+	$(PYTHON) -m pytest -q tests/graph
