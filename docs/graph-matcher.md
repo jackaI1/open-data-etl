@@ -79,27 +79,30 @@ and false positives of each matcher):
 
 | Matcher | True pairs found | Flagged pairs that are correct | Missed | False flags |
 | --- | --- | --- | --- | --- |
-| Rule matcher (edit distance and DIN) | 20 of 20 (recall 100%) | 20 of 30 (precision 67%) | 0 | 10 |
-| Graph model | 16 of 20 (recall 80%) | 16 of 21 (precision 76%) | 4 | 5 |
-| Graph model without links | 19 of 20 (recall 95%) | 19 of 24 (precision 79%) | 1 | 5 |
+| Rule matcher (edit distance and DIN), Mac and Linux | 20 of 20 (recall 100%) | 20 of 30 (precision 67%) | 0 | 10 |
+| Graph model, my Mac | 16 of 20 (recall 80%) | 16 of 21 (precision 76%) | 4 | 5 |
+| Graph model, Linux CI | 14 of 20 (recall 70%) | 14 of 17 (precision 82%) | 6 | 3 |
+| Graph model without links, Mac and Linux CI | 19 of 20 (recall 95%) | 19 of 24 (precision 79%) | 1 | 5 |
 
 What these numbers show:
 
 - The rule matcher finds every held-out pair, but all 10 of its false flags have a
   missing DIN on the original product. When a DIN is missing, its fallback accepts a
   close name match from the same company, so a sibling with a different DIN gets through.
-- The graph model misses 4 pairs: three where the copy lost its DIN and one typo. It
-  flags 5 siblings. It never reads DINs, so it cannot use the one field that separates
+- The graph model misses 4 pairs on my Mac (three where the copy lost its DIN, and one
+  typo) and 6 on Linux, mostly copies that lost their DIN. It flags 5 siblings on my
+  Mac and 3 on Linux. It never reads DINs, so it cannot use the one field that separates
   a sibling from its original.
 - Removing the links made the same network slightly better on this set. On this
   challenge, the relational structure did not help. Siblings share their original's
   ingredients and brand family, so the links carry the same signal that the names already
   give. I have not tested that explanation directly.
 
-The first training loss is 0.91 and the last is 0.00004, so the model fits the 40
-training positives closely. With 20 true pairs, each miss moves recall by 5 points,
-so these differences are small. I ran one seed and did not measure how much the numbers
-move with other seeds.
+The first training loss is 0.91 and the last is about 0.00005, so the model fits the 40
+training positives closely. The linked model's counts changed between the Mac and the
+Linux runner with the same seed: small floating-point differences on each CPU moved a few
+pairs across the 0.5 threshold. The rule matcher and the no-links version did not change.
+With 20 true pairs, each miss moves recall by 5 points, and I ran one seed only.
 
 ## Limits
 
@@ -109,4 +112,5 @@ move with other seeds.
   only.
 - DIN is not an input to the model. Adding a DIN-agreement feature is the obvious next
   test, but I have not tried it, and I did not tune on the held-out pairs.
-- Training runs on CPU; the CI job installs CPU-only PyTorch to keep the download small.
+- Training runs on CPU. The same seed gives different linked-model counts on macOS and
+  Linux, so the graph counts are not exact across machines; the CI job uses CPU-only PyTorch.

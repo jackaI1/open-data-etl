@@ -146,10 +146,13 @@ On the held-out groups there are 20 true duplicate pairs:
 | Matcher | Found | Correct among flagged | False flags |
 | --- | --- | --- | --- |
 | Rule matcher (name edit distance and DIN) | 20 of 20 | 20 of 30 | 10 |
-| Graph model | 16 of 20 | 16 of 21 | 5 |
-| Graph model without links | 19 of 20 | 19 of 24 | 5 |
+| Graph model, my Mac | 16 of 20 | 16 of 21 | 5 |
+| Graph model, Linux CI | 14 of 20 | 14 of 17 | 3 |
+| Graph model without links, Mac and Linux CI | 19 of 20 | 19 of 24 | 5 |
 
-The links did not help on this challenge. Removing them improved the graph model.
+The links did not help on this challenge. Without them the network found 19 of 20 on
+both machines. With them it found 16 on my Mac and 14 on the Linux runner, so the linked
+model also varies between CPUs.
 The rule matcher's false flags all come from products with a missing DIN, where it
 falls back to name similarity. The graph model never reads DINs, so it cannot tell a
 sibling from its original. This is a small synthetic test, so each missed pair changes
