@@ -82,6 +82,7 @@ archive-test:
 	$(PYTHON) -m pytest -q tests/azure/test_archive.py
 # Archive, summary and timer tests. Set AZURITE_CONNECTION_STRING to run the Azurite cases.
 azure-test:
+	$(MAKE) fixture PYTHON=$(PYTHON) SNAPSHOT_DATE=2026-11-01
 	$(PYTHON) -m pytest -q tests/azure
 
 # Graph neural network duplicate matcher, compared with the rule matcher on held-out pairs.

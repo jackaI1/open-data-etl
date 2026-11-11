@@ -66,6 +66,9 @@ make archive-test
 docker compose -p dpd-archive -f azure_summary/compose.yml down --volumes
 ```
 
+`make azure-test` builds the sample warehouse first (`make fixture`), because one test reads
+its run report. Without Azurite running, the Azurite tests are skipped.
+
 Each test creates its own container and deletes it afterwards. The tests cover a
 round trip with byte comparison, a rerun, a changed file being refused, a tampered
 blob being caught, a half-finished upload being ignored, the refusal to overwrite,
