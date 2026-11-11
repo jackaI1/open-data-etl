@@ -184,3 +184,39 @@ def table_versions(spark: SparkSession, delta_root: str) -> list[int]:
     if table is None:
         return []
     return sorted(int(r.version) for r in table.history().select("version").collect())
+
+
+def main(argv: list[str] | None = None, spark: SparkSession | None = None) -> int:
+    """Command line for version comparison: list saved versions, or diff two of them.
+
+    A caller that already has a session passes it in and keeps ownership of it.
+    """
+    import argparse
+    import json
+
+    from .delta_job import get_delta_spark
+
+    parser = argparse.ArgumentParser(description="Compare two saved versions of current_products.")
+    parser.add_argument("--delta-root", required=True)
+    sub = parser.add_subparsers(dest="command", required=True)
+    sub.add_parser("versions", help="list the saved versions, oldest first")
+    cmp_parser = sub.add_parser("compare", help="count changes between two versions")
+    cmp_parser.add_argument("--old-version", type=int, required=True)
+    cmp_parser.add_argument("--new-version", type=int, required=True)
+    args = parser.parse_args(argv)
+    owned = spark is None
+    spark = spark or get_delta_spark()
+    try:
+        if args.command == "versions":
+            print(json.dumps(table_versions(spark, args.delta_root)))
+        else:
+            diff = compare_versions(spark, args.delta_root, args.old_version, args.new_version)
+            print(json.dumps(diff, indent=2))
+    finally:
+        if owned:
+            spark.stop()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

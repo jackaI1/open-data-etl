@@ -167,9 +167,10 @@ stores, so recovery can require rerunning that date.
 
 ## Keep tables I can rerun and review
 
-I also keep the cleaned products and ingredient-strength review records as Delta
-tables, files with a change log that lets me replace one date and read earlier
-versions. A notebook, a script divided into runnable cells, takes the input
+I also keep the cleaned products, ingredient-strength review records and possible
+duplicate pairs as Delta tables, files with a change log that lets me replace one
+date and read earlier versions. The duplicate pairs are a silver table, so I can
+review them next to the products they came from. A notebook, a script divided into runnable cells, takes the input
 folder, output folder and date as parameters. I can use the same notebook for
 the sample or a saved download:
 
@@ -200,7 +201,9 @@ changes nothing. Delta keeps every committed version, so I can compare two month
 and see how many products were added, changed or deactivated, without parsing the
 source files again. A download with a new or retyped column is refused before the current table
 changes, and the error names the column. The raw files are also kept byte for byte,
-each with its checksum, in `bronze_raw_files`. The [lakehouse guide](docs/lakehouse.md)
+each with its checksum, in `bronze_raw_files`. To compare months from the
+terminal, `make lakehouse-versions` lists the saved versions and
+`make lakehouse-compare OLD=0 NEW=3` counts the changes between two of them. The [lakehouse guide](docs/lakehouse.md)
 has the commands.
 
 ## Keep monthly releases in Azure

@@ -11,7 +11,7 @@ from pyspark.sql import functions as F
 from .config import FIXTURE_THRESHOLDS, Thresholds
 from .delta_job import get_delta_spark, valid_date, write_snapshot
 from .delta_ops import check_release_order, load_raw_files, merge_release
-from .detection import detect_strength_anomalies
+from .detection import detect_strength_anomalies, link_products, product_context
 from .metrics import definitions, report_sql
 from .monitoring import Monitor
 from .snapshot import checked_snapshot
@@ -57,12 +57,17 @@ def run_lakehouse(spark, *, raw_dir, delta_root, snapshot_date, report_dir,
         ).groupBy('drug_code').agg(F.min('dosage_form').alias('dosage_form'))
         silver = products.join(forms, 'drug_code', 'left')
         strengths = detect_strength_anomalies(ingredients).withColumn('snapshot_date', day)
+        # Record linkage: candidate pairs of products that may be the same drug, for review.
+        context = product_context(ingredients, read_raw(spark, Path(raw_dir), 'form'),
+                                  read_raw(spark, Path(raw_dir), 'route'))
+        links, _ = link_products(products, context)
+        links = links.withColumn('snapshot_date', day)
         for name, frame in [('bronze_products', raw), ('silver_products', silver),
-                            ('silver_strengths', strengths)]:
+                            ('silver_strengths', strengths), ('silver_product_links', links)]:
             if name == 'silver_products':
                 require_key(frame, ['snapshot_date', 'drug_code'])
             write_snapshot(frame, f'{delta_root}/{name}', snapshot_date)
-        for name in ['bronze_products', 'silver_products', 'silver_strengths']:
+        for name in ['bronze_products', 'silver_products', 'silver_strengths', 'silver_product_links']:
             spark.read.format('delta').load(f'{delta_root}/{name}').createOrReplaceTempView(name)
         gold = spark.sql('''
           SELECT p.snapshot_date, p.drug_code, p.drug_class, p.dosage_form,
@@ -91,7 +96,8 @@ def run_lakehouse(spark, *, raw_dir, delta_root, snapshot_date, report_dir,
         counts = {'raw_rows': raw.count(), 'cleaned_products': products.count(),
                   'raw_distinct_keys': raw.select('drug_code').distinct().count(),
                   'gold_products': gold.count(), 'ingredient_records': strengths.count(),
-                  'flagged_strengths': strengths.where('is_anomaly').count()}
+                  'flagged_strengths': strengths.where('is_anomaly').count(),
+                  'matched_product_pairs': links.where('is_match').count()}
         totals = gold.agg(F.sum('ingredient_records'), F.sum('flagged_strengths')).first()
         if (counts['raw_distinct_keys'] != counts['cleaned_products']
                 or counts['gold_products'] != counts['cleaned_products']
@@ -113,7 +119,8 @@ def run_lakehouse(spark, *, raw_dir, delta_root, snapshot_date, report_dir,
                    'raw_duplicate_rows': counts['raw_rows'] - counts['raw_distinct_keys']}
         quality = spark.createDataFrame([tuple(summary.values())], schema=(
             'snapshot_date string, raw_rows long, cleaned_products long, raw_distinct_keys long, '
-            'gold_products long, ingredient_records long, flagged_strengths long, raw_duplicate_rows long'
+            'gold_products long, ingredient_records long, flagged_strengths long, '
+            'matched_product_pairs long, raw_duplicate_rows long'
         )).withColumn('snapshot_date', F.col('snapshot_date').cast('date'))
         write_snapshot(quality, f'{delta_root}/gold_quality', snapshot_date)
         spark.read.format('delta').load(f'{delta_root}/gold_quality').createOrReplaceTempView('gold_quality')

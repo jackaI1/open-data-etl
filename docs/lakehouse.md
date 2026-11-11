@@ -1,8 +1,8 @@
 # Keep the source, cleaned records and reports together
 
 I use three Delta layers so I can check where a changed count came from. Bronze
-keeps the raw product rows, silver keeps cleaned products and ingredient-strength
-checks, and gold keeps one product per date and a quality summary for each run date. Delta tables
+keeps the raw product rows, silver keeps cleaned products, ingredient-strength
+checks and record-linkage candidate pairs, and gold keeps one product per date and a quality summary for each run date. Delta tables
 are files with a transaction log; rerunning a date replaces its partition.
 
 ```sh
@@ -23,7 +23,8 @@ retries and per-task logging. Install `.[airflow,delta]` using the constraints i
 [the scheduling guide](airflow.md), then enable that DAG in the scheduler.
 
 The receipt `lakehouse_YYYY-MM-DD.json` records raw rows, distinct source keys,
-cleaned products, gold products, ingredient records and strength flags. It is
+cleaned products, gold products, ingredient records, strength flags and matched
+duplicate pairs. The sample has no candidate pairs, so its linkage table is empty. It is
 written only when key, reference and total checks pass. On this sample, 61 raw
 rows include one old duplicate, leaving 60 products in both silver and gold.
 Tables commit separately, so readers must require the receipt and serialize
@@ -73,6 +74,8 @@ versions = table_versions(spark, root)
 print(compare_versions(spark, root, versions[0], versions[-1]))
 ```
 
+From the command line, `make lakehouse-versions` lists the saved versions and
+`make lakehouse-compare OLD=0 NEW=3` prints the same counts for any two of them.
 The result counts added, removed, changed and deactivated drug codes. Changed means
 the row's SHA-256 over its columns differs. A release with a new, missing or retyped
 column is rejected before the current table changes, and the error names the column. Bronze keeps

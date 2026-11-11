@@ -118,3 +118,19 @@ def test_lakehouse_run_merges_current_products_and_rerun_is_a_no_op(spark, raw_d
     assert second["num_inserted_rows"] == 0 and second["num_updated_rows"] == 0
     bronze = spark.read.format("delta").load(table_path(args["delta_root"], "bronze_raw_files"))
     assert bronze.where(F.col("snapshot_date") == F.lit(DAY1).cast("date")).count() == RAW_FILES
+
+
+def test_command_line_lists_versions_and_compares_them(spark, tmp_path, capsys):
+    from dpd_etl.delta_ops import main as ops_main
+
+    root = str(tmp_path / "delta")
+    merge_release(spark, root, release(spark, BASE), DAY1)
+    merge_release(spark, root, release(spark, [(1, "ALPHA", "TABLET"), (2, "BETA PLUS", "CAPSULE")]), DAY2)
+    assert ops_main(["--delta-root", root, "versions"], spark=spark) == 0
+    assert json.loads(capsys.readouterr().out) == [0, 1]
+    assert ops_main(["--delta-root", root, "compare", "--old-version", "0", "--new-version", "1"],
+                    spark=spark) == 0
+    diff = json.loads(capsys.readouterr().out)
+    assert diff["changed"] == 1 and diff["deactivated"] == 1 and diff["added"] == 0
+    # The caller's session stays open after the command finishes.
+    assert spark.range(1).count() == 1
