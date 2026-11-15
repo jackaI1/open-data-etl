@@ -36,6 +36,18 @@ def quality_summary(db: Path, snapshot: str) -> dict:
                 "null_rate_company_name": products[3] / products[0]}
 
 
+def quality_checks(data_dir: Path, snapshot: str) -> list[dict]:
+    """The Spark run's data-quality results for one snapshot. Missing or malformed results raise."""
+    validate_date(snapshot)
+    checks = json.loads((data_dir / "reports" / f"dq_{snapshot}.json").read_text())
+    if not checks:
+        raise ValueError("snapshot has no quality checks")
+    for check in checks:
+        if not check.get("name") or not isinstance(check.get("passed"), bool):
+            raise ValueError("quality check result is malformed")
+    return checks
+
+
 def accepted_summary(data_dir: Path, snapshot: str) -> dict:
     """A successful-run receipt supplies measured duration and rejects stale outputs."""
     validate_date(snapshot)

@@ -1,0 +1,75 @@
+{
+  "name": "MonthlyExtractToSql",
+  "properties": {
+    "description": "Clears the SQL mirror, copies one month's CSV extract table by table in dependency order, then rebuilds the flagged-strength summary.",
+    "parameters": {
+      "snapshotDate": {"type": "string"},
+      "tables": {
+        "type": "array",
+        "defaultValue": ["dim_company", "dim_ingredient", "dim_product", "fct_product", "fct_product_ingredient", "fct_duplicate_pair"]
+      }
+    },
+    "activities": [
+      {
+        "name": "ClearMirror",
+        "description": "Empties the mirror child-first. Retrying is safe because the procedure starts from empty tables.",
+        "type": "SqlServerStoredProcedure",
+        "linkedServiceName": {"referenceName": "DpdSqlDatabase", "type": "LinkedServiceReference"},
+        "policy": {"timeout": "0.00:30:00", "retry": 3, "retryIntervalInSeconds": 60, "secureOutput": false, "secureInput": false},
+        "typeProperties": {"storedProcedureName": "[dbo].[usp_clear_mirror]"}
+      },
+      {
+        "name": "CopyEachTable",
+        "type": "ForEach",
+        "dependsOn": [{"activity": "ClearMirror", "dependencyConditions": ["Succeeded"]}],
+        "typeProperties": {
+          "isSequential": true,
+          "items": {"value": "@pipeline().parameters.tables", "type": "Expression"},
+          "activities": [
+            {
+              "name": "CopyExtractTable",
+              "type": "Copy",
+              "policy": {"timeout": "0.01:00:00", "retry": 3, "retryIntervalInSeconds": 120, "secureOutput": false, "secureInput": false},
+              "inputs": [{
+                "referenceName": "ExtractCsv",
+                "type": "DatasetReference",
+                "parameters": {
+                  "snapshotDate": {"value": "@pipeline().parameters.snapshotDate", "type": "Expression"},
+                  "tableName": {"value": "@item()", "type": "Expression"}
+                }
+              }],
+              "outputs": [{
+                "referenceName": "DpdSqlTable",
+                "type": "DatasetReference",
+                "parameters": {"tableName": {"value": "@item()", "type": "Expression"}}
+              }],
+              "typeProperties": {
+                "source": {
+                  "type": "DelimitedTextSource",
+                  "storeSettings": {"type": "AzureBlobStorageReadSettings", "recursive": false},
+                  "formatSettings": {"type": "DelimitedTextReadSettings"}
+                },
+                "sink": {"type": "AzureSqlSink", "writeBehavior": "insert", "sqlWriterUseTableLock": true},
+                "enableStaging": false,
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {"allowDataTruncation": false}
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "RefreshFlaggedSummary",
+        "description": "Rebuilds the per-company flagged-strength summary from the loaded product rows.",
+        "type": "SqlServerStoredProcedure",
+        "dependsOn": [{"activity": "CopyEachTable", "dependencyConditions": ["Succeeded"]}],
+        "linkedServiceName": {"referenceName": "DpdSqlDatabase", "type": "LinkedServiceReference"},
+        "policy": {"timeout": "0.00:30:00", "retry": 3, "retryIntervalInSeconds": 60, "secureOutput": false, "secureInput": false},
+        "typeProperties": {"storedProcedureName": "[dbo].[usp_refresh_flagged_strength_summary]"}
+      }
+    ]
+  }
+}

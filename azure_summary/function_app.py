@@ -1,6 +1,7 @@
 """Write an accepted snapshot's summary and archive its release on configurable daily timers."""
 
 import json
+import logging
 import os
 from datetime import datetime, timezone
 from pathlib import Path
@@ -10,8 +11,9 @@ from azure.core.exceptions import ResourceExistsError
 from azure.storage.blob import BlobServiceClient, ContentSettings
 
 from dpd_etl import archive
-from dpd_etl.summary import accepted_summary
+from dpd_etl.summary import accepted_summary, quality_checks
 
+logger = logging.getLogger(__name__)
 app = func.FunctionApp()
 
 
@@ -52,6 +54,21 @@ def archive_release() -> dict:
         )
 
 
+def check_quality() -> list[dict]:
+    """Re-read the accepted snapshot's data-quality results, log each one and fail on any miss."""
+    checks = quality_checks(Path(os.environ["DPD_DATA_DIR"]), _snapshot_date())
+    for check in checks:
+        logger.info("[dq] %s %s: observed %s, limit %s", "PASS" if check["passed"] else "FAIL",
+                    check["name"], check["observed"], check["limit"])
+    failed = [check["name"] for check in checks if not check["passed"]]
+    if failed:
+        # Raising marks the Functions invocation as failed, so the host's monitor shows it.
+        message = "data-quality checks failed: " + ", ".join(failed)
+        logger.error(message)
+        raise RuntimeError(message)
+    return checks
+
+
 @app.timer_trigger(schedule="%DPD_SUMMARY_SCHEDULE%", arg_name="timer",
                    run_on_startup=False, use_monitor=True)
 def daily_quality_summary(timer: func.TimerRequest) -> None:
@@ -62,3 +79,9 @@ def daily_quality_summary(timer: func.TimerRequest) -> None:
                    run_on_startup=False, use_monitor=True)
 def daily_release_archive(timer: func.TimerRequest) -> None:
     archive_release()
+
+
+@app.timer_trigger(schedule="%DPD_QUALITY_SCHEDULE%", arg_name="timer",
+                   run_on_startup=False, use_monitor=True)
+def daily_quality_check(timer: func.TimerRequest) -> None:
+    check_quality()

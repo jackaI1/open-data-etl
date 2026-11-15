@@ -41,6 +41,38 @@ VIEWS = {
         FROM dbo.fct_duplicate_pair p JOIN dbo.dim_product a ON p.left_product_key=a.product_key
         JOIN dbo.dim_product b ON p.right_product_key=b.product_key WHERE p.is_match=1''',
 }
+# Tables this module owns beyond the dbt copy. A stored procedure rebuilds the summary, so the
+# local publish and the scheduled Data Factory run write the same rows.
+DERIVED_DDL = {
+    'flagged_strength_summary': '''snapshot_date date NOT NULL,
+        company_key varchar(150) NOT NULL REFERENCES dbo.dim_company(company_key), company_name nvarchar(1000),
+        products bigint NOT NULL, products_with_flags bigint NOT NULL,
+        flagged_strengths bigint NOT NULL CHECK (flagged_strengths >= 0),
+        ingredient_records bigint NOT NULL CHECK (ingredient_records >= 0),
+        flagged_share float NULL,
+        CONSTRAINT pk_flagged_strength_summary PRIMARY KEY (snapshot_date, company_key)''',
+}
+# Children are deleted before parents, so clearing the mirror never breaks a foreign key.
+CHILD_FIRST = list(reversed(DDL))
+PROCEDURES = {
+    'usp_clear_mirror': 'CREATE OR ALTER PROCEDURE dbo.usp_clear_mirror AS BEGIN SET NOCOUNT ON; '
+                        'DELETE FROM dbo.flagged_strength_summary; '
+                        + ' '.join(f'DELETE FROM dbo.{name};' for name in CHILD_FIRST) + ' END',
+    'usp_refresh_flagged_strength_summary': '''CREATE OR ALTER PROCEDURE dbo.usp_refresh_flagged_strength_summary AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM dbo.flagged_strength_summary;
+    INSERT INTO dbo.flagged_strength_summary (snapshot_date, company_key, company_name, products,
+        products_with_flags, flagged_strengths, ingredient_records, flagged_share)
+    SELECT f.snapshot_date, f.company_key, MAX(c.company_name), COUNT_BIG(*),
+        SUM(CASE WHEN f.flagged_strengths > 0 THEN 1 ELSE 0 END), SUM(f.flagged_strengths),
+        SUM(f.ingredient_records),
+        CAST(SUM(f.flagged_strengths) AS float) / NULLIF(SUM(f.ingredient_records), 0)
+    FROM dbo.fct_product f
+    JOIN dbo.dim_company c ON c.company_key = f.company_key
+    GROUP BY f.snapshot_date, f.company_key;
+END''',
+}
 INDEX_SQL = '''IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='ix_product_date_class'
                AND object_id=OBJECT_ID('dbo.fct_product'))
                CREATE INDEX ix_product_date_class ON dbo.fct_product(snapshot_date, drug_class)
@@ -61,11 +93,12 @@ def publish(con, warehouse_db):
     """The dedicated target is a full mirror, so deleted source dates disappear too."""
     cur = con.cursor()
     try:
-        for name, columns in DDL.items():
+        for name, columns in {**DDL, **DERIVED_DDL}.items():
             cur.execute(f"IF OBJECT_ID('dbo.{name}', 'U') IS NULL CREATE TABLE dbo.{name} ({columns})")
+        for query in PROCEDURES.values():
+            cur.execute(query)
+        cur.execute('EXEC dbo.usp_clear_mirror')
         with duckdb.connect(str(warehouse_db), read_only=True) as source:
-            for name in reversed(DDL):
-                cur.execute(f'DELETE FROM dbo.{name}')
             totals = {}
             for name in DDL:
                 data = source.execute(f'SELECT * FROM analytics.{name}')
@@ -84,6 +117,12 @@ def publish(con, warehouse_db):
             cur.execute('SELECT * FROM dbo.rpt_reconciliation WHERE expected_ingredients != actual_ingredients')
             if cur.fetchall():
                 raise ValueError('SQL Server ingredient reconciliation failed')
+            cur.execute('EXEC dbo.usp_refresh_flagged_strength_summary')
+            cur.execute('SELECT count_big(*), ISNULL(SUM(flagged_strengths), 0) FROM dbo.flagged_strength_summary')
+            totals['flagged_strength_summary'], summary_flags = cur.fetchone()
+            cur.execute('SELECT ISNULL(SUM(flagged_strengths), 0) FROM dbo.fct_product')
+            if summary_flags != cur.fetchone()[0]:
+                raise ValueError('flagged-strength summary does not match fct_product')
         con.commit()
         return totals
     except Exception:

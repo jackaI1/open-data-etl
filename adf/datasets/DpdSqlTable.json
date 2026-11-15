@@ -1,0 +1,16 @@
+{
+  "name": "DpdSqlTable",
+  "properties": {
+    "description": "A mirror table in dbo, chosen by the pipeline's loop.",
+    "linkedServiceName": {"referenceName": "DpdSqlDatabase", "type": "LinkedServiceReference"},
+    "parameters": {
+      "tableName": {"type": "string"}
+    },
+    "type": "AzureSqlTable",
+    "typeProperties": {
+      "schema": "dbo",
+      "table": {"value": "@dataset().tableName", "type": "Expression"}
+    },
+    "schema": []
+  }
+}

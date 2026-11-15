@@ -171,6 +171,7 @@ jobs:
       DPD_SNAPSHOT_DATE: '2026-11-01'
       DPD_SUMMARY_SCHEDULE: '*/5 * * * * *'
       DPD_ARCHIVE_SCHEDULE: '*/5 * * * * *'
+      DPD_QUALITY_SCHEDULE: '*/5 * * * * *'
       AZURITE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=dpdlocal;AccountKey=ZHBkLWxvY2FsLWVtdWxhdG9yLW9ubHkta2V5LTAwMDE=;BlobEndpoint=http://127.0.0.1:11000/dpdlocal;QueueEndpoint=http://127.0.0.1:11001/dpdlocal;TableEndpoint=http://127.0.0.1:11002/dpdlocal;
     steps:
       - uses: actions/checkout@v4
@@ -205,8 +206,10 @@ jobs:
       - name: Compile and lint the storage template with the Azure CLI's Bicep
         run: |
           az bicep version
-          az bicep build --file infra/azure/main.bicep --stdout > /dev/null
-          az bicep lint --file infra/azure/main.bicep
+          for template in main sql data-factory; do
+            az bicep build --file "infra/azure/$template.bicep" --stdout > /dev/null
+            az bicep lint --file "infra/azure/$template.bicep"
+          done
 
   graph:
     runs-on: ubuntu-latest
@@ -295,7 +298,8 @@ jobs:
         run: |
           export DPD_SQLSERVER_PASSWORD="${DPD_SQLSERVER_PASSWORD:-TestOnly_Dpd2026!ci}"
           python -m dpd_etl.sqlserver --warehouse-db data/warehouse.duckdb --plans data/sqlplans
-          python -m pytest tests/warehouse/test_sqlserver.py -q
+          python -m dpd_etl.sql_extract export --warehouse-db data/warehouse.duckdb --snapshot-date 2026-11-01 --output-dir data/adf
+          python -m pytest tests/warehouse/test_sqlserver.py tests/warehouse/test_adf_load.py -q
       - if: always()
         env:
           DPD_SQLSERVER_PASSWORD: placeholder-for-compose-cleanup
@@ -307,6 +311,7 @@ jobs:
           path: |
             data/warehouse-tests.xml
             data/sqlplans/
+            data/adf/
             warehouse/target/manifest.json
             warehouse/target/run_results.json
             warehouse/target/catalog.json

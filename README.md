@@ -280,6 +280,47 @@ against Azurite, not in a deployed Azure app; CI also starts the real Functions 
 `make azure-test` runs its tests, and the [archive guide](docs/archive.md#archive-on-a-daily-timer)
 lists the settings.
 
+## Load the findings into Azure SQL Database
+
+I built a hosted copy of the reporting tables because the local files only open on my computer,
+and I wanted the findings to be queryable from anywhere, with a refresh that runs without me.
+The database is Azure SQL Database, Microsoft's hosted SQL Server. I use its free offer, which
+pauses when it is idle.
+
+Two paths fill it. `python -m dpd_etl.sqlserver` loads the checked tables directly, and I run it
+after a local build. For a monthly refresh I use Azure Data Factory, a scheduling service that
+copies data from storage into a database. I export one month's tables as CSV files
+(`make adf-export`), upload them to Blob Storage (`make adf-upload`), and a pipeline reloads the
+database on the first day of each month. Each step retries three times, and a failed run sends
+me an email.
+
+The Functions app also has a daily timer, `daily_quality_check`. It reads the Spark run's
+data-quality results, logs each check as PASS or FAIL, and marks the run as failed when any
+check failed, so the failure shows in the Functions monitor.
+
+```sh
+export DPD_SQLSERVER_HOST=<server>.database.windows.net
+export DPD_SQLSERVER_DATABASE=dpd
+export DPD_SQLSERVER_USER=dpd_loader
+export DPD_SQLSERVER_PASSWORD='...'   # set in your shell, not in a file
+python -m dpd_etl.sqlserver --warehouse-db data/warehouse.duckdb
+```
+
+The database holds the six mirror tables with their keys and checks, three reporting views, and
+a summary table. A stored procedure, which is a saved SQL routine kept on the server, rebuilds
+that summary: `dbo.usp_refresh_flagged_strength_summary` writes one row per snapshot date and
+company, with how many products have a flagged strength. Running it twice gives the same rows.
+
+The Data Factory definitions are JSON in [`adf/`](adf/), so I can read them without an Azure
+account. The Bicep templates in [`infra/azure/`](infra/azure/) create the server, the free
+database, the factory and the failure alert. The [Azure SQL guide](docs/azure-sql.md) has the
+setup commands, the permissions the loader needs and the limits.
+
+CI checks the Bicep templates, the Data Factory JSON, the stored procedures and a CSV load into
+a real SQL Server container, and it runs the Functions timers against Azurite, Microsoft's local
+storage emulator. I have not deployed this to an Azure subscription, so the first real
+deployment may still need small fixes.
+
 ## Query a saved snapshot in BigQuery
 
 After `make install` and the sample run above, I can test the export and review
