@@ -94,3 +94,14 @@ graph-eval:
 	$(PYTHON) -m dpd_etl.graph_match --challenge tests/fixtures/graph_challenge.json --output $(DATA_DIR)/reports/graph_match_evaluation.json
 graph-test:
 	$(PYTHON) -m pytest -q tests/graph
+
+# Monthly CSV extract for Azure Data Factory. Export reads the dbt warehouse; upload needs DPD_ADF_CONNECTION_STRING.
+ADF_OUTPUT_DIR ?= $(DATA_DIR)/adf
+WAREHOUSE_DB ?= $(DATA_DIR)/warehouse.duckdb
+.PHONY: adf-export adf-upload adf-test
+adf-export:
+	$(PYTHON) -m dpd_etl.sql_extract export --warehouse-db $(WAREHOUSE_DB) --snapshot-date $(SNAPSHOT_DATE) --output-dir $(ADF_OUTPUT_DIR)
+adf-upload:
+	$(PYTHON) -m dpd_etl.sql_extract upload --snapshot-date $(SNAPSHOT_DATE) --output-dir $(ADF_OUTPUT_DIR)
+adf-test:
+	$(PYTHON) -m pytest -q tests/azure/test_adf_definitions.py tests/azure/test_adf_extract.py

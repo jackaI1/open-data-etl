@@ -1,0 +1,22 @@
+{
+  "name": "MonthlySchedule",
+  "properties": {
+    "description": "Runs on the 1st of each month at 09:00 UTC, after the monthly extract is uploaded.",
+    "type": "ScheduleTrigger",
+    "typeProperties": {
+      "recurrence": {
+        "frequency": "Month",
+        "interval": 1,
+        "startTime": "2026-12-01T09:00:00Z",
+        "timeZone": "UTC",
+        "schedule": {"monthDays": [1], "hours": [9], "minutes": [0]}
+      }
+    },
+    "pipelines": [{
+      "pipelineReference": {"referenceName": "MonthlyExtractToSql", "type": "PipelineReference"},
+      "parameters": {
+        "snapshotDate": {"value": "@formatDateTime(trigger().scheduledTime, 'yyyy-MM-01')", "type": "Expression"}
+      }
+    }]
+  }
+}

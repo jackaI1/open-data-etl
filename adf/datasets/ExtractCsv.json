@@ -1,0 +1,28 @@
+{
+  "name": "ExtractCsv",
+  "properties": {
+    "description": "One CSV file of a mirror table in the monthly extract folder.",
+    "linkedServiceName": {"referenceName": "ExtractBlobStorage", "type": "LinkedServiceReference"},
+    "parameters": {
+      "snapshotDate": {"type": "string"},
+      "tableName": {"type": "string"}
+    },
+    "type": "DelimitedText",
+    "typeProperties": {
+      "location": {
+        "type": "AzureBlobStorageLocation",
+        "container": "sql-extracts",
+        "folderPath": {"value": "@dataset().snapshotDate", "type": "Expression"},
+        "fileName": {"value": "@concat(dataset().tableName, '.csv')", "type": "Expression"}
+      },
+      "columnDelimiter": ",",
+      "rowDelimiter": "\n",
+      "quoteChar": "\"",
+      "escapeChar": "\"",
+      "firstRowAsHeader": true,
+      "nullValue": "",
+      "encodingName": "UTF-8"
+    },
+    "schema": []
+  }
+}
